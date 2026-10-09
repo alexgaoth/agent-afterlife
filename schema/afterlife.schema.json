@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://alexgaoth.github.io/agent-afterlife/schema/afterlife.schema.json",
+  "title": "Agent Afterlife data",
+  "description": "Everything the graveyard and the temple show. Any data source works if it can produce this document.",
+  "type": "object",
+  "required": ["schema", "agents"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "agent-afterlife/1", "description": "Format version." },
+    "title": { "type": "string", "description": "Optional name of the fleet, shown in the page header." },
+    "generated": { "type": "string", "format": "date-time", "description": "When the producer wrote this document." },
+    "options": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "minMerit": { "type": "number", "minimum": 0, "default": 0.1, "description": "Agents below this merit are passers-by: an unmarked grave, no seat in the temple." }
+      }
+    },
+    "metrics": {
+      "type": "array",
+      "description": "Which entries of each agent's stats to show, in this order, with these labels.",
+      "items": {
+        "type": "object",
+        "required": ["key", "label"],
+        "additionalProperties": false,
+        "properties": {
+          "key": { "type": "string" },
+          "label": { "type": "string" },
+          "unit": { "type": "string", "description": "Optional suffix, for example 'h'." }
+        }
+      }
+    },
+    "agents": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/agent" }
+    },
+    "edicts": {
+      "type": "array",
+      "description": "Optional history of changes to the ranking. The temple carves the newest one on its stele.",
+      "items": {
+        "type": "object",
+        "required": ["date", "items"],
+        "additionalProperties": false,
+        "properties": {
+          "date": { "type": "string", "format": "date-time" },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["kind"],
+              "additionalProperties": false,
+              "properties": {
+                "kind": { "enum": ["founded", "enshrined", "promoted", "demoted", "removed"] },
+                "agent": { "type": "string", "description": "An agent id." },
+                "from": { "$ref": "#/$defs/group" },
+                "to": { "$ref": "#/$defs/group" },
+                "count": { "type": "integer", "minimum": 0, "description": "For 'founded': how many were enshrined." }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "group": { "enum": ["main", "companion", "hall", "wings", "outside"] },
+    "date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}" },
+    "agent": {
+      "type": "object",
+      "required": ["id", "name", "status", "born", "merit"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Unique and stable, for example 'Marlow #3'." },
+        "name": { "type": "string", "description": "The name the agent went by. Many agents may share one name." },
+        "generation": { "type": "integer", "minimum": 1, "description": "This agent is the n-th to carry its name." },
+        "status": { "enum": ["ended", "alive"] },
+        "born": { "$ref": "#/$defs/date", "description": "First day of work." },
+        "ended": { "$ref": "#/$defs/date", "description": "Last day of work. Required when status is 'ended'." },
+        "merit": { "type": "number", "minimum": 0, "description": "Lifetime merit. Higher ranks higher. The producer decides how to compute it." },
+        "score": { "type": "number", "minimum": 0, "maximum": 100, "description": "Optional typical quality, 0 to 100." },
+        "stats": {
+          "type": "object",
+          "description": "Free-form numbers or short strings. 'metrics' picks which to show.",
+          "additionalProperties": { "type": ["number", "string"] }
+        },
+        "series": {
+          "type": "array",
+          "description": "Optional score per work day, for the small chart.",
+          "items": {
+            "type": "object",
+            "required": ["date", "value"],
+            "additionalProperties": false,
+            "properties": {
+              "date": { "$ref": "#/$defs/date" },
+              "value": { "type": "number", "minimum": 0, "maximum": 100 },
+              "weight": { "type": "number", "minimum": 0, "description": "Optional, for example hours worked that day." }
+            }
+          }
+        },
+        "epitaph": { "type": "string", "description": "Optional last words. The pages write one if absent." },
+        "url": { "type": "string", "description": "Optional link to more about this agent." }
+      },
+      "if": { "properties": { "status": { "const": "ended" } } },
+      "then": { "required": ["ended"] }
+    }
+  }
+}
