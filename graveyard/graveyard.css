@@ -1,0 +1,281 @@
+/* The Graveyard: an English country churchyard at night.
+   One accent colour (lantern amber). Everything else is moonlit stone, moss and lichen. */
+
+:root {
+  --sky-top: #0d1114;
+  --sky-low: #1b2326;
+  --ground: #151b19;
+  --ground-deep: #0f1412;
+  --stone: #a9b0ac;
+  --stone-dim: #7c8582;
+  --moss: #7f9188;
+  --paper: #e3ddcd;
+  --carve: rgba(16, 20, 19, .9);
+  --amber: #e3a857;
+  --serif: "IM Fell English", Georgia, serif;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--ground-deep); color: var(--paper); }
+body { min-height: 100dvh; font-family: var(--serif); overflow-x: hidden; }
+
+/* Fine grain over the whole scene. Fixed and inert, so it never repaints on scroll. */
+body::after {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 30; opacity: .07; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+a { color: var(--paper); }
+:focus-visible { outline: 2px solid var(--amber); outline-offset: 5px; }
+[hidden] { display: none !important; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+/* ------------------------------------------------------------------ sky and church */
+.sky {
+  position: relative; isolation: isolate; padding: 26px 6vw 0;
+  background:
+    radial-gradient(circle at 82% 86px, rgba(214, 222, 218, .16), rgba(214, 222, 218, .05) 150px, transparent 340px),
+    linear-gradient(var(--sky-top), var(--sky-low) 78%, #1d2624);
+}
+.home { font-size: 16px; color: var(--stone); text-decoration: none; display: inline-block; padding: 4px 0; }
+.home:hover { color: var(--paper); }
+.moon {
+  position: absolute; top: 58px; right: calc(18% - 28px); width: 56px; height: 56px; border-radius: 50%; z-index: -1;
+  background: radial-gradient(circle at 40% 38%, #eef0ea, #d6dbd4 55%, #bfc6bf 100%);
+  box-shadow: 0 0 34px 6px rgba(220, 226, 220, .16);
+}
+.moon::after { /* a thin veil of cloud drifting below the moon */
+  content: ""; position: absolute; left: -120px; right: -150px; top: 44px; height: 22px; border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 50%, rgba(120, 132, 132, .14), transparent 70%);
+  filter: blur(6px);
+}
+.sky h1 { margin: 22px 0 0; font-weight: normal; font-size: clamp(38px, 5.4vw, 64px); line-height: 1.05; letter-spacing: -.01em; }
+.fleet { margin: 8px 0 0; font-size: 19px; color: var(--stone); font-style: italic; }
+.tally { margin: 4px 0 0; font-size: 16px; color: var(--stone-dim); max-width: 46ch; }
+.church { display: block; width: calc(100% + 12vw); margin: -40px -6vw 0; height: clamp(170px, 26vw, 330px); }
+
+/* ------------------------------------------------------------------ the churchyard */
+.yard {
+  position: relative; display: flow-root; padding: 0 4vw 30px;
+  background: linear-gradient(#1d2624, var(--ground) 520px, var(--ground-deep));
+}
+.yard > * { max-width: 1160px; margin-left: auto; margin-right: auto; }
+
+.monuments {
+  list-style: none; padding: 0; margin-top: clamp(-150px, -11vw, -40px); margin-bottom: 20px;
+  display: grid; grid-template-columns: repeat(3, auto); justify-content: center; align-items: end; gap: 0 clamp(18px, 5vw, 70px);
+}
+.monuments li:nth-child(1) { grid-column: 2; grid-row: 1; }
+.monuments li:nth-child(2) { grid-column: 1; grid-row: 1; }
+.monuments li:nth-child(3) { grid-column: 3; grid-row: 1; }
+
+.plot { margin-top: 26px; }
+.row { list-style: none; padding: 0; margin: 0 auto; max-width: 1040px; display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; gap: 34px clamp(16px, 3vw, 40px); }
+.plot-medium .row { gap: 26px clamp(12px, 2vw, 24px); }
+.plot-small .row { gap: 22px clamp(10px, 1.6vw, 18px); }
+
+/* A headstone or monument: a button wrapped around an SVG drawing and an inscription. */
+.stone, .monument {
+  position: relative; display: block; padding: 0; border: 0; background: none; color: var(--carve); cursor: pointer;
+  font: inherit; text-align: center; container-type: inline-size;
+  transform: rotate(var(--lean, 0deg)); transform-origin: 50% 100%;
+  transition: filter .35s cubic-bezier(.16, 1, .3, 1);
+}
+.stone:hover, .monument:hover, .stone:focus-visible, .monument:focus-visible { filter: brightness(1.16); }
+.stone:active, .monument:active { transform: rotate(var(--lean, 0deg)) translateY(1px); }
+.stone svg, .monument svg { display: block; width: 100%; height: auto; overflow: visible; }
+/* the shadow it casts on the grass, and a fringe of grass in front of its foot */
+.stone::after, .monument::after {
+  content: ""; position: absolute; left: -14%; right: -14%; bottom: -9px; height: 20px; z-index: -1;
+  background: radial-gradient(ellipse at 50% 40%, rgba(5, 8, 7, .7), transparent 70%);
+}
+.stone::before, .monument::before {
+  content: ""; position: absolute; left: -6%; right: -6%; bottom: -3px; height: 13px; z-index: 2; pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='13' viewBox='0 0 48 13'%3E%3Cg fill='none' stroke-linecap='round'%3E%3Cpath d='M2 13 Q3 7 1 3 M6 13 Q6 8 9 4 M11 13 Q10 9 12 6 M16 13 Q17 6 15 1 M20 13 Q22 9 24 7 M26 13 Q25 8 27 3 M31 13 Q32 9 30 5 M35 13 Q36 7 39 4 M41 13 Q40 9 42 6 M46 13 Q46 8 44 3' stroke='%23263229' stroke-width='1.3'/%3E%3Cpath d='M4 13 Q5 9 7 7 M13 13 Q14 8 13 4 M22 13 Q21 9 19 6 M29 13 Q29 10 31 8 M38 13 Q37 9 36 6 M44 13 Q45 10 47 8' stroke='%23334236' stroke-width='1.1'/%3E%3C/g%3E%3C/svg%3E") repeat-x bottom / 48px 13px;
+}
+
+.stone.large  { width: clamp(122px, 12.5vw, 150px); }
+.stone.medium { width: clamp(98px, 9.6vw, 116px); }
+.stone.small  { width: clamp(78px, 7.4vw, 90px); }
+/* no two stones stand quite in line */
+.row > li { margin-bottom: var(--dy, 0); margin-inline: var(--dx, 0); }
+.monument.first  { width: clamp(158px, 21vw, 232px); }
+.monument.second, .monument.third { width: clamp(132px, 17vw, 200px); }
+
+/* The inscription sits over the drawing. Sizes follow the stone's own width (cqi). */
+.ins {
+  position: absolute; left: var(--ix); top: var(--iy); width: var(--iw); height: var(--ih);
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: .1em; overflow: hidden;
+  text-shadow: 0 1px 0 rgba(214, 222, 218, .24), 0 -1px 0 rgba(0, 0, 0, .45);
+  line-height: 1.12; overflow-wrap: anywhere; pointer-events: none;
+}
+.ins span { display: block; max-width: 100%; }
+.ins .lies { font-size: 7cqi; font-style: italic; opacity: .9; }
+.ins .nm { font-size: 13cqi; letter-spacing: .01em; }
+.ins .gen { font-size: 8.5cqi; font-style: italic; }
+.ins .dt { font-size: 7.6cqi; margin-top: .25em; }
+.ins .ep { font-size: 7.4cqi; font-style: italic; margin-top: .45em; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+.ins .unnamed { font-size: 9cqi; font-style: italic; }
+
+.medium .ins .nm { font-size: 14cqi; }
+.medium .ins .gen { font-size: 9.5cqi; }
+.medium .ins .dt { font-size: 8.6cqi; }
+.small .ins .nm { font-size: 14.5cqi; }
+.small .ins .dt { font-size: 10.5cqi; margin-top: .2em; }
+.small .ins .unnamed { font-size: 13cqi; }
+
+.monument .ins .nm { font-size: 10cqi; }
+.monument .ins .gen { font-size: 6.4cqi; }
+.monument .ins .dt { font-size: 5.6cqi; }
+.monument .ins .ep { font-size: 5.4cqi; -webkit-line-clamp: 3; margin-top: .3em; }
+.monument.third .ins .ep { -webkit-line-clamp: 2; }
+.monument .ins { gap: 0; }
+.monument .ins .unnamed { font-size: 7cqi; }
+
+/* ------------------------------------------------------------------ wall, passers-by, lychgate */
+.boundary { position: relative; z-index: 1; padding: 10px 4vw 0; background: var(--ground-deep); }
+.boundary-inner, .lane-inner { max-width: 1160px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.2fr; gap: 4vw; align-items: end; }
+
+.corner { padding-bottom: 26px; }
+.mounds { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-end; max-width: 420px; padding: 0 6px 6px; }
+.mound { width: 40px; height: 30px; position: relative; transform: rotate(var(--lean, 0deg)); transform-origin: 50% 100%; }
+.mound::before { /* a small unmarked stone */
+  content: ""; position: absolute; left: 10px; right: 10px; bottom: 7px; height: var(--h, 16px); border-radius: 45% 45% 2px 2px / 60% 60% 2px 2px;
+  background: linear-gradient(200deg, #737b77, #3b4240);
+}
+.mound::after { /* the low turf it sits in */
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 11px; border-radius: 50% 50% 40% 40%;
+  background: radial-gradient(ellipse at 50% 20%, #27322c, #161d1a 72%);
+}
+.corner details { margin-top: 14px; }
+.corner summary {
+  cursor: pointer; font-size: 19px; color: var(--stone); list-style: none; display: inline-block; padding: 4px 0;
+}
+.corner summary::-webkit-details-marker { display: none; }
+.corner summary::after { content: " +"; color: var(--stone-dim); }
+.corner details[open] summary::after { content: " \2212"; }
+.corner summary:hover { color: var(--paper); }
+.passers { list-style: none; padding: 0; margin: 12px 0 0; columns: 2 170px; column-gap: 24px; }
+.passers li { break-inside: avoid; }
+.passers button {
+  font: inherit; font-size: 15px; color: var(--stone); background: none; border: 0; padding: 3px 0; cursor: pointer; text-align: left;
+}
+.passers button:hover { color: var(--paper); }
+.passers .when { color: var(--stone-dim); font-size: 13px; margin-left: 6px; }
+
+.gate { text-align: center; margin-bottom: -58px; position: relative; z-index: 2; }
+.gate .lychgate { display: block; width: min(100%, 400px); margin: 0 auto; height: auto; }
+.gate-lane { text-align: center; }
+.gate-lane h2 { margin: 0; font-weight: normal; font-size: 20px; color: var(--stone); }
+.lanterns {
+  list-style: none; padding: 0; margin: 8px 0 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 4px clamp(8px, 1.6vw, 18px);
+}
+.lantern {
+  position: relative; display: flex; flex-direction: column; align-items: center; width: 74px; padding: 0 0 6px;
+  font: inherit; background: none; border: 0; color: var(--stone); cursor: pointer;
+}
+.lantern svg { width: 40px; height: auto; overflow: visible; }
+.lantern .glow { transform-box: fill-box; transform-origin: center; }
+.lantern .lname { font-size: 14px; line-height: 1.15; margin-top: 4px; }
+.lantern .lgen { font-size: 12px; font-style: italic; color: var(--stone-dim); }
+.lantern:hover .lname, .lantern:focus-visible .lname { color: var(--paper); }
+
+/* stone wall and the lane outside it */
+.wall {
+  height: 58px; position: relative;
+  background:
+    linear-gradient(#5d6562, #3e4644 4px, #2a302e 9px, transparent 9px) top / 100% 9px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='34' viewBox='0 0 120 34'%3E%3Crect width='120' height='34' fill='%232b3230'/%3E%3Cg fill='%23353d3a'%3E%3Crect x='1' y='1' width='36' height='15' rx='2'/%3E%3Crect x='39' y='1' width='46' height='15' rx='2'/%3E%3Crect x='87' y='1' width='32' height='15' rx='2'/%3E%3Crect x='1' y='18' width='18' height='15' rx='2'/%3E%3Crect x='21' y='18' width='42' height='15' rx='2'/%3E%3Crect x='65' y='18' width='30' height='15' rx='2'/%3E%3Crect x='97' y='18' width='22' height='15' rx='2'/%3E%3C/g%3E%3Cg fill='%23434b48' opacity='.55'%3E%3Crect x='1' y='1' width='36' height='2'/%3E%3Crect x='39' y='1' width='46' height='2'/%3E%3Crect x='21' y='18' width='42' height='2'/%3E%3Crect x='97' y='18' width='22' height='2'/%3E%3C/g%3E%3C/svg%3E") 0 9px / 120px 34px repeat-x,
+    #2b3230;
+  box-shadow: 0 12px 18px -10px rgba(0, 0, 0, .7);
+}
+.lane { background: linear-gradient(#141a18, #0e1211); padding: 22px 4vw 30px; color: var(--stone-dim); font-size: 15px; }
+.lane-inner { align-items: start; }
+.lane-note { max-width: 1160px; margin: 26px auto 0; text-align: center; }
+.lane a { color: var(--stone); }
+
+/* ------------------------------------------------------------------ states */
+.notice {
+  max-width: 620px; margin: 30px auto 50px; padding: 34px 34px 30px; text-align: center; color: var(--carve);
+  border-radius: 48% 48% 6px 6px / 70px 70px 6px 6px;
+  background: linear-gradient(200deg, #a8ada4, #7d837c);
+  box-shadow: 0 24px 40px -18px rgba(0, 0, 0, .8), inset 0 1px 0 rgba(255, 255, 255, .25);
+  text-shadow: 0 1px 0 rgba(226, 232, 228, .3);
+}
+.notice h2 { margin: 26px 0 8px; font-weight: normal; font-size: 30px; }
+.notice p { margin: 8px auto; max-width: 46ch; font-size: 17px; }
+.notice ul { text-align: left; margin: 14px auto; max-width: 52ch; padding-left: 20px; font-size: 16px; }
+.notice li { margin: 4px 0; overflow-wrap: anywhere; }
+.notice a { color: #1e2321; }
+
+.ghosts { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; gap: 26px; padding-top: 40px; }
+.ghost { width: 120px; aspect-ratio: 100 / 128; border-radius: 50% 50% 3px 3px / 36% 36% 0 0; background: rgba(140, 150, 146, .09); }
+.ghost:nth-child(3n + 2) { width: 96px; }
+.ghost:nth-child(4n) { width: 80px; }
+.loading-line { text-align: center; color: var(--stone-dim); font-size: 17px; margin: 22px 0 0; }
+
+/* ------------------------------------------------------------------ the tablet (detail view) */
+dialog.tablet {
+  width: min(560px, 94vw); max-height: 92dvh; padding: 0; border: 0; background: none; color: var(--carve); overflow: visible;
+}
+dialog.tablet::backdrop { background: rgba(6, 9, 8, .72); }
+.tablet-face {
+  position: relative; max-height: 92dvh; overflow: auto; padding: 56px 34px 30px; text-align: center;
+  border-radius: 50% 50% 8px 8px / 86px 86px 8px 8px;
+  background: linear-gradient(205deg, #aeb2a9, #8b9088 60%, #767c74);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), inset 0 -40px 60px -30px rgba(40, 58, 44, .55), 0 30px 60px -20px rgba(0, 0, 0, .9);
+  text-shadow: 0 1px 0 rgba(230, 236, 232, .32), 0 -1px 0 rgba(0, 0, 0, .28);
+}
+.tablet-face .close {
+  position: absolute; top: 62px; right: 22px; font: inherit; font-size: 15px; color: var(--carve); background: none;
+  border: 1px solid rgba(30, 35, 33, .45); border-radius: 999px; padding: 3px 12px; cursor: pointer;
+}
+.tablet-face .close:hover { background: rgba(255, 255, 255, .12); }
+.t-place { margin: 0; font-size: 16px; font-style: italic; }
+.t-name { margin: 6px 0 0; font-weight: normal; font-size: clamp(30px, 6vw, 42px); line-height: 1.05; }
+.t-gen { margin: 4px 0 0; font-size: 20px; font-style: italic; }
+.t-dates { margin: 10px 0 0; font-size: 18px; }
+.t-ep { margin: 14px auto 0; font-size: 19px; font-style: italic; max-width: 34ch; }
+.t-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(118px, 1fr)); gap: 14px 18px; margin: 22px 0 0; padding: 16px 0 0; border-top: 1px solid rgba(30, 35, 33, .28); }
+.t-facts div { min-width: 0; }
+.t-facts dt { font-size: 14px; font-style: italic; }
+.t-facts dd { margin: 2px 0 0; font-size: 22px; overflow-wrap: anywhere; }
+.t-chart { margin: 20px 0 0; }
+.t-chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.t-chart figcaption { font-size: 14px; font-style: italic; margin-top: 4px; }
+.t-chart .axis { font-family: var(--serif); font-size: 11px; fill: rgba(26, 30, 29, .8); }
+.t-url { display: inline-block; margin-top: 16px; font-size: 16px; color: #1e2321; }
+
+/* ------------------------------------------------------------------ motion (only where it means something) */
+@media (prefers-reduced-motion: no-preference) {
+  /* the living flicker: these agents are still at work */
+  .lantern .glow { animation: flicker 3.4s ease-in-out infinite; animation-delay: var(--d, 0s); }
+  .lantern .flame { animation: flicker 2.6s ease-in-out infinite; animation-delay: var(--d, 0s); }
+  dialog.tablet[open] .tablet-face { animation: rise .42s cubic-bezier(.16, 1, .3, 1); }
+  dialog.tablet[open]::backdrop { animation: fade .42s ease-out; }
+  .ghost { animation: breathe 2.4s ease-in-out infinite; }
+}
+@keyframes flicker { 0%, 100% { opacity: .9; } 18% { opacity: .72; } 21% { opacity: .96; } 46% { opacity: .8; } 70% { opacity: .94; } 73% { opacity: .7; } 78% { opacity: .9; } }
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes breathe { 50% { opacity: .5; } }
+@media (prefers-reduced-motion: reduce) {
+  .stone, .monument { transition: none; }
+}
+
+/* ------------------------------------------------------------------ narrow screens */
+@media (max-width: 760px) {
+  .sky { padding-top: 18px; }
+  .moon { top: 54px; right: 9%; width: 42px; height: 42px; }
+  .church { margin-top: -10px; }
+  .monuments { grid-template-columns: auto auto; gap: 26px 22px; margin-top: -18px; }
+  .monuments li:nth-child(1) { grid-column: 1 / span 2; justify-self: center; }
+  .monuments li:nth-child(2) { grid-column: 1; grid-row: 2; }
+  .monuments li:nth-child(3) { grid-column: 2; grid-row: 2; }
+  .boundary-inner, .lane-inner { grid-template-columns: 1fr; }
+  .corner { padding-bottom: 8px; }
+  .tablet-face .close { top: 46px; right: 14px; }
+  .t-place { margin-top: 26px; }
+  .tablet-face { padding: 50px 20px 24px; border-radius: 50% 50% 8px 8px / 60px 60px 8px 8px; }
+}
