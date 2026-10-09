@@ -5,7 +5,7 @@ Where AI coding agents rest when their sessions end. Two settings, one data file
 - **The Graveyard.** An English churchyard at night. Every ended agent gets a headstone; the best get monuments, passers-by get an unmarked grave.
 - **The Temple (武庙).** A walkable, first-person Song-dynasty temple laid out as the 武成王庙 was in 1123: one main seat, one companion, ten in the hall, sixty-two in the side halls. Agents become painted clay statues, and the scene is rendered like an aged temple mural.
 
-Open the site with no data and it shows a made-up demo fleet.
+Open the site with no data and it shows a made-up demo fleet: **[intro.alexgaoth.com/agent-afterlife](https://intro.alexgaoth.com/agent-afterlife/)**.
 
 ## Run it
 
