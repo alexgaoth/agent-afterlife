@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Graveyard | Agent Afterlife</title>
+<meta name="description" content="An English churchyard at night where ended AI coding agents rest, the most worthy nearest the church.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="graveyard.css">
+</head>
+<body>
+
+<!-- Shared paint for every stone on the page: moonlight comes from the upper right. -->
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="st0" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#959c98"/><stop offset=".5" stop-color="#6e7672"/><stop offset="1" stop-color="#454c4a"/></linearGradient>
+    <linearGradient id="st1" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a2a397"/><stop offset=".5" stop-color="#7a7c71"/><stop offset="1" stop-color="#4d5048"/></linearGradient>
+    <linearGradient id="st2" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#848c8d"/><stop offset=".5" stop-color="#5f6769"/><stop offset="1" stop-color="#3b4244"/></linearGradient>
+    <linearGradient id="st3" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#92978a"/><stop offset=".5" stop-color="#6c7266"/><stop offset="1" stop-color="#444b41"/></linearGradient>
+    <linearGradient id="g-front" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#959c97"/><stop offset="1" stop-color="#626a66"/></linearGradient>
+    <linearGradient id="g-lit" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c3c9c3"/><stop offset="1" stop-color="#868e89"/></linearGradient>
+    <linearGradient id="g-dark" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5a625f"/><stop offset="1" stop-color="#363d3b"/></linearGradient>
+    <linearGradient id="g-moss" x1="0" y1="0" x2="0" y2="1"><stop offset=".7" stop-color="#1c2a21" stop-opacity="0"/><stop offset="1" stop-color="#18251c" stop-opacity=".72"/></linearGradient>
+    <linearGradient id="g-shade" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#0f1412" stop-opacity=".28"/><stop offset=".45" stop-color="#0f1412" stop-opacity="0"/></linearGradient>
+    <radialGradient id="g-glow"><stop offset="0" stop-color="#e3a857" stop-opacity=".55"/><stop offset=".45" stop-color="#e3a857" stop-opacity=".16"/><stop offset="1" stop-color="#e3a857" stop-opacity="0"/></radialGradient>
+    <radialGradient id="g-flame" cx=".5" cy=".6"><stop offset="0" stop-color="#f6dca6"/><stop offset=".5" stop-color="#e3a857"/><stop offset="1" stop-color="#9a6a2c"/></radialGradient>
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" seed="7" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 .08  0 0 0 0 .1  0 0 0 0 .09  1.9 0 0 0 -.82" result="d"/>
+      <feComposite in="d" in2="SourceGraphic" operator="in"/>
+    </filter>
+  </defs>
+</svg>
+
+<header class="sky">
+  <a class="home" data-home href="../">&larr; Agent Afterlife</a>
+  <div class="moon" aria-hidden="true"></div>
+  <h1>The Graveyard</h1>
+  <p class="fleet" id="fleet" hidden></p>
+  <p class="tally" id="tally"></p>
+
+  <!-- The parish church, a yew on either side. Drawn, not photographed. -->
+  <svg class="church" viewBox="0 0 1200 330" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+    <path d="M0,262 C140,236 260,252 380,244 C520,236 640,226 800,238 C940,248 1060,232 1200,240 V330 H0Z" fill="#18201f"/>
+    <path d="M0,290 C200,280 420,292 600,286 C800,280 1000,292 1200,284 V330 H0Z" fill="#1b2422"/>
+    <!-- far yew, left -->
+    <path d="M300,320 C292,262 304,214 330,176 C342,152 352,130 362,118 C374,134 386,156 398,182 C420,224 424,276 414,320Z" fill="#141c1a"/>
+    <path d="M362,118 C374,134 386,156 398,182 C420,224 424,276 414,320 H392 C402,270 396,220 378,180 C372,160 366,140 362,118Z" fill="#1d2826" opacity=".7"/>
+    <!-- tower -->
+    <g>
+      <path d="M432,330 V96 H528 V330Z" fill="#242b2b"/>
+      <path d="M512,330 V96 H528 V330Z" fill="#2d3534"/>
+      <path d="M428,96 V80 H440 V88 H452 V80 H466 V88 H478 V80 H492 V88 H504 V80 H518 V88 H532 V80 H532 V96Z" fill="#242b2b"/>
+      <path d="M428,80 L434,50 L440,80Z M520,80 L526,50 L532,80Z M474,80 L480,58 L486,80Z" fill="#242b2b"/>
+      <path d="M526,50 L532,80 M528,96 V330 M532,80 V96" stroke="#7f8b87" stroke-opacity=".35" stroke-width="1.4" fill="none"/>
+      <path d="M432,152 H528 M432,226 H528" stroke="#1a2020" stroke-width="3"/>
+      <path d="M432,151 H528 M432,225 H528" stroke="#6f7b77" stroke-opacity=".18" stroke-width="1"/>
+      <path d="M466,146 V118 Q480,98 494,118 V146Z" fill="#111615"/>
+      <path d="M470,124 H490 M470,130 H490 M470,136 H490 M470,142 H490" stroke="#2a3231" stroke-width="1.6"/>
+      <path d="M470,212 V182 Q480,166 490,182 V212Z" fill="#111615"/>
+      <path d="M480,170 V212" stroke="#3f4847" stroke-width="1.2"/>
+      <path d="M424,330 V268 L432,262 V330Z M528,330 V262 L538,270 V330Z" fill="#202727"/>
+    </g>
+    <!-- nave -->
+    <g>
+      <path d="M528,330 V206 H770 V330Z" fill="#222929"/>
+      <path d="M528,154 H762 L776,208 H522Z" fill="#1b2121"/>
+      <path d="M528,154 H762 L776,208" fill="none" stroke="#7f8b87" stroke-opacity=".3" stroke-width="1.3"/>
+      <path d="M534,166 H764 M532,180 H768 M530,194 H772" stroke="#151a1a" stroke-width="1.2"/>
+      <g fill="#111615">
+        <path d="M552,292 V244 Q563,222 574,244 V292Z"/>
+        <path d="M666,292 V244 Q677,222 688,244 V292Z"/>
+        <path d="M722,292 V244 Q733,222 744,244 V292Z"/>
+      </g>
+      <g stroke="#3e4746" stroke-width="1.2" fill="none">
+        <path d="M563,232 V292 M552,262 H574"/><path d="M677,232 V292 M666,262 H688"/><path d="M733,232 V292 M722,262 H744"/>
+      </g>
+      <path d="M538,330 V300 L546,294 V330Z M652,330 V300 L660,294 V330Z M708,330 V300 L716,294 V330Z M762,330 V300 L770,294 V330Z" fill="#1c2222"/>
+      <!-- porch -->
+      <path d="M592,330 V268 H644 V330Z" fill="#262d2d"/>
+      <path d="M584,270 L618,236 L652,270 L646,272 L618,244 L590,272Z" fill="#1b2121"/>
+      <path d="M618,236 L652,270" stroke="#7f8b87" stroke-opacity=".35" stroke-width="1.3"/>
+      <path d="M606,330 V296 Q618,280 630,296 V330Z" fill="#0f1312"/>
+    </g>
+    <!-- chancel -->
+    <g>
+      <path d="M770,330 V226 H866 V330Z" fill="#202727"/>
+      <path d="M770,188 H858 L872,228 H766Z" fill="#1a2020"/>
+      <path d="M770,188 H858 L872,228 M866,228 V330" fill="none" stroke="#7f8b87" stroke-opacity=".3" stroke-width="1.3"/>
+      <path d="M800,300 V256 Q811,236 822,256 V300Z" fill="#111615"/>
+      <path d="M811,246 V300 M800,274 H822" stroke="#3e4746" stroke-width="1.2"/>
+      <path d="M842,186 V160 M834,170 H850" stroke="#2a3231" stroke-width="4"/>
+      <path d="M842,186 V160 M834,170 H850" stroke="#7f8b87" stroke-opacity=".25" stroke-width="1"/>
+    </g>
+    <!-- near yew, right -->
+    <path d="M908,330 C896,286 902,246 924,214 C936,196 944,176 950,160 C962,180 972,198 984,220 C1004,256 1008,296 998,330Z" fill="#111816"/>
+    <path d="M950,160 C962,180 972,198 984,220 C1004,256 1008,296 998,330 H980 C990,290 982,250 966,220 C960,204 954,184 950,160Z" fill="#1b2624" opacity=".8"/>
+    <!-- a few old stones near the church, too worn to read -->
+    <g fill="#1f2827">
+      <path d="M380,330 V312 Q388,302 396,312 V330Z"/><path d="M412,330 V316 Q418,309 424,316 V330Z"/>
+      <path d="M872,330 V314 Q880,304 888,314 V330Z"/><path d="M1040,330 V310 Q1050,298 1060,310 V330Z"/>
+      <path d="M1090,330 V318 Q1096,312 1102,318 V330Z"/><path d="M220,330 V314 Q228,305 236,314 V330Z"/>
+    </g>
+    <path d="M0,318 C120,306 260,312 400,304 C540,296 700,300 860,306 C1000,312 1100,302 1200,306 V330 H0Z" fill="#1b2422"/>
+    <!-- low mist where the church meets the churchyard -->
+    <rect x="0" y="262" width="1200" height="68" fill="url(#mist)"/>
+    <defs><linearGradient id="mist" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d2624" stop-opacity="0"/><stop offset="1" stop-color="#1d2624"/></linearGradient></defs>
+  </svg>
+</header>
+
+<main class="yard" id="yard" aria-busy="true">
+  <div class="ghosts" aria-hidden="true">
+    <div class="ghost"></div><div class="ghost"></div><div class="ghost"></div><div class="ghost"></div>
+    <div class="ghost"></div><div class="ghost"></div><div class="ghost"></div><div class="ghost"></div>
+  </div>
+  <p class="loading-line" role="status">Loading the churchyard.</p>
+</main>
+
+<section class="boundary" id="boundary" hidden>
+  <div class="boundary-inner">
+    <div class="corner" id="corner"></div>
+    <div class="gate" id="gate"></div>
+  </div>
+</section>
+<div class="wall" aria-hidden="true"></div>
+<footer class="lane">
+  <div class="lane-inner"><div></div><div class="gate-lane" id="gate-lane"></div></div>
+  <p class="lane-note" id="lane"></p>
+</footer>
+
+<dialog class="tablet" id="tablet" aria-labelledby="t-name">
+  <div class="tablet-face">
+    <button class="close" type="button" id="t-close">Close</button>
+    <p class="t-place" id="t-place"></p>
+    <h2 class="t-name" id="t-name"></h2>
+    <p class="t-gen" id="t-gen"></p>
+    <p class="t-dates" id="t-dates"></p>
+    <p class="t-ep" id="t-ep"></p>
+    <dl class="t-facts" id="t-facts"></dl>
+    <figure class="t-chart" id="t-chart"></figure>
+    <a class="t-url" id="t-url" hidden>More about this agent</a>
+  </div>
+</dialog>
+
+<script type="module" src="graveyard.js"></script>
+</body>
+</html>
