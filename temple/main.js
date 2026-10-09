@@ -51,18 +51,23 @@ for (const s of seats) {
 // Living agents: lanterns on a beam outside the gate. They take a seat when their session ends.
 const alive = living(data);
 if (alive.length) {
-  const beam = new THREE.Mesh(new THREE.BoxGeometry(Math.max(6, alive.length * 1.1), 0.2, 0.2), paint(PIGMENT.lacquer));
-  beam.position.set(0, 3.6, 47.5); scene.add(beam);
+  // Strings of at most 14 lanterns, one above another, on posts outside the gate.
+  const perRow = 14, rows = Math.ceil(alive.length / perRow), width = Math.min(alive.length, perRow) * 0.8 + 1;
+  for (let row = 0; row < rows; row++) {
+    const beam = new THREE.Mesh(new THREE.BoxGeometry(width, 0.12, 0.12), paint(PIGMENT.lacquer));
+    beam.position.set(0, 4.4 - row * 0.9, 49); scene.add(beam);
+  }
   for (const sx of [-1, 1]) {
-    const post = new THREE.Mesh(new THREE.BoxGeometry(0.25, 3.7, 0.25), paint(PIGMENT.lacquer));
-    post.position.set(sx * beam.geometry.parameters.width / 2, 1.85, 47.5); scene.add(post);
+    const post = new THREE.Mesh(new THREE.BoxGeometry(0.22, 4.5, 0.22), paint(PIGMENT.lacquer));
+    post.position.set(sx * width / 2, 2.25, 49); scene.add(post);
   }
   alive.forEach((a, i) => {
-    const lantern = new THREE.Mesh(new THREE.SphereGeometry(0.32, 14, 10), new THREE.MeshBasicMaterial({ color: 0xd8582e }));
+    const row = Math.floor(i / perRow), col = i % perRow, inRow = Math.min(perRow, alive.length - row * perRow);
+    const lantern = new THREE.Mesh(new THREE.SphereGeometry(0.22, 14, 10), new THREE.MeshBasicMaterial({ color: 0xd8582e }));
     lantern.scale.y = 1.25;
-    lantern.position.set((i - (alive.length - 1) / 2) * 1.1, 2.95, 47.5);
+    lantern.position.set((col - (inRow - 1) / 2) * 0.8, 4.0 - row * 0.9, 49);
     lantern.userData.agentId = a.id; scene.add(lantern); pickable.push(lantern);
-    const glow = new THREE.PointLight(0xff9a50, 2.5, 4); glow.position.copy(lantern.position); scene.add(glow);
+    if (i % 4 === 0) { const glow = new THREE.PointLight(0xff9a50, 2.5, 5); glow.position.copy(lantern.position); scene.add(glow); }
   });
 }
 
@@ -235,3 +240,4 @@ renderer.setAnimationLoop(() => {
   mural.render(scene, camera);
 });
 if (params.get("cam")) { $("intro").hidden = true; }   // a set camera (for links and screenshots) skips the intro
+if (params.get("read")) { $("intro").hidden = true; openScroll(params.get("read")); }   // ?read=<agent id> opens its scroll

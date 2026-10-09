@@ -9,8 +9,10 @@ const DEFAULT_MIN_MERIT = 0.1;
 
 /** Load the document named by ?data=, or the demo. Returns { data, errors, source }. */
 export async function loadData(search = location.search) {
-  const url = new URLSearchParams(search).get("data");
-  if (!url) return { data: demo(), errors: [], source: "demo" };
+  const given = new URLSearchParams(search).get("data");
+  if (!given) return { data: demo(), errors: [], source: "demo" };
+  // A relative ?data= is relative to the site root, whichever setting's page is reading it.
+  const url = new URL(given, new URL("../", import.meta.url)).href;
   let doc;
   try {
     const res = await fetch(url, { cache: "no-store" });

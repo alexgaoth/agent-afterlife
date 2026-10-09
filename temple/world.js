@@ -215,7 +215,7 @@ export function buildWorld(scene) {
   box(stele, [2.2, 0.7, 1.4], [0, 0.35, 0], PIGMENT.stone);           // 龟趺, simplified to a plinth
   const slab = box(stele, [1.5, 3.4, 0.4], [0, 2.4, 0], 0x6f6d64);
   const head = new THREE.Mesh(new THREE.CylinderGeometry(0.75, 0.75, 0.4, 20, 1, false, 0, Math.PI), paint(0x6f6d64));
-  head.rotation.set(Math.PI / 2, 0, Math.PI / 2); head.position.y = 4.1; stele.add(head);
+  head.rotation.set(Math.PI / 2, 0, Math.PI / 2, "ZYX"); head.position.y = 4.1; stele.add(head);   // a round head on the slab
   solid(4.4, 6, -7.2, -4.8);
 
   for (const sx of [-1, 1]) pine(scene, sx * 7, 30, sx);

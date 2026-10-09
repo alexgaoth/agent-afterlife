@@ -77,11 +77,14 @@ export function statue(agent, tier) {
   let shoulderY;
   if (seated) {
     // Throne, lap and footstool, then a shorter torso.
+    // Black-lacquer throne edged in gold, then thighs, a robe draped over the front, a footstool.
     mesh(new THREE.BoxGeometry(1.3, 0.55, 0.9), PIGMENT.lacquer, fig, [0, 0.27, -0.1]);
-    mesh(new THREE.BoxGeometry(1.4, 1.5, 0.12), PIGMENT.cinnabar, fig, [0, 1.0, -0.56]);
-    mesh(new THREE.BoxGeometry(0.9, 0.3, 0.7), robe, fig, [0, 0.62, 0.15]);           // lap
-    mesh(new THREE.BoxGeometry(0.8, 0.5, 0.25), robe, fig, [0, 0.3, 0.42]);           // robe falling to the feet
-    mesh(new THREE.BoxGeometry(0.9, 0.12, 0.35), PIGMENT.lacquer, fig, [0, 0.06, 0.62]); // footstool
+    mesh(new THREE.BoxGeometry(1.36, 0.06, 0.96), PIGMENT.gold, fig, [0, 0.56, -0.1]);
+    mesh(new THREE.BoxGeometry(1.2, 1.1, 0.1), PIGMENT.lacquer, fig, [0, 1.1, -0.56]);
+    mesh(new THREE.BoxGeometry(1.28, 0.08, 0.14), PIGMENT.gold, fig, [0, 1.66, -0.56]);
+    for (const s of [-1, 1]) mesh(new THREE.CapsuleGeometry(0.15, 0.5, 4, 10), robe, fig, [s * 0.2, 0.68, 0.12], [Math.PI / 2, 0, 0]);
+    mesh(new THREE.CylinderGeometry(0.3, 0.46, 0.62, 4), robe, fig, [0, 0.33, 0.42], [0, Math.PI / 4, 0], [1, 1, 0.45]);
+    mesh(new THREE.BoxGeometry(0.9, 0.12, 0.35), PIGMENT.lacquer, fig, [0, 0.06, 0.66]); // footstool
     const torso = mesh(robeGeometry(true), robe, fig, [0, 0.55, -0.12], [0, 0, 0], [1, 1, 0.78]);
     shoulderY = torso.position.y + 0.84;
   } else {
@@ -104,7 +107,7 @@ export function statue(agent, tier) {
     sleeve.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), from.clone().sub(to).normalize());
     mesh(new THREE.CylinderGeometry(0.17, 0.2, 0.06, 10), trim, fig, to.toArray(), [0.4, 0, s * 0.3]);
   }
-  mesh(new THREE.BoxGeometry(0.075, 0.42, 0.02), PIGMENT.chalk, fig, [0, handY + 0.16, handZ + 0.05], [-0.25, 0, 0]); // 笏
+  mesh(new THREE.BoxGeometry(0.07, 0.3, 0.02), PIGMENT.chalk, fig, [0, handY + 0.05, handZ + 0.06], [-0.2, 0, 0]); // 笏, held at the chest
 
   if (martial) {
     for (const s of [-1, 1]) mesh(new THREE.BoxGeometry(0.22, 0.06, 0.3), PIGMENT.gold, fig, [s * 0.3, shoulderY, 0], [0, 0, s * -0.45]);
@@ -115,7 +118,12 @@ export function statue(agent, tier) {
   const headY = shoulderY + 0.24, headZ = seated ? -0.12 : 0;
   mesh(new THREE.CylinderGeometry(0.06, 0.07, 0.12, 8), skin, fig, [0, shoulderY + 0.07, headZ]);
   mesh(new THREE.SphereGeometry(0.13, 16, 12), skin, fig, [0, headY, headZ], [0, 0, 0], [0.95, 1.15, 1]);
-  if (r() < 0.55) mesh(new THREE.ConeGeometry(0.06, 0.22 + r() * 0.12, 8), PIGMENT.ink, fig, [0, headY - 0.2, headZ + 0.07], [Math.PI, 0, 0]);
+  // Painted face: eyes and brows; a beard for some.
+  for (const s of [-1, 1]) {
+    mesh(new THREE.SphereGeometry(0.016, 6, 4), PIGMENT.ink, fig, [s * 0.045, headY + 0.02, headZ + 0.118]);
+    mesh(new THREE.BoxGeometry(0.06, 0.012, 0.01), PIGMENT.ink, fig, [s * 0.05, headY + 0.06, headZ + 0.12], [0, 0, s * -0.2]);
+  }
+  if (r() < 0.55) mesh(new THREE.ConeGeometry(0.045, 0.16 + r() * 0.08, 8), PIGMENT.ink, fig, [0, headY - 0.17, headZ + 0.08], [Math.PI, 0, 0]);
 
   if (martial) {
     // Helmet with a red crest.

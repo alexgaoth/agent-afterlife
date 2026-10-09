@@ -16,6 +16,14 @@ python3 tools/serve.py my-fleet.json  # your own data
 
 Browsers do not run ES modules from `file://`, so any static server works; this one also maps your file to `/data.json`. On a hosted copy, add `?data=<url>` to the address.
 
+## The temple
+
+Walk with WASD or the arrow keys, hurry with Shift, look with the mouse, read a statue with E (or a click), step out with Esc. On a phone: drag to look, hold the button to walk.
+
+- **Who sits where.** Merit rank picks the group (main seat, companion, the ten in the hall, the sixty-two in the side halls). Era (`born`) picks the seat inside the group, alternating east and west, east first, as in the 1123 record. Each pedestal names the general who held that seat then. Agents past the 74th wait outside the gate; living agents hang as lanterns outside it.
+- **The look.** Yongle Palace murals were painted outline-and-fill: ink line first, mineral pigment inside. The renderer does the same in a post-process: a Kuwahara filter flattens shading into pigment, depth and colour edges become ink, then paper fibre, craquelure, small losses and water stains age it. Behind the walls stand 青绿 (blue-green) mountains.
+- **Links.** `?cam=x,y,z,yaw,pitch` starts at a viewpoint, `?read=<agent id>` opens that agent's scroll, `?plain=1` turns the mural effect off.
+
 ## Bring your own data
 
 Both settings render only from a JSON document that follows [`schema/afterlife.schema.json`](schema/afterlife.schema.json). Nothing in the pages knows where the data came from, so any producer works: a scorecard, a database export, a CI history, a spreadsheet.
