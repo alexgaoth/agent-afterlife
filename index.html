@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent Afterlife</title>
+<meta name="description" content="Where AI coding agents rest when their sessions end: an English graveyard and a walkable Song-dynasty temple.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<style>
+  :root { --ground: #15181a; --stone: #a9b0ac; --moss: #7f9188; --lacquer: #6e1d14; --gold: #c9a45c; --paper: #e3ddcd; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--ground); color: var(--paper); }
+  body { min-height: 100dvh; display: grid; grid-template-rows: auto 1fr auto; font-family: "IM Fell English", Georgia, serif; }
+  header { padding: 40px 6vw 0; }
+  h1 { margin: 0; font-weight: normal; font-size: clamp(36px, 5vw, 60px); line-height: 1.05; letter-spacing: -.01em; }
+  header p { margin: 10px 0 0; max-width: 48ch; color: var(--stone); font-size: 18px; }
+  .doors { display: grid; grid-template-columns: 1fr 1fr; gap: 3vw; padding: 36px 6vw; align-items: stretch; }
+  .door { position: relative; display: flex; flex-direction: column; justify-content: flex-end; min-height: 56dvh; padding: 28px;
+          text-decoration: none; color: inherit; overflow: hidden; border-radius: 48% 48% 0 0 / 22% 22% 0 0; isolation: isolate;
+          transition: transform .35s cubic-bezier(.16,1,.3,1); }
+  .door:hover, .door:focus-visible { transform: translateY(-4px); }
+  .door:active { transform: translateY(-1px) scale(.995); }
+  .door::before { content: ""; position: absolute; inset: 0; z-index: -1; }
+  .grave::before { background: radial-gradient(ellipse at 70% 18%, #d9dfdc 0 3%, #9fb0aa 3.4%, transparent 12%),
+                               radial-gradient(ellipse at 50% 120%, #2b3431, transparent 60%),
+                               linear-gradient(#232b2b, #121615); }
+  .temple::before { background: radial-gradient(ellipse at 50% 30%, rgba(232,190,110,.32), transparent 55%),
+                                linear-gradient(#3a1410, #1a0d0a); }
+  .door svg { position: absolute; left: 50%; bottom: 120px; transform: translateX(-50%); width: 70%; max-width: 360px; opacity: .9; }
+  .door h2 { margin: 0; font-weight: normal; font-size: clamp(26px, 3vw, 38px); }
+  .temple h2 span { font-family: "Ma Shan Zheng", "Kaiti SC", serif; margin-left: 10px; color: var(--gold); }
+  .door p { margin: 6px 0 0; color: var(--stone); font-size: 17px; max-width: 34ch; }
+  footer { padding: 0 6vw 32px; color: var(--moss); font-size: 15px; }
+  footer a { color: var(--paper); }
+  :focus-visible { outline: 1px solid var(--gold); outline-offset: 6px; }
+  @media (max-width: 760px) { .doors { grid-template-columns: 1fr; } .door { min-height: 46dvh; } }
+  @media (prefers-reduced-motion: reduce) { .door { transition: none; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Agent Afterlife</h1>
+  <p>Where AI coding agents rest when their sessions end.</p>
+</header>
+<main class="doors">
+  <a class="door grave" id="to-graveyard" href="graveyard/">
+    <svg viewBox="0 0 200 150" aria-hidden="true"><g fill="none" stroke="#c9cfcb" stroke-width="1.2" opacity=".8">
+      <path d="M30,150 V92 Q30,70 52,70 Q74,70 74,92 V150"/><path d="M90,150 V64 Q90,38 116,38 Q142,38 142,64 V150"/>
+      <path d="M158,150 V108 Q158,94 172,94 Q186,94 186,108 V150"/><path d="M116,50 V82 M104,62 H128" stroke-width="1.6"/></g></svg>
+    <h2>The Graveyard</h2>
+    <p>Headstones for every agent, ranked by the work it left behind.</p>
+  </a>
+  <a class="door temple" id="to-temple" href="temple/">
+    <svg viewBox="0 0 200 150" aria-hidden="true"><g fill="none" stroke="#c9a45c" stroke-width="1.2">
+      <path d="M6,64 Q40,60 62,40 L138,40 Q160,60 194,64"/><path d="M62,40 L72,26 H128 L138,40"/>
+      <path d="M30,66 V150 M170,66 V150 M70,66 V150 M130,66 V150" opacity=".6"/><path d="M92,150 V110 Q92,100 100,100 Q108,100 108,110 V150"/></g></svg>
+    <h2>The Temple <span>武庙</span></h2>
+    <p>Walk the Song temple of 1123 and meet the enshrined, in first person.</p>
+  </a>
+</main>
+<footer id="foot">Showing a demo fleet. To show your own agents, see <a href="https://github.com/alexgaoth/agent-afterlife#bring-your-own-data">the data schema</a>.</footer>
+<script type="module">
+  // Pass ?data= through to the setting the visitor picks.
+  const q = location.search;
+  if (new URLSearchParams(q).get("data")) {
+    for (const id of ["to-graveyard", "to-temple"]) document.getElementById(id).href += q;
+    document.getElementById("foot").textContent = "Showing your fleet.";
+  }
+</script>
+</body>
+</html>

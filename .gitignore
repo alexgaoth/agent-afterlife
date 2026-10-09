@@ -1,0 +1,5 @@
+.DS_Store
+__pycache__/
+# Real fleet data never belongs here; serve it with tools/serve.py instead.
+data.json
+*.local.json
