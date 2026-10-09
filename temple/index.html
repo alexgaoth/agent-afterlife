@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Temple · 武庙 · Agent Afterlife</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<script type="importmap">
+  { "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/" } }
+</script>
+<style>
+  :root { --ink: #2a2420; --paper: #e3d9c2; --paper-2: #d4c7a8; --cinnabar: #a8382a; --gold: #c39a45; --lacquer: #1d1916; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #d8ccae; color: var(--ink); font-family: "IM Fell English", Georgia, serif; }
+  canvas { display: block; }
+  button { font: inherit; }
+  :focus-visible { outline: 2px solid var(--cinnabar); outline-offset: 3px; }
+
+  /* The way in: a vertical plaque, one line, one button. */
+  #intro { position: fixed; inset: 0; display: grid; place-items: center; background: rgba(42,36,32,.35); }
+  .gatecard { display: grid; grid-template-columns: auto 1fr; gap: 28px; align-items: center; max-width: 560px; padding: 30px 34px;
+              background: linear-gradient(var(--paper), var(--paper-2)); border-top: 12px solid #5e3720; border-bottom: 12px solid #5e3720;
+              box-shadow: 0 20px 60px rgba(30,20,10,.45); }
+  .plaque { writing-mode: vertical-rl; font-family: "Ma Shan Zheng", "Kaiti SC", serif; font-size: 44px; letter-spacing: .2em; color: var(--gold);
+            background: var(--lacquer); padding: 18px 10px; border: 2px solid var(--gold); outline: 2px solid var(--lacquer); }
+  .gatecard h1 { margin: 0; font-weight: normal; font-size: 34px; line-height: 1.1; }
+  .gatecard p { margin: 10px 0 16px; font-size: 17px; max-width: 34ch; }
+  .gatecard .keys { font-size: 14px; color: #5d564a; margin: 12px 0 0; }
+  #enter { padding: 10px 22px; background: var(--cinnabar); color: #f3ead6; border: 0; cursor: pointer; }
+  #enter:active { transform: translateY(1px); }
+  .gatecard a { color: var(--ink); font-size: 14px; margin-left: 14px; }
+
+  #hud { position: fixed; top: 14px; left: 16px; font-size: 14px; color: var(--ink); text-shadow: 0 1px 0 rgba(255,250,235,.6); pointer-events: none; }
+  #crosshair { position: fixed; left: 50%; top: 50%; width: 6px; height: 6px; margin: -3px; border-radius: 50%; background: var(--ink); opacity: .55; pointer-events: none; }
+  #label { position: fixed; left: 50%; bottom: 7vh; transform: translateX(-50%); display: flex; gap: 12px; align-items: baseline;
+           padding: 8px 16px; background: rgba(227,217,194,.92); border-left: 4px solid var(--cinnabar); pointer-events: none; }
+  #label b { font-family: "Ma Shan Zheng", "Kaiti SC", serif; font-weight: normal; font-size: 24px; }
+  #label span { font-size: 15px; color: #4a4238; }
+  #label kbd { font: inherit; font-size: 13px; border: 1px solid #8a7e68; padding: 0 6px; }
+  #walk { position: fixed; right: 22px; bottom: 22px; width: 64px; height: 64px; border-radius: 50%; border: 0; background: rgba(42,36,32,.6); color: var(--paper); }
+
+  /* 立轴: the hanging scroll for one agent. */
+  dialog { border: 0; padding: 0; background: transparent; width: min(500px, 92vw); overflow: visible; }
+  dialog::backdrop { background: rgba(30,22,16,.6); }
+  dialog[open] .roll { animation: unroll .45s ease-out both; }
+  @keyframes unroll { from { clip-path: inset(-40px -40px 100% -40px); } to { clip-path: inset(-40px -40px -20px -40px); } }
+  .rod { height: 14px; margin: 0 -18px; border-radius: 7px; background: linear-gradient(#5a4130, #3a2a1c 60%, #2a1e14); position: relative; }
+  .rod::before, .rod::after { content: ""; position: absolute; top: -1px; width: 12px; height: 16px; border-radius: 4px; background: linear-gradient(#e2c27a, #9c7a3c); }
+  .rod::before { left: -10px; } .rod::after { right: -10px; }
+  .mount { background: #3b4744; padding: 24px 22px 28px; }
+  #scroll-body { position: relative; background: linear-gradient(#e6dfcd, #d6ceb8); padding: 24px 26px 20px; }
+  #scroll-body h2 { margin: 0; font-family: "Ma Shan Zheng", "Kaiti SC", serif; font-weight: normal; font-size: 32px; }
+  #scroll-body .seat { margin: 4px 0 0; color: #5d564a; font-size: 15px; }
+  #scroll-body .epitaph { font-style: italic; font-size: 18px; margin: 14px 0 16px; }
+  #scroll-body dl { display: grid; grid-template-columns: repeat(4, auto); justify-content: space-between; margin: 0 0 10px; }
+  #scroll-body dl div { display: flex; flex-direction: column; }
+  #scroll-body dt { order: 2; font-size: 13px; color: #6d6556; }
+  #scroll-body dd { margin: 0; font-size: 22px; }
+  #scroll-body svg { width: 100%; }
+  #scroll-body svg text { font-size: 11px; fill: #6d6556; }
+  #scroll-body svg line { stroke: #8a7e68; stroke-opacity: .3; } #scroll-body svg line.mid { stroke-dasharray: 2 4; stroke-opacity: .7; }
+  #scroll-body svg polyline { fill: none; stroke: var(--ink); stroke-width: 2; }
+  #scroll-body svg circle { fill: var(--ink); stroke: #ddd6c3; stroke-width: 2; }
+  #scroll-body .foot { font-size: 13px; color: #6d6556; margin: 6px 0 0; }
+  .seal { position: absolute; right: 20px; top: 22px; writing-mode: vertical-rl; font-family: "Ma Shan Zheng", "Kaiti SC", serif; font-size: 17px;
+          color: var(--cinnabar); border: 2px solid var(--cinnabar); padding: 5px 3px; transform: rotate(3deg); }
+  .close { position: absolute; top: -36px; right: -6px; background: none; border: 0; font-size: 26px; color: var(--paper); cursor: pointer; }
+
+  #error { position: fixed; inset: 0; display: grid; place-items: center; padding: 20px; }
+  #error > div { max-width: 560px; background: var(--paper); padding: 26px 30px; border-left: 4px solid var(--cinnabar); }
+  #error h1 { margin: 0 0 8px; font-weight: normal; }
+  [hidden] { display: none !important; }
+  @media (prefers-reduced-motion: reduce) { dialog[open] .roll { animation: none; } }
+  @media (max-width: 560px) { .gatecard { grid-template-columns: 1fr; justify-items: start; } .plaque { font-size: 32px; } }
+</style>
+</head>
+<body>
+<div id="intro">
+  <div class="gatecard">
+    <div class="plaque" aria-hidden="true">武成王庙</div>
+    <div>
+      <h1>The Temple</h1>
+      <p>The best agents are enshrined as the Song court seated its generals in 1123. Walk in and look at a statue to read its name.</p>
+      <button id="enter" type="button">Enter the temple</button><a id="back" href="../">Agent Afterlife</a>
+      <p class="keys">WASD or arrows to walk, Shift to hurry, mouse to look, E to read a statue, Esc to step out.</p>
+    </div>
+  </div>
+</div>
+<div id="hud" hidden><span id="count"></span></div>
+<div id="crosshair" aria-hidden="true"></div>
+<div id="label" hidden role="status"></div>
+<button id="walk" hidden aria-label="Hold to walk">walk</button>
+<dialog id="scroll" aria-label="An agent's scroll">
+  <button class="close" aria-label="Close" onclick="this.closest('dialog').close()">×</button>
+  <div class="roll"><div class="rod"></div><div class="mount"><div id="scroll-body"></div></div><div class="rod"></div></div>
+</dialog>
+<div id="error" hidden><div>
+  <h1>This data cannot be shown</h1>
+  <p>The document does not follow the <a href="../schema/afterlife.schema.json">Agent Afterlife schema</a>:</p>
+  <ul id="error-list"></ul>
+  <p><a href="./">Show the demo fleet instead</a></p>
+</div></div>
+<script>
+  // Carry ?data= back to the landing page.
+  const d = new URLSearchParams(location.search).get("data");
+  if (d) document.getElementById("back").href = "../?data=" + encodeURIComponent(d);
+</script>
+<script type="module" src="main.js"></script>
+</body>
+</html>

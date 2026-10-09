@@ -31,14 +31,6 @@ function h(tag, attrs = {}, ...kids) {
   return el;
 }
 
-/** ?data= is written relative to the site root (the landing page passes it on unchanged),
- *  but this page is one folder down. Resolve it against the root, then hand it to loadData. */
-function dataSearch() {
-  if (!dataParam) return "";
-  let url = dataParam;
-  try { if (!/^([a-z][a-z0-9+.-]*:|\/)/i.test(dataParam)) url = new URL(dataParam, new URL("../", location.href)).href; } catch { /* keep as given */ }
-  return "?data=" + encodeURIComponent(url);
-}
 const keepData = (path) => path + (dataParam ? "?data=" + encodeURIComponent(dataParam) : "");
 
 function hash(s) { let x = 2166136261; for (const c of String(s)) x = Math.imul(x ^ c.codePointAt(0), 16777619); return x >>> 0; }
@@ -431,7 +423,7 @@ function showErrors(errors) {
 
 async function main() {
   for (const a of document.querySelectorAll("[data-home]")) a.href = keepData("../");
-  const { data, errors, source } = await loadData(dataSearch());
+  const { data, errors, source } = await loadData();
   if (!data) return showErrors(errors);
   DATA = data;
   nameCount = {};
