@@ -69,6 +69,21 @@
           color: var(--cinnabar); border: 2px solid var(--cinnabar); padding: 5px 3px; transform: rotate(3deg); }
   .close { position: absolute; top: -36px; right: -6px; background: none; border: 0; font-size: 26px; color: var(--paper); cursor: pointer; }
 
+  /* 年鉴: the annals, a horizontal handscroll (手卷), one panel per insight. */
+  #annals { width: min(1180px, 96vw); }
+  .handscroll { display: flex; align-items: stretch; }
+  .rodv { width: 16px; margin: -16px 0; border-radius: 8px; background: linear-gradient(90deg, #5a4130, #3a2a1c 60%, #2a1e14); }
+  .sheet { flex: 1; display: flex; gap: 0; overflow-x: auto; background: linear-gradient(#e6dfcd, #d6ceb8); padding: 22px 6px; scroll-snap-type: x mandatory; }
+  .panel { flex: 0 0 380px; padding: 6px 22px; border-right: 1px solid rgba(42,36,32,.18); scroll-snap-align: start; }
+  .panel:last-child { border-right: 0; }
+  .panel h3 { margin: 0; font-weight: normal; font-size: 21px; display: flex; gap: 10px; align-items: baseline; }
+  .panel h3 b { font-family: "Ma Shan Zheng", "Kaiti SC", serif; font-weight: normal; font-size: 34px; color: var(--cinnabar); }
+  .panel canvas { display: block; width: 100%; height: auto; margin: 10px 0 8px; }
+  .panel p { margin: 0; font-size: 15px; line-height: 1.45; }
+  .panel .n { font-size: 13px; color: #6d6556; margin-top: 6px; }
+  .panel.focus h3 b { text-decoration: underline; text-underline-offset: 6px; }
+  .linkish { background: none; border: 0; padding: 0; color: var(--ink); text-decoration: underline; cursor: pointer; font-size: inherit; }
+  #hud kbd { font: inherit; border: 1px solid #8a7e68; padding: 0 5px; }
   #error { position: fixed; inset: 0; display: grid; place-items: center; padding: 20px; }
   #error > div { max-width: 560px; background: var(--paper); padding: 26px 30px; border-left: 4px solid var(--cinnabar); }
   #error h1 { margin: 0 0 8px; font-weight: normal; }
@@ -85,14 +100,19 @@
       <h1>The Temple</h1>
       <p>The best agents are enshrined as the Song court seated its generals in 1123. Walk in and look at a statue to read its name.</p>
       <button id="enter" type="button">Enter the temple</button><a id="back" href="../">Agent Afterlife</a>
-      <p class="keys">WASD or arrows to walk, Shift to hurry, mouse to look, E to read a statue, Esc to step out.</p>
+      <p class="keys">WASD or arrows to walk, Shift to hurry, mouse to look, E to read a statue or stele, Y for the annals, Esc to step out.</p>
+      <p class="keys"><button id="open-annals" type="button" class="linkish">Read the annals (年鉴)</button>: what the fleet's numbers say.</p>
     </div>
   </div>
 </div>
-<div id="hud" hidden><span id="count"></span></div>
+<div id="hud" hidden><span id="count"></span> · <kbd>Y</kbd> annals</div>
 <div id="crosshair" aria-hidden="true"></div>
 <div id="label" hidden role="status"></div>
 <button id="walk" hidden aria-label="Hold to walk">walk</button>
+<dialog id="annals" aria-label="The annals: what the fleet's numbers say">
+  <button class="close" aria-label="Close" onclick="this.closest('dialog').close()">×</button>
+  <div class="handscroll"><div class="rodv"></div><div class="sheet" id="annals-body"></div><div class="rodv"></div></div>
+</dialog>
 <dialog id="scroll" aria-label="An agent's scroll">
   <button class="close" aria-label="Close" onclick="this.closest('dialog').close()">×</button>
   <div class="roll"><div class="rod"></div><div class="mount"><div id="scroll-body"></div></div><div class="rod"></div></div>

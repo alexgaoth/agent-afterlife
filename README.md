@@ -22,7 +22,8 @@ Walk with WASD or the arrow keys, hurry with Shift, look with the mouse, read a 
 
 - **Who sits where.** Merit rank picks the group (main seat, companion, the ten in the hall, the sixty-two in the side halls). Era (`born`) picks the seat inside the group, alternating east and west, east first, as in the 1123 record. Each pedestal names the general who held that seat then. Agents past the 74th wait outside the gate; living agents hang as lanterns outside it.
 - **The look.** Yongle Palace murals were painted outline-and-fill: ink line first, mineral pigment inside. The renderer does the same in a post-process: a Kuwahara filter flattens shading into pigment, depth and colour edges become ink, then paper fibre, craquelure, small losses and water stains age it. Behind the walls stand 青绿 (blue-green) mountains.
-- **Links.** `?cam=x,y,z,yaw,pitch` starts at a viewpoint, `?read=<agent id>` opens that agent's scroll, `?plain=1` turns the mural effect off.
+- **What the numbers say.** Five steles (碑林) along the path each carry one statistic about the fleet, carved with its chart: how unevenly merit is shared (功德), output day by day (年表), whether a longer life pays (寿), whether reused names do better (世系) and how scores spread (品). Look at one and press E, or press Y anywhere, for the annals (年鉴) scroll with every chart and finding. The statistics come from `shared/insights.js`, use only schema fields, cover agents that did real work, and say how many agents each rests on.
+- **Links.** `?cam=x,y,z,yaw,pitch` starts at a viewpoint, `?read=<agent id>` opens that agent's scroll, `?annals[=key]` opens the annals, `?plain=1` turns the mural effect off, `?still=1` draws a few frames and freezes (for screenshots).
 
 ## Bring your own data
 

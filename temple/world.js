@@ -31,7 +31,7 @@ const paving = () => canvasTexture(512, 512, (x, w, h) => {
   }
 }, [24, 24]);
 
-const roofTiles = () => canvasTexture(64, 256, (x, w, h) => {
+export const roofTiles = () => canvasTexture(64, 256, (x, w, h) => {
   x.fillStyle = "#56605a"; x.fillRect(0, 0, w, h);
   x.fillStyle = "#3a433f"; x.fillRect(0, 0, 10, h);           // a row of cover tiles
   x.fillStyle = "#6a746d"; x.fillRect(12, 0, 4, h);
@@ -67,7 +67,7 @@ const clouds = () => canvasTexture(512, 512, (x, w, h) => {
 });
 
 // ------------------------------------------------------------------ helpers
-function box(parent, size, pos, color, mat) {
+export function box(parent, size, pos, color, mat) {
   const m = new THREE.Mesh(new THREE.BoxGeometry(...size), mat || paint(color));
   m.position.set(...pos); m.castShadow = m.receiveShadow = true; parent.add(m);
   return m;
@@ -75,7 +75,7 @@ function box(parent, size, pos, color, mat) {
 function texMat(tex, color = 0xffffff) { return new THREE.MeshToonMaterial({ map: tex, color, gradientMap: paint(0).gradientMap }); }
 
 /** A hip roof with concave slopes and swept-up corners. Eave rectangle W x D at y=0, ridge of length L at height H, along x. */
-function hipRoof(W, D, L, H, lift, tex) {
+export function hipRoof(W, D, L, H, lift, tex) {
   const g = new THREE.Group();
   const liftAt = (s) => lift * Math.abs(2 * s - 1) ** 4;
   const faces = [
