@@ -76,7 +76,7 @@ function censer(parent, days, z) {
     const a = (i / n) * Math.PI * 2, rr = n > 1 ? 0.06 + (i % 2) * 0.03 : 0;
     mesh(new THREE.CylinderGeometry(0.005, 0.005, 0.26, 4), 0x7a3b22, g, [Math.cos(a) * rr, 0.53, Math.sin(a) * rr]);
     const tip = new THREE.Mesh(new THREE.SphereGeometry(0.012, 6, 4), EMBER);
-    tip.position.set(Math.cos(a) * rr, 0.665, Math.sin(a) * rr); tip.userData.keep = true; g.add(tip);
+    tip.position.set(Math.cos(a) * rr, 0.665, Math.sin(a) * rr); g.add(tip);   // embers share one material, so they merge too
   }
 }
 
@@ -103,7 +103,7 @@ const BRONZE = 0x6a5530, STEEL = 0x8e9a98, GILT = 0xc9a23a, GILT_FACE = 0xe2c060
 const EMBER = new THREE.MeshBasicMaterial({ color: 0xff8a3a });
 
 /** Merge every mesh under root that shares a material into one mesh: a few draw calls per statue
- *  instead of about 25. Meshes marked userData.keep (tablet, embers) stay as they are. */
+ *  instead of about 25. Meshes marked userData.keep (the tablet, whose texture is its own) stay as they are. */
 function mergeByMaterial(root) {
   root.updateMatrixWorld(true);
   const inv = root.matrixWorld.clone().invert();
