@@ -2,7 +2,7 @@
 import * as THREE from "three";
 import { PointerLockControls } from "three/addons/controls/PointerLockControls.js";
 import { loadData, ranked, living, passersBy, epitaph, shownStats } from "../shared/afterlife.js";
-import { insights } from "../shared/insights.js";
+import { insights, honours } from "../shared/insights.js";
 import { drawInsight } from "./insight-art.js";
 import { buildSteleForest } from "./steles.js";
 import { seat, ZONES, GROUP_CN, cnNumber, cnDate, generationCn, nameOnTablet } from "./seating.js";
@@ -44,9 +44,10 @@ const order = ranked(data);
 const { seats, outside, placement } = seat(order);
 const agentById = new Map(data.agents.map((a) => [a.id, a]));
 const pickable = [];
+const honour = honours(data);
 for (const s of seats) {
   const at = world.seats[s.zone][s.no - 1];
-  const g = s.agent ? statue(s.agent, TIER[s.zone]) : emptySeat(TIER[s.zone]);
+  const g = s.agent ? statue(s.agent, TIER[s.zone], honour.get(s.agent.id)) : emptySeat(TIER[s.zone]);
   g.position.set(at.x, at.y, at.z); g.rotation.y = at.r;
   scene.add(g);
   if (s.agent) g.traverse((o) => o.isMesh && pickable.push(o));
@@ -201,7 +202,15 @@ function openAnnals(focus) {
       <h3><b>${ins.cn}</b>${esc(ins.title)}</h3>
       <canvas width="680" height="360" data-key="${ins.key}"></canvas>
       <p>${esc(ins.finding)}</p>
-    </section>`).join("");
+    </section>`).join("") + `
+    <section class="panel" id="panel-reading">
+      <h3><b>读法</b>How to read the statues</h3>
+      <p><b>金身</b> Gilded all over: the top 10% of working agents by merit (${[...honour.values()].filter((h) => h.gilded).length} here).</p>
+      <p><b>香</b> Incense in the tripod censer: one stick for each day the agent served, up to twelve.</p>
+      <p><b>高</b> Height: within its group, a statue stands up to 8% taller or shorter by its merit rank.</p>
+      <p><b>位</b> Seat: merit rank picks the group, the day it began picks the seat, as in the 1123 record.</p>
+      <p class="n">Robe colour, hat or helmet, beard and weapon only tell agents apart; they carry no data.</p>
+    </section>`;
   for (const c of $("annals-body").querySelectorAll("canvas")) {
     drawInsight(c.getContext("2d"), fleetInsights.find((i) => i.key === c.dataset.key), 0, 0, c.width, c.height, "ink");
   }
