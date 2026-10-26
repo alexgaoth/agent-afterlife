@@ -5,6 +5,7 @@ import { loadData, ranked, living, passersBy, epitaph, shownStats } from "../sha
 import { insights, honours } from "../shared/insights.js";
 import { drawInsight } from "./insight-art.js";
 import { buildSteleForest } from "./steles.js";
+import { buildAvenue } from "./avenue.js";
 import { seat, ZONES, GROUP_CN, cnNumber, cnDate, generationCn, nameOnTablet } from "./seating.js";
 import { statue, emptySeat, PIGMENT, paint } from "./statue.js";
 import { buildWorld } from "./world.js";
@@ -80,6 +81,16 @@ if (alive.length) {
 const steleFaces = buildSteleForest(scene, insights(data), world.colliders);
 pickable.push(...steleFaces);
 
+// 灯道: one stone lantern per work day along the path, gate (oldest) to hall (newest), lit by that day's merit.
+const avenue = buildAvenue(scene, insights(data).find((i) => i.key === "chronicle").chart?.rows || [], world.colliders);
+if (avenue.fires) pickable.push(avenue.fires);
+/** What looking at something and pressing E (or clicking) does. */
+function act(id) {
+  if (id.startsWith("insight:")) openAnnals(id.slice(8));
+  else if (id.startsWith("day:")) openAnnals("chronicle");
+  else openScroll(id);
+}
+
 // The stele carries the newest edict, in columns, right to left.
 carveStele(world.stele, data.edicts.at(-1), order.length - outside.length);
 
@@ -94,7 +105,7 @@ camera.rotation.set(THREE.MathUtils.degToRad(start[4] || 0), THREE.MathUtils.deg
 const keys = new Set();
 addEventListener("keydown", (e) => {
   keys.add(e.code);
-  if (e.code === "KeyE" && looking && controls.isLocked) { looking.startsWith("insight:") ? openAnnals(looking.slice(8)) : openScroll(looking); }
+  if (e.code === "KeyE" && looking && controls.isLocked) act(looking);
   if (e.code === "KeyY" && !$("annals").open) openAnnals();
 });
 addEventListener("keyup", (e) => keys.delete(e.code));
@@ -102,7 +113,7 @@ $("enter").addEventListener("click", () => controls.lock());
 controls.addEventListener("lock", () => { $("intro").hidden = true; $("hud").hidden = false; });
 controls.addEventListener("unlock", () => { if (!$("scroll").open) { $("intro").hidden = false; } });
 renderer.domElement.addEventListener("click", () => {
-  if (controls.isLocked && looking) looking.startsWith("insight:") ? openAnnals(looking.slice(8)) : openScroll(looking);
+  if (controls.isLocked && looking) act(looking);
 });
 
 function blocked(x, z) {
@@ -150,9 +161,15 @@ function lookAround() {
   camera.updateMatrixWorld();
   ray.setFromCamera({ x: 0, y: 0 }, camera);
   const hit = ray.intersectObjects(pickable, false).find((h) => h.distance <= 9);   // only what is within reach
-  const id = hit?.object.userData.agentId || null;
+  const id = !hit ? null : hit.object === avenue.fires ? "day:" + hit.instanceId : hit.object.userData.agentId || null;
   if (id === looking) return;
   looking = id;
+  if (id && id.startsWith("day:")) {
+    const d = avenue.days[+id.slice(4)];
+    $("label").hidden = false;
+    $("label").innerHTML = `<b>${cnDate(d.date)}</b><span>${d.date}: ${d.merit} merit, ${d.active} agents at work${d.ended ? `, ${d.ended} ended` : ""}.</span><kbd>E</kbd>`;
+    return;
+  }
   if (id && id.startsWith("insight:")) {
     const ins = insights(data).find((i) => "insight:" + i.key === id);
     $("label").hidden = false;
