@@ -2,6 +2,9 @@
 import * as THREE from "three";
 import { PointerLockControls } from "three/addons/controls/PointerLockControls.js";
 import { loadData, ranked, living, passersBy, epitaph, shownStats } from "../shared/afterlife.js";
+import { insights } from "../shared/insights.js";
+import { drawInsight } from "./insight-art.js";
+import { buildSteleForest } from "./steles.js";
 import { seat, ZONES, GROUP_CN, cnNumber, cnDate, generationCn, nameOnTablet } from "./seating.js";
 import { statue, emptySeat, PIGMENT, paint } from "./statue.js";
 import { buildWorld } from "./world.js";
@@ -21,7 +24,8 @@ if (!data) {
 await Promise.all(['28px "Ma Shan Zheng"', '24px "IM Fell English"'].map((f) => document.fonts.load(f).catch(() => {})));
 
 // ------------------------------------------------------------------ scene
-const renderer = new THREE.WebGLRenderer({ antialias: false, powerPreference: "high-performance" });
+// ?still=1 keeps the last frame in the drawing buffer, so a screenshot after the loop stops still sees it.
+const renderer = new THREE.WebGLRenderer({ antialias: false, powerPreference: "high-performance", preserveDrawingBuffer: params.get("still") === "1" });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
 renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -71,6 +75,10 @@ if (alive.length) {
   });
 }
 
+// 碑林: one stele per insight along the path. Look at one and press E for its page in the annals.
+const steleFaces = buildSteleForest(scene, insights(data), world.colliders);
+pickable.push(...steleFaces);
+
 // The stele carries the newest edict, in columns, right to left.
 carveStele(world.stele, data.edicts.at(-1), order.length - outside.length);
 
@@ -85,13 +93,16 @@ camera.rotation.set(THREE.MathUtils.degToRad(start[4] || 0), THREE.MathUtils.deg
 const keys = new Set();
 addEventListener("keydown", (e) => {
   keys.add(e.code);
-  if (e.code === "KeyE" && looking && controls.isLocked) { openScroll(looking); }
+  if (e.code === "KeyE" && looking && controls.isLocked) { looking.startsWith("insight:") ? openAnnals(looking.slice(8)) : openScroll(looking); }
+  if (e.code === "KeyY" && !$("annals").open) openAnnals();
 });
 addEventListener("keyup", (e) => keys.delete(e.code));
 $("enter").addEventListener("click", () => controls.lock());
 controls.addEventListener("lock", () => { $("intro").hidden = true; $("hud").hidden = false; });
 controls.addEventListener("unlock", () => { if (!$("scroll").open) { $("intro").hidden = false; } });
-renderer.domElement.addEventListener("click", () => { if (controls.isLocked && looking) openScroll(looking); });
+renderer.domElement.addEventListener("click", () => {
+  if (controls.isLocked && looking) looking.startsWith("insight:") ? openAnnals(looking.slice(8)) : openScroll(looking);
+});
 
 function blocked(x, z) {
   if (Math.abs(x) > world.bounds.W - 0.6 || z < world.bounds.N + 0.6 || z > 60) return true;
@@ -141,6 +152,12 @@ function lookAround() {
   const id = hit?.object.userData.agentId || null;
   if (id === looking) return;
   looking = id;
+  if (id && id.startsWith("insight:")) {
+    const ins = insights(data).find((i) => "insight:" + i.key === id);
+    $("label").hidden = false;
+    $("label").innerHTML = `<b>${ins.cn}碑</b><span>${esc(ins.title)}</span><kbd>E</kbd>`;
+    return;
+  }
   const a = id && agentById.get(id);
   $("label").hidden = !a;
   if (a) $("label").innerHTML = `<b>${esc(nameOnTablet(a))} ${generationCn(a)}</b><span>${esc(where(a))}</span><kbd>E</kbd>`;
@@ -174,6 +191,25 @@ function openScroll(id) {
   $("scroll").showModal();
 }
 $("scroll").addEventListener("close", () => { $("intro").hidden = false; });
+
+// ------------------------------------------------------------------ the annals (年鉴)
+const fleetInsights = insights(data);
+function openAnnals(focus) {
+  controls.unlock();
+  $("annals-body").innerHTML = fleetInsights.map((ins) => `
+    <section class="panel${ins.key === focus ? " focus" : ""}" id="panel-${ins.key}">
+      <h3><b>${ins.cn}</b>${esc(ins.title)}</h3>
+      <canvas width="680" height="360" data-key="${ins.key}"></canvas>
+      <p>${esc(ins.finding)}</p>
+    </section>`).join("");
+  for (const c of $("annals-body").querySelectorAll("canvas")) {
+    drawInsight(c.getContext("2d"), fleetInsights.find((i) => i.key === c.dataset.key), 0, 0, c.width, c.height, "ink");
+  }
+  $("annals").showModal();
+  if (focus) $("panel-" + focus)?.scrollIntoView({ inline: "center", block: "nearest" });
+}
+$("annals").addEventListener("close", () => { $("intro").hidden = false; });
+$("open-annals").addEventListener("click", () => { $("intro").hidden = true; openAnnals(); });
 $("scroll").addEventListener("click", (e) => { if (e.target === $("scroll")) $("scroll").close(); });
 
 function sparkline(series) {
@@ -233,7 +269,16 @@ function resize() {
 }
 addEventListener("resize", resize); resize();
 const clock = new THREE.Clock();
+const still = params.get("still") === "1";   // ?still=1 draws a few frames and stops: for screenshots and tests
 renderer.setAnimationLoop(() => {
+  if (still && frame > 3) {
+    // Freeze: copy the last frame into an <img>, which any screenshot sees, then stop rendering.
+    renderer.setAnimationLoop(null);
+    const img = new Image(); img.src = renderer.domElement.toDataURL("image/png"); img.id = "still";
+    img.style.cssText = "position:fixed;inset:0;width:100vw;height:100vh;z-index:0";
+    document.body.prepend(img);
+    return;
+  }
   const dt = Math.min(0.05, clock.getDelta());
   if (controls.isLocked || touchWalk) walk(dt);
   if (frame++ % 6 === 0) lookAround();
@@ -241,3 +286,4 @@ renderer.setAnimationLoop(() => {
 });
 if (params.get("cam")) { $("intro").hidden = true; }   // a set camera (for links and screenshots) skips the intro
 if (params.get("read")) { $("intro").hidden = true; openScroll(params.get("read")); }   // ?read=<agent id> opens its scroll
+if (params.get("annals") !== null) { $("intro").hidden = true; openAnnals(params.get("annals") || undefined); }   // ?annals[=key]
