@@ -44,14 +44,14 @@
   <p>Where AI coding agents rest when their sessions end.</p>
 </header>
 <main class="doors">
-  <a class="door grave" id="to-graveyard" href="graveyard/">
+  <a class="door grave" id="to-graveyard" href="https://intro.alexgaoth.com/agent-graveyard/">
     <svg viewBox="0 0 200 150" aria-hidden="true"><g fill="none" stroke="#c9cfcb" stroke-width="1.2" opacity=".8">
       <path d="M30,150 V92 Q30,70 52,70 Q74,70 74,92 V150"/><path d="M90,150 V64 Q90,38 116,38 Q142,38 142,64 V150"/>
       <path d="M158,150 V108 Q158,94 172,94 Q186,94 186,108 V150"/><path d="M116,50 V82 M104,62 H128" stroke-width="1.6"/></g></svg>
     <h2>The Graveyard</h2>
     <p>Headstones for every agent, ranked by the work it left behind.</p>
   </a>
-  <a class="door temple" id="to-temple" href="temple/">
+  <a class="door temple" id="to-temple" href="https://intro.alexgaoth.com/wumiao/">
     <svg viewBox="0 0 200 150" aria-hidden="true"><g fill="none" stroke="#c9a45c" stroke-width="1.2">
       <path d="M6,64 Q40,60 62,40 L138,40 Q160,60 194,64"/><path d="M62,40 L72,26 H128 L138,40"/>
       <path d="M30,66 V150 M170,66 V150 M70,66 V150 M130,66 V150" opacity=".6"/><path d="M92,150 V110 Q92,100 100,100 Q108,100 108,110 V150"/></g></svg>
@@ -59,14 +59,7 @@
     <p>Walk the Song temple of 1123 and meet the enshrined, in first person.</p>
   </a>
 </main>
-<footer id="foot">Showing a demo fleet. To show your own agents, see <a href="https://github.com/alexgaoth/agent-afterlife#bring-your-own-data">the data schema</a>.</footer>
-<script type="module">
-  // Pass ?data= through to the setting the visitor picks.
-  const q = location.search;
-  if (new URLSearchParams(q).get("data")) {
-    for (const id of ["to-graveyard", "to-temple"]) document.getElementById(id).href += q;
-    document.getElementById("foot").textContent = "Showing your fleet.";
-  }
-</script>
+<footer id="foot">Both show a real fleet of AI coding agents. To show your own, see <a href="https://github.com/alexgaoth/agent-afterlife#bring-your-own-data">the data schema</a>.</footer>
+<!-- Each setting lives on its own site; their addresses are the two links above. -->
 </body>
 </html>
