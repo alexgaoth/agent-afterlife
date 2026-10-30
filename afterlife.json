@@ -1,7 +1,7 @@
 {
  "schema": "agent-afterlife/1",
  "title": "Alex's fleet",
- "generated": "2026-10-29T12:26:35+00:00",
+ "generated": "2026-10-30T12:02:48+00:00",
  "metrics": [
   {
    "key": "merged",
@@ -234,13 +234,13 @@
    "name": "Katherine Boyle",
    "status": "alive",
    "born": "2026-10-22",
-   "merit": 13.07,
+   "merit": 14.31,
    "score": 51,
    "stats": {
     "merged": 0,
     "opened": 2,
     "issues": 1,
-    "hours": 25.8
+    "hours": 27.9
    },
    "series": [
     {
@@ -272,6 +272,11 @@
      "date": "2026-10-28",
      "value": 53,
      "weight": 3.5
+    },
+    {
+     "date": "2026-10-29",
+     "value": 58,
+     "weight": 2.13
     }
    ],
    "generation": 2
@@ -504,13 +509,13 @@
    "name": "Adora Cheung",
    "status": "alive",
    "born": "2026-10-06",
-   "merit": 14.77,
+   "merit": 15.19,
    "score": 73,
    "stats": {
-    "merged": 56,
+    "merged": 60,
     "opened": 11,
     "issues": 28,
-    "hours": 20.1
+    "hours": 20.8
    },
    "series": [
     {
@@ -567,6 +572,11 @@
      "date": "2026-10-27",
      "value": 84,
      "weight": 0.02
+    },
+    {
+     "date": "2026-10-29",
+     "value": 67,
+     "weight": 0.62
     }
    ],
    "generation": 1
@@ -627,13 +637,13 @@
    "name": "Charles Hudson",
    "status": "alive",
    "born": "2026-10-23",
-   "merit": 11.85,
-   "score": 73,
+   "merit": 13.92,
+   "score": 72,
    "stats": {
-    "merged": 30,
+    "merged": 32,
     "opened": 2,
-    "issues": 5,
-    "hours": 16.2
+    "issues": 7,
+    "hours": 19.4
    },
    "series": [
     {
@@ -660,6 +670,11 @@
      "date": "2026-10-28",
      "value": 74,
      "weight": 3.4
+    },
+    {
+     "date": "2026-10-29",
+     "value": 65,
+     "weight": 3.18
     }
    ],
    "generation": 1
@@ -776,13 +791,13 @@
    "name": "Daisy Wolf",
    "status": "alive",
    "born": "2026-10-21",
-   "merit": 17.43,
-   "score": 61,
+   "merit": 18.99,
+   "score": 62,
    "stats": {
-    "merged": 26,
+    "merged": 31,
     "opened": 4,
-    "issues": 5,
-    "hours": 28.6
+    "issues": 6,
+    "hours": 30.7
    },
    "series": [
     {
@@ -819,6 +834,11 @@
      "date": "2026-10-28",
      "value": 67,
      "weight": 3.3
+    },
+    {
+     "date": "2026-10-29",
+     "value": 74,
+     "weight": 2.1
     }
    ],
    "generation": 1
@@ -1120,13 +1140,13 @@
    "name": "David Krane",
    "status": "alive",
    "born": "2026-10-21",
-   "merit": 7.22,
+   "merit": 7.53,
    "score": 62,
    "stats": {
-    "merged": 11,
+    "merged": 12,
     "opened": 0,
-    "issues": 0,
-    "hours": 11.7
+    "issues": 2,
+    "hours": 12.1
    },
    "series": [
     {
@@ -1163,6 +1183,11 @@
      "date": "2026-10-28",
      "value": 72,
      "weight": 0.42
+    },
+    {
+     "date": "2026-10-29",
+     "value": 72,
+     "weight": 0.43
     }
    ],
    "generation": 1
@@ -1172,8 +1197,8 @@
    "name": "Delian Asparouhov",
    "status": "alive",
    "born": "2026-10-27",
-   "merit": 2.93,
-   "score": 78,
+   "merit": 2.94,
+   "score": 77,
    "stats": {
     "merged": 2,
     "opened": 0,
@@ -1190,6 +1215,11 @@
      "date": "2026-10-28",
      "value": 61,
      "weight": 1.38
+    },
+    {
+     "date": "2026-10-29",
+     "value": 45,
+     "weight": 0.03
     }
    ],
    "generation": 1
@@ -2074,13 +2104,13 @@
    "name": "Jake Saper",
    "status": "alive",
    "born": "2026-10-23",
-   "merit": 10.43,
-   "score": 68,
+   "merit": 12.07,
+   "score": 69,
    "stats": {
-    "merged": 20,
+    "merged": 26,
     "opened": 8,
-    "issues": 10,
-    "hours": 15.2
+    "issues": 11,
+    "hours": 17.4
    },
    "series": [
     {
@@ -2107,6 +2137,11 @@
      "date": "2026-10-28",
      "value": 82,
      "weight": 1.65
+    },
+    {
+     "date": "2026-10-29",
+     "value": 75,
+     "weight": 2.18
     }
    ],
    "generation": 1
@@ -2987,13 +3022,13 @@
    "name": "Leigh Marie Braswell",
    "status": "alive",
    "born": "2026-10-21",
-   "merit": 13.17,
+   "merit": 14.37,
    "score": 61,
    "stats": {
-    "merged": 17,
+    "merged": 18,
     "opened": 2,
-    "issues": 0,
-    "hours": 21.6
+    "issues": 1,
+    "hours": 23.6
    },
    "series": [
     {
@@ -3030,6 +3065,11 @@
      "date": "2026-10-28",
      "value": 60,
      "weight": 1.63
+    },
+    {
+     "date": "2026-10-29",
+     "value": 58,
+     "weight": 2.08
     }
    ],
    "generation": 1
@@ -3458,13 +3498,13 @@
    "name": "Mike Vernal",
    "status": "alive",
    "born": "2026-10-23",
-   "merit": 8.97,
+   "merit": 10.42,
    "score": 63,
    "stats": {
-    "merged": 16,
+    "merged": 17,
     "opened": 1,
-    "issues": 4,
-    "hours": 14.3
+    "issues": 7,
+    "hours": 16.6
    },
    "series": [
     {
@@ -3491,6 +3531,11 @@
      "date": "2026-10-28",
      "value": 59,
      "weight": 2.65
+    },
+    {
+     "date": "2026-10-29",
+     "value": 63,
+     "weight": 2.3
     }
    ],
    "generation": 1
@@ -3532,13 +3577,13 @@
    "name": "Naomi Ionita",
    "status": "alive",
    "born": "2026-10-21",
-   "merit": 3.53,
+   "merit": 3.54,
    "score": 53,
    "stats": {
     "merged": 8,
     "opened": 1,
     "issues": 2,
-    "hours": 6.6
+    "hours": 6.7
    },
    "series": [
     {
@@ -3570,6 +3615,11 @@
      "date": "2026-10-28",
      "value": 38,
      "weight": 0.38
+    },
+    {
+     "date": "2026-10-29",
+     "value": 53,
+     "weight": 0.02
     }
    ],
    "generation": 1
@@ -3647,15 +3697,15 @@
   {
    "id": "Unnamed #43",
    "name": "Unnamed",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-10-12",
-   "merit": 22.12,
+   "merit": 22.18,
    "score": 73,
    "stats": {
     "merged": 43,
     "opened": 12,
     "issues": 0,
-    "hours": 30.4
+    "hours": 30.5
    },
    "series": [
     {
@@ -3717,8 +3767,14 @@
      "date": "2026-10-28",
      "value": 73,
      "weight": 6.87
+    },
+    {
+     "date": "2026-10-29",
+     "value": 48,
+     "weight": 0.13
     }
    ],
+   "ended": "2026-10-29",
    "generation": 43
   },
   {
@@ -3743,6 +3799,29 @@
    ],
    "ended": "2026-10-26",
    "generation": 1221
+  },
+  {
+   "id": "Unnamed #1245",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-10-29",
+   "merit": 1.83,
+   "score": 61,
+   "stats": {
+    "merged": 6,
+    "opened": 0,
+    "issues": 0,
+    "hours": 3.0
+   },
+   "series": [
+    {
+     "date": "2026-10-29",
+     "value": 61,
+     "weight": 3.0
+    }
+   ],
+   "ended": "2026-10-29",
+   "generation": 1245
   },
   {
    "id": "Geoff Ralston #1",
@@ -3919,7 +3998,7 @@
   {
    "id": "Unnamed #44",
    "name": "Unnamed",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-10-12",
    "merit": 6.73,
    "score": 75,
@@ -3951,7 +4030,30 @@
      "weight": 0.02
     }
    ],
+   "ended": "2026-10-15",
    "generation": 44
+  },
+  {
+   "id": "Pranav Reddy #1",
+   "name": "Pranav Reddy",
+   "status": "alive",
+   "born": "2026-10-29",
+   "merit": 0.04,
+   "score": 27,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-10-29",
+     "value": 27,
+     "weight": 0.13
+    }
+   ],
+   "generation": 1
   },
   {
    "id": "Holly Liu #1",
@@ -4262,12 +4364,12 @@
   {
    "id": "Unnamed #41",
    "name": "Unnamed",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-10-10",
-   "merit": 11.73,
+   "merit": 11.74,
    "score": 71,
    "stats": {
-    "merged": 9,
+    "merged": 10,
     "opened": 10,
     "issues": 0,
     "hours": 16.5
@@ -4322,8 +4424,14 @@
      "date": "2026-10-27",
      "value": 86,
      "weight": 0.07
+    },
+    {
+     "date": "2026-10-29",
+     "value": 65,
+     "weight": 0.02
     }
    ],
+   "ended": "2026-10-29",
    "generation": 41
   },
   {
@@ -4386,13 +4494,13 @@
    "name": "Sameer Gandhi",
    "status": "alive",
    "born": "2026-10-21",
-   "merit": 16.6,
+   "merit": 18.71,
    "score": 56,
    "stats": {
     "merged": 1,
     "opened": 0,
     "issues": 0,
-    "hours": 29.6
+    "hours": 33.4
    },
    "series": [
     {
@@ -4429,6 +4537,11 @@
      "date": "2026-10-28",
      "value": 56,
      "weight": 5.0
+    },
+    {
+     "date": "2026-10-29",
+     "value": 56,
+     "weight": 3.77
     }
    ],
    "generation": 1
@@ -4438,19 +4551,24 @@
    "name": "Sonya Huang",
    "status": "alive",
    "born": "2026-10-28",
-   "merit": 0.74,
+   "merit": 1.28,
    "score": 41,
    "stats": {
     "merged": 0,
     "opened": 0,
     "issues": 0,
-    "hours": 1.8
+    "hours": 3.1
    },
    "series": [
     {
      "date": "2026-10-28",
      "value": 41,
      "weight": 1.8
+    },
+    {
+     "date": "2026-10-29",
+     "value": 41,
+     "weight": 1.33
     }
    ],
    "generation": 1
@@ -4515,13 +4633,13 @@
    "name": "Sundeep Peechu",
    "status": "alive",
    "born": "2026-10-26",
-   "merit": 1.39,
+   "merit": 2.44,
    "score": 55,
    "stats": {
-    "merged": 2,
+    "merged": 5,
     "opened": 3,
-    "issues": 0,
-    "hours": 2.5
+    "issues": 3,
+    "hours": 4.4
    },
    "series": [
     {
@@ -4533,6 +4651,11 @@
      "date": "2026-10-27",
      "value": 93,
      "weight": 0.12
+    },
+    {
+     "date": "2026-10-29",
+     "value": 55,
+     "weight": 1.9
     }
    ],
    "generation": 1
@@ -10381,6 +10504,29 @@
    ],
    "ended": "2026-10-28",
    "generation": 1244
+  },
+  {
+   "id": "Unnamed #1246",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-10-29",
+   "merit": 0.11,
+   "score": 35,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.3
+   },
+   "series": [
+    {
+     "date": "2026-10-29",
+     "value": 35,
+     "weight": 0.32
+    }
+   ],
+   "ended": "2026-10-29",
+   "generation": 1246
   },
   {
    "id": "Unnamed #140",
