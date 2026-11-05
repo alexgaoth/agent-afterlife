@@ -1,7 +1,7 @@
 {
  "schema": "agent-afterlife/1",
  "title": "Alex's fleet",
- "generated": "2026-11-04T13:45:46+00:00",
+ "generated": "2026-11-05T13:04:03+00:00",
  "metrics": [
   {
    "key": "merged",
@@ -239,7 +239,7 @@
   {
    "id": "Katherine Boyle #1",
    "name": "Katherine Boyle",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-10-21",
    "merit": 1.99,
    "score": 37,
@@ -256,12 +256,13 @@
      "weight": 5.38
     }
    ],
+   "ended": "2026-10-21",
    "generation": 1
   },
   {
    "id": "Katherine Boyle #2",
    "name": "Katherine Boyle",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-10-22",
    "merit": 20.1,
    "score": 50,
@@ -328,28 +329,35 @@
      "weight": 8.37
     }
    ],
+   "ended": "2026-11-02",
    "generation": 2
   },
   {
    "id": "Unnamed #1422",
    "name": "Unnamed",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-11-03",
-   "merit": 5.15,
-   "score": 57,
+   "merit": 10.52,
+   "score": 56,
    "stats": {
     "merged": 0,
     "opened": 0,
     "issues": 0,
-    "hours": 9.0
+    "hours": 18.6
    },
    "series": [
     {
      "date": "2026-11-03",
      "value": 57,
      "weight": 9.03
+    },
+    {
+     "date": "2026-11-04",
+     "value": 56,
+     "weight": 9.6
     }
    ],
+   "ended": "2026-11-04",
    "generation": 1422
   },
   {
@@ -441,7 +449,7 @@
   {
    "id": "Amit Kumar #1",
    "name": "Amit Kumar",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-11-03",
    "merit": 0.61,
    "score": 66,
@@ -458,6 +466,7 @@
      "weight": 0.92
     }
    ],
+   "ended": "2026-11-03",
    "generation": 1
   },
   {
@@ -505,6 +514,52 @@
    ],
    "ended": "2026-10-16",
    "generation": 2
+  },
+  {
+   "id": "Andrew Braccia #1",
+   "name": "Andrew Braccia",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 3.39,
+   "score": 60,
+   "stats": {
+    "merged": 5,
+    "opened": 1,
+    "issues": 0,
+    "hours": 5.7
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 60,
+     "weight": 5.65
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1
+  },
+  {
+   "id": "Andy McLoughlin #1",
+   "name": "Andy McLoughlin",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.79,
+   "score": 64,
+   "stats": {
+    "merged": 2,
+    "opened": 0,
+    "issues": 0,
+    "hours": 1.2
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 64,
+     "weight": 1.23
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1
   },
   {
    "id": "Ankit Gupta #1",
@@ -601,7 +656,7 @@
   {
    "id": "Ashu Garg #1",
    "name": "Ashu Garg",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-11-03",
    "merit": 0.21,
    "score": 79,
@@ -618,7 +673,31 @@
      "weight": 0.27
     }
    ],
+   "ended": "2026-11-03",
    "generation": 1
+  },
+  {
+   "id": "Ben Horowitz #3",
+   "name": "Ben Horowitz",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.12,
+   "score": 72,
+   "stats": {
+    "merged": 1,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.2
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 72,
+     "weight": 0.17
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 3
   },
   {
    "id": "Brad Flora #3",
@@ -651,15 +730,15 @@
   {
    "id": "Bryan Schreier #1",
    "name": "Bryan Schreier",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-11-02",
-   "merit": 19.86,
-   "score": 63,
+   "merit": 27.15,
+   "score": 61,
    "stats": {
-    "merged": 28,
+    "merged": 37,
     "opened": 1,
     "issues": 2,
-    "hours": 31.4
+    "hours": 44.2
    },
    "series": [
     {
@@ -671,14 +750,20 @@
      "date": "2026-11-03",
      "value": 61,
      "weight": 19.93
+    },
+    {
+     "date": "2026-11-04",
+     "value": 57,
+     "weight": 12.78
     }
    ],
+   "ended": "2026-11-04",
    "generation": 1
   },
   {
    "id": "Bucky Moore #1",
    "name": "Bucky Moore",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-11-03",
    "merit": 1.9,
    "score": 59,
@@ -695,12 +780,13 @@
      "weight": 3.22
     }
    ],
+   "ended": "2026-11-03",
    "generation": 1
   },
   {
    "id": "Adora Cheung #1",
    "name": "Adora Cheung",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-10-06",
    "merit": 16.33,
    "score": 72,
@@ -787,28 +873,35 @@
      "weight": 0.68
     }
    ],
+   "ended": "2026-11-03",
    "generation": 1
   },
   {
    "id": "Byron Deeter #1",
    "name": "Byron Deeter",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-11-03",
-   "merit": 4.43,
-   "score": 74,
+   "merit": 14.86,
+   "score": 77,
    "stats": {
-    "merged": 14,
-    "opened": 1,
-    "issues": 0,
-    "hours": 6.0
+    "merged": 85,
+    "opened": 2,
+    "issues": 1,
+    "hours": 19.4
    },
    "series": [
     {
      "date": "2026-11-03",
      "value": 74,
      "weight": 5.98
+    },
+    {
+     "date": "2026-11-04",
+     "value": 78,
+     "weight": 13.38
     }
    ],
+   "ended": "2026-11-04",
    "generation": 1
   },
   {
@@ -865,15 +958,15 @@
   {
    "id": "Charles Hudson #1",
    "name": "Charles Hudson",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-10-23",
-   "merit": 18.23,
+   "merit": 18.72,
    "score": 69,
    "stats": {
     "merged": 37,
     "opened": 2,
     "issues": 7,
-    "hours": 26.3
+    "hours": 27.2
    },
    "series": [
     {
@@ -920,8 +1013,14 @@
      "date": "2026-11-03",
      "value": 65,
      "weight": 2.72
+    },
+    {
+     "date": "2026-11-04",
+     "value": 58,
+     "weight": 0.85
     }
    ],
+   "ended": "2026-11-04",
    "generation": 1
   },
   {
@@ -1034,7 +1133,7 @@
   {
    "id": "Daisy Wolf #1",
    "name": "Daisy Wolf",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-10-21",
    "merit": 23.69,
    "score": 62,
@@ -1106,7 +1205,31 @@
      "weight": 2.88
     }
    ],
+   "ended": "2026-11-03",
    "generation": 1
+  },
+  {
+   "id": "Daisy Wolf #2",
+   "name": "Daisy Wolf",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.93,
+   "score": 50,
+   "stats": {
+    "merged": 1,
+    "opened": 0,
+    "issues": 0,
+    "hours": 1.9
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 50,
+     "weight": 1.85
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2
   },
   {
    "id": "Garry Tan #1",
@@ -1438,15 +1561,15 @@
   {
    "id": "David Krane #1",
    "name": "David Krane",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-10-21",
-   "merit": 11.96,
-   "score": 57,
+   "merit": 14.28,
+   "score": 56,
    "stats": {
     "merged": 15,
-    "opened": 1,
+    "opened": 2,
     "issues": 3,
-    "hours": 20.9
+    "hours": 25.7
    },
    "series": [
     {
@@ -1503,8 +1626,14 @@
      "date": "2026-11-03",
      "value": 64,
      "weight": 0.9
+    },
+    {
+     "date": "2026-11-04",
+     "value": 49,
+     "weight": 4.73
     }
    ],
+   "ended": "2026-11-04",
    "generation": 1
   },
   {
@@ -1971,15 +2100,15 @@
   {
    "id": "Elad Gil #1",
    "name": "Elad Gil",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-11-02",
-   "merit": 10.21,
-   "score": 77,
+   "merit": 15.08,
+   "score": 74,
    "stats": {
-    "merged": 47,
+    "merged": 63,
     "opened": 1,
     "issues": 2,
-    "hours": 13.3
+    "hours": 20.3
    },
    "series": [
     {
@@ -1991,8 +2120,14 @@
      "date": "2026-11-03",
      "value": 79,
      "weight": 10.55
+    },
+    {
+     "date": "2026-11-04",
+     "value": 69,
+     "weight": 7.05
     }
    ],
+   "ended": "2026-11-04",
    "generation": 1
   },
   {
@@ -2021,15 +2156,15 @@
   {
    "id": "Erik Nordlander #1",
    "name": "Erik Nordlander",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-10-27",
-   "merit": 20.79,
+   "merit": 29.11,
    "score": 62,
    "stats": {
     "merged": 3,
     "opened": 0,
-    "issues": 22,
-    "hours": 33.6
+    "issues": 38,
+    "hours": 47.0
    },
    "series": [
     {
@@ -2061,8 +2196,14 @@
      "date": "2026-11-03",
      "value": 65,
      "weight": 16.62
+    },
+    {
+     "date": "2026-11-04",
+     "value": 62,
+     "weight": 13.43
     }
    ],
+   "ended": "2026-11-04",
    "generation": 1
   },
   {
@@ -2567,15 +2708,15 @@
   {
    "id": "Jake Saper #1",
    "name": "Jake Saper",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-10-23",
-   "merit": 19.35,
+   "merit": 20.43,
    "score": 68,
    "stats": {
-    "merged": 40,
+    "merged": 43,
     "opened": 12,
-    "issues": 12,
-    "hours": 28.3
+    "issues": 13,
+    "hours": 30.0
    },
    "series": [
     {
@@ -2627,8 +2768,14 @@
      "date": "2026-11-03",
      "value": 65,
      "weight": 1.55
+    },
+    {
+     "date": "2026-11-04",
+     "value": 62,
+     "weight": 1.75
     }
    ],
+   "ended": "2026-11-04",
    "generation": 1
   },
   {
@@ -2969,10 +3116,10 @@
   {
    "id": "Jeff Clavier #1",
    "name": "Jeff Clavier",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-11-02",
-   "merit": 1.16,
-   "score": 66,
+   "merit": 1.2,
+   "score": 65,
    "stats": {
     "merged": 0,
     "opened": 0,
@@ -2989,8 +3136,14 @@
      "date": "2026-11-03",
      "value": 51,
      "weight": 0.85
+    },
+    {
+     "date": "2026-11-04",
+     "value": 55,
+     "weight": 0.07
     }
    ],
+   "ended": "2026-11-04",
    "generation": 1
   },
   {
@@ -3095,23 +3248,29 @@
   {
    "id": "Joe Lonsdale #1",
    "name": "Joe Lonsdale",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-11-03",
-   "merit": 6.12,
-   "score": 50,
+   "merit": 12.91,
+   "score": 52,
    "stats": {
-    "merged": 2,
+    "merged": 6,
     "opened": 0,
     "issues": 0,
-    "hours": 12.2
+    "hours": 25.1
    },
    "series": [
     {
      "date": "2026-11-03",
      "value": 50,
      "weight": 12.25
+    },
+    {
+     "date": "2026-11-04",
+     "value": 53,
+     "weight": 12.8
     }
    ],
+   "ended": "2026-11-04",
    "generation": 1
   },
   {
@@ -3138,9 +3297,32 @@
    "generation": 1
   },
   {
+   "id": "Joel de la Garza #2",
+   "name": "Joel de la Garza",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.2,
+   "score": 71,
+   "stats": {
+    "merged": 1,
+    "opened": 1,
+    "issues": 0,
+    "hours": 0.3
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 71,
+     "weight": 0.28
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2
+  },
+  {
    "id": "Joey Krug #1",
    "name": "Joey Krug",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-11-03",
    "merit": 1.62,
    "score": 62,
@@ -3157,6 +3339,7 @@
      "weight": 2.62
     }
    ],
+   "ended": "2026-11-03",
    "generation": 1
   },
   {
@@ -3190,51 +3373,63 @@
   {
    "id": "Jon Callaghan #1",
    "name": "Jon Callaghan",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-11-03",
-   "merit": 7.22,
-   "score": 55,
+   "merit": 13.99,
+   "score": 56,
    "stats": {
-    "merged": 6,
+    "merged": 13,
     "opened": 0,
     "issues": 0,
-    "hours": 13.1
+    "hours": 25.0
    },
    "series": [
     {
      "date": "2026-11-03",
      "value": 55,
      "weight": 13.13
+    },
+    {
+     "date": "2026-11-04",
+     "value": 57,
+     "weight": 11.88
     }
    ],
+   "ended": "2026-11-04",
    "generation": 1
   },
   {
    "id": "Jon Chu #1",
    "name": "Jon Chu",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-11-03",
-   "merit": 2.73,
-   "score": 66,
+   "merit": 4.08,
+   "score": 63,
    "stats": {
     "merged": 5,
     "opened": 0,
     "issues": 8,
-    "hours": 4.1
+    "hours": 6.5
    },
    "series": [
     {
      "date": "2026-11-03",
      "value": 66,
      "weight": 4.13
+    },
+    {
+     "date": "2026-11-04",
+     "value": 57,
+     "weight": 2.38
     }
    ],
+   "ended": "2026-11-04",
    "generation": 1
   },
   {
    "id": "Jorge Conde #1",
    "name": "Jorge Conde",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-11-02",
    "merit": 1.41,
    "score": 53,
@@ -3256,6 +3451,7 @@
      "weight": 0.13
     }
    ],
+   "ended": "2026-11-03",
    "generation": 1
   },
   {
@@ -3584,6 +3780,29 @@
    "generation": 1
   },
   {
+   "id": "Kimberly Tan #1",
+   "name": "Kimberly Tan",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 3.99,
+   "score": 57,
+   "stats": {
+    "merged": 5,
+    "opened": 1,
+    "issues": 0,
+    "hours": 7.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 57,
+     "weight": 7.0
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1
+  },
+  {
    "id": "Kristina Shen #1",
    "name": "Kristina Shen",
    "status": "ended",
@@ -3797,7 +4016,7 @@
   {
    "id": "Lauren Reeder #1",
    "name": "Lauren Reeder",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-11-02",
    "merit": 0.34,
    "score": 81,
@@ -3814,20 +4033,21 @@
      "weight": 0.42
     }
    ],
+   "ended": "2026-11-02",
    "generation": 1
   },
   {
    "id": "Leigh Marie Braswell #1",
    "name": "Leigh Marie Braswell",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-10-21",
-   "merit": 20.28,
-   "score": 61,
+   "merit": 22.08,
+   "score": 60,
    "stats": {
     "merged": 26,
     "opened": 4,
     "issues": 3,
-    "hours": 33.4
+    "hours": 36.6
    },
    "series": [
     {
@@ -3889,8 +4109,14 @@
      "date": "2026-11-03",
      "value": 57,
      "weight": 1.33
+    },
+    {
+     "date": "2026-11-04",
+     "value": 56,
+     "weight": 3.2
     }
    ],
+   "ended": "2026-11-04",
    "generation": 1
   },
   {
@@ -4064,7 +4290,7 @@
   {
    "id": "Marc Andreessen #2",
    "name": "Marc Andreessen",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-11-03",
    "merit": 1.44,
    "score": 67,
@@ -4081,6 +4307,7 @@
      "weight": 2.15
     }
    ],
+   "ended": "2026-11-03",
    "generation": 2
   },
   {
@@ -4360,15 +4587,15 @@
   {
    "id": "Mike Vernal #1",
    "name": "Mike Vernal",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-10-23",
-   "merit": 20.12,
+   "merit": 21.71,
    "score": 62,
    "stats": {
-    "merged": 34,
-    "opened": 2,
+    "merged": 36,
+    "opened": 4,
     "issues": 7,
-    "hours": 32.6
+    "hours": 35.0
    },
    "series": [
     {
@@ -4415,8 +4642,37 @@
      "date": "2026-11-03",
      "value": 65,
      "weight": 1.47
+    },
+    {
+     "date": "2026-11-04",
+     "value": 66,
+     "weight": 2.42
     }
    ],
+   "ended": "2026-11-04",
+   "generation": 1
+  },
+  {
+   "id": "Mitch Lasky #1",
+   "name": "Mitch Lasky",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 3.94,
+   "score": 56,
+   "stats": {
+    "merged": 3,
+    "opened": 1,
+    "issues": 0,
+    "hours": 7.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 56,
+     "weight": 7.03
+    }
+   ],
+   "ended": "2026-11-04",
    "generation": 1
   },
   {
@@ -4707,13 +4963,13 @@
    "name": "Unnamed",
    "status": "ended",
    "born": "2026-10-29",
-   "merit": 2.85,
-   "score": 58,
+   "merit": 2.95,
+   "score": 57,
    "stats": {
     "merged": 9,
     "opened": 0,
     "issues": 0,
-    "hours": 4.9
+    "hours": 5.2
    },
    "series": [
     {
@@ -4730,9 +4986,14 @@
      "date": "2026-10-31",
      "value": 44,
      "weight": 0.03
+    },
+    {
+     "date": "2026-11-04",
+     "value": 38,
+     "weight": 0.27
     }
    ],
-   "ended": "2026-10-31",
+   "ended": "2026-11-04",
    "generation": 1245
   },
   {
@@ -4906,7 +5167,7 @@
   {
    "id": "Paul Buchheit #3",
    "name": "Paul Buchheit",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-11-02",
    "merit": 1.56,
    "score": 60,
@@ -4923,6 +5184,7 @@
      "weight": 2.6
     }
    ],
+   "ended": "2026-11-02",
    "generation": 3
   },
   {
@@ -5269,7 +5531,7 @@
   {
    "id": "Raviraj Jain #1",
    "name": "Raviraj Jain",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-11-03",
    "merit": 1.85,
    "score": 63,
@@ -5286,6 +5548,7 @@
      "weight": 2.93
     }
    ],
+   "ended": "2026-11-03",
    "generation": 1
   },
   {
@@ -5419,13 +5682,13 @@
    "name": "Unnamed",
    "status": "ended",
    "born": "2026-10-10",
-   "merit": 11.74,
-   "score": 71,
+   "merit": 12.57,
+   "score": 69,
    "stats": {
-    "merged": 10,
+    "merged": 13,
     "opened": 10,
     "issues": 0,
-    "hours": 16.5
+    "hours": 18.2
    },
    "series": [
     {
@@ -5482,9 +5745,14 @@
      "date": "2026-10-29",
      "value": 65,
      "weight": 0.02
+    },
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 1.72
     }
    ],
-   "ended": "2026-10-29",
+   "ended": "2026-11-04",
    "generation": 41
   },
   {
@@ -5620,15 +5888,15 @@
   {
    "id": "Sameer Gandhi #1",
    "name": "Sameer Gandhi",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-10-21",
-   "merit": 30.02,
+   "merit": 33.27,
    "score": 57,
    "stats": {
     "merged": 1,
     "opened": 0,
-    "issues": 13,
-    "hours": 52.9
+    "issues": 14,
+    "hours": 58.5
    },
    "series": [
     {
@@ -5690,22 +5958,28 @@
      "date": "2026-11-03",
      "value": 74,
      "weight": 2.5
+    },
+    {
+     "date": "2026-11-04",
+     "value": 57,
+     "weight": 5.7
     }
    ],
+   "ended": "2026-11-04",
    "generation": 1
   },
   {
    "id": "Sonya Huang #1",
    "name": "Sonya Huang",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-10-28",
-   "merit": 5.43,
+   "merit": 6.18,
    "score": 53,
    "stats": {
     "merged": 0,
     "opened": 0,
     "issues": 0,
-    "hours": 10.3
+    "hours": 11.6
    },
    "series": [
     {
@@ -5732,8 +6006,14 @@
      "date": "2026-11-03",
      "value": 58,
      "weight": 3.95
+    },
+    {
+     "date": "2026-11-04",
+     "value": 57,
+     "weight": 1.32
     }
    ],
+   "ended": "2026-11-04",
    "generation": 1
   },
   {
@@ -5823,15 +6103,15 @@
   {
    "id": "Sundeep Peechu #1",
    "name": "Sundeep Peechu",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-10-26",
-   "merit": 6.57,
+   "merit": 6.64,
    "score": 56,
    "stats": {
-    "merged": 9,
+    "merged": 10,
     "opened": 4,
     "issues": 10,
-    "hours": 11.8
+    "hours": 11.9
    },
    "series": [
     {
@@ -5863,8 +6143,14 @@
      "date": "2026-11-03",
      "value": 61,
      "weight": 1.42
+    },
+    {
+     "date": "2026-11-04",
+     "value": 69,
+     "weight": 0.1
     }
    ],
+   "ended": "2026-11-04",
    "generation": 1
   },
   {
@@ -13699,7 +13985,7 @@
   {
    "id": "Unnamed #1326",
    "name": "Unnamed",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-11-01",
    "merit": 0.03,
    "score": 38,
@@ -13721,6 +14007,7 @@
      "weight": 0.05
     }
    ],
+   "ended": "2026-11-02",
    "generation": 1326
   },
   {
@@ -23312,6 +23599,190 @@
    "generation": 1702
   },
   {
+   "id": "Unnamed #1703",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.33,
+   "score": 38,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.9
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 38,
+     "weight": 0.87
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1703
+  },
+  {
+   "id": "Unnamed #1704",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 42,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 42,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1704
+  },
+  {
+   "id": "Unnamed #1705",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 39,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 39,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1705
+  },
+  {
+   "id": "Unnamed #1706",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1706
+  },
+  {
+   "id": "Unnamed #1707",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1707
+  },
+  {
+   "id": "Unnamed #1708",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.04,
+   "score": 44,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 44,
+     "weight": 0.1
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1708
+  },
+  {
+   "id": "Unnamed #1709",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.04,
+   "score": 45,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 45,
+     "weight": 0.08
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1709
+  },
+  {
+   "id": "Unnamed #1710",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 41,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 41,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1710
+  },
+  {
    "id": "Unnamed #186",
    "name": "Unnamed",
    "status": "ended",
@@ -23335,6 +23806,236 @@
    "generation": 186
   },
   {
+   "id": "Unnamed #1711",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1711
+  },
+  {
+   "id": "Unnamed #1712",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.05,
+   "score": 49,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 49,
+     "weight": 0.1
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1712
+  },
+  {
+   "id": "Unnamed #1713",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.09,
+   "score": 49,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.2
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 49,
+     "weight": 0.18
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1713
+  },
+  {
+   "id": "Unnamed #1714",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1714
+  },
+  {
+   "id": "Unnamed #1715",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 49,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 49,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1715
+  },
+  {
+   "id": "Unnamed #1716",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 35,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 35,
+     "weight": 0.08
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1716
+  },
+  {
+   "id": "Unnamed #1717",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 37,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 37,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1717
+  },
+  {
+   "id": "Unnamed #1718",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1718
+  },
+  {
+   "id": "Unnamed #1719",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1719
+  },
+  {
+   "id": "Unnamed #1720",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.04,
+   "score": 51,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 51,
+     "weight": 0.08
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1720
+  },
+  {
    "id": "Unnamed #187",
    "name": "Unnamed",
    "status": "ended",
@@ -23356,6 +24057,236 @@
    ],
    "ended": "2026-10-16",
    "generation": 187
+  },
+  {
+   "id": "Unnamed #1721",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.08,
+   "score": 38,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.2
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 38,
+     "weight": 0.22
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1721
+  },
+  {
+   "id": "Unnamed #1722",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1722
+  },
+  {
+   "id": "Unnamed #1723",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.04,
+   "score": 49,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 49,
+     "weight": 0.08
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1723
+  },
+  {
+   "id": "Unnamed #1724",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1724
+  },
+  {
+   "id": "Unnamed #1725",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.04,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.08
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1725
+  },
+  {
+   "id": "Unnamed #1726",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1726
+  },
+  {
+   "id": "Unnamed #1727",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 36,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 36,
+     "weight": 0.07
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1727
+  },
+  {
+   "id": "Unnamed #1728",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1728
+  },
+  {
+   "id": "Unnamed #1729",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1729
+  },
+  {
+   "id": "Unnamed #1730",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1730
   },
   {
    "id": "Unnamed #21",
@@ -23404,6 +24335,236 @@
    "generation": 188
   },
   {
+   "id": "Unnamed #1731",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1731
+  },
+  {
+   "id": "Unnamed #1732",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 49,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 49,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1732
+  },
+  {
+   "id": "Unnamed #1733",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 35,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 35,
+     "weight": 0.07
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1733
+  },
+  {
+   "id": "Unnamed #1734",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1734
+  },
+  {
+   "id": "Unnamed #1735",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1735
+  },
+  {
+   "id": "Unnamed #1736",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.05,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.1
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1736
+  },
+  {
+   "id": "Unnamed #1737",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 45,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 45,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1737
+  },
+  {
+   "id": "Unnamed #1738",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.06,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.12
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1738
+  },
+  {
+   "id": "Unnamed #1739",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.07
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1739
+  },
+  {
+   "id": "Unnamed #1740",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1740
+  },
+  {
    "id": "Unnamed #189",
    "name": "Unnamed",
    "status": "ended",
@@ -23425,6 +24586,236 @@
    ],
    "ended": "2026-10-16",
    "generation": 189
+  },
+  {
+   "id": "Unnamed #1741",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 45,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 45,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1741
+  },
+  {
+   "id": "Unnamed #1742",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1742
+  },
+  {
+   "id": "Unnamed #1743",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1743
+  },
+  {
+   "id": "Unnamed #1744",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1744
+  },
+  {
+   "id": "Unnamed #1745",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1745
+  },
+  {
+   "id": "Unnamed #1746",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.04,
+   "score": 38,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 38,
+     "weight": 0.1
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1746
+  },
+  {
+   "id": "Unnamed #1747",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1747
+  },
+  {
+   "id": "Unnamed #1748",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 38,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 38,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1748
+  },
+  {
+   "id": "Unnamed #1749",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 39,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 39,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1749
+  },
+  {
+   "id": "Unnamed #1750",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1750
   },
   {
    "id": "Unnamed #190",
@@ -23450,6 +24841,236 @@
    "generation": 190
   },
   {
+   "id": "Unnamed #1751",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1751
+  },
+  {
+   "id": "Unnamed #1752",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.05,
+   "score": 39,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 39,
+     "weight": 0.12
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1752
+  },
+  {
+   "id": "Unnamed #1753",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1753
+  },
+  {
+   "id": "Unnamed #1754",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1754
+  },
+  {
+   "id": "Unnamed #1755",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.04,
+   "score": 37,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 37,
+     "weight": 0.1
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1755
+  },
+  {
+   "id": "Unnamed #1756",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 43,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 43,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1756
+  },
+  {
+   "id": "Unnamed #1757",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 42,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 42,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1757
+  },
+  {
+   "id": "Unnamed #1758",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1758
+  },
+  {
+   "id": "Unnamed #1759",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 44,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 44,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1759
+  },
+  {
+   "id": "Unnamed #1760",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 35,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 35,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1760
+  },
+  {
    "id": "Unnamed #191",
    "name": "Unnamed",
    "status": "ended",
@@ -23471,6 +25092,236 @@
    ],
    "ended": "2026-10-16",
    "generation": 191
+  },
+  {
+   "id": "Unnamed #1761",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 37,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 37,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1761
+  },
+  {
+   "id": "Unnamed #1762",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1762
+  },
+  {
+   "id": "Unnamed #1763",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.04,
+   "score": 36,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 36,
+     "weight": 0.1
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1763
+  },
+  {
+   "id": "Unnamed #1764",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 39,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 39,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1764
+  },
+  {
+   "id": "Unnamed #1765",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 42,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 42,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1765
+  },
+  {
+   "id": "Unnamed #1766",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 37,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 37,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1766
+  },
+  {
+   "id": "Unnamed #1767",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1767
+  },
+  {
+   "id": "Unnamed #1768",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 41,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 41,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1768
+  },
+  {
+   "id": "Unnamed #1769",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1769
+  },
+  {
+   "id": "Unnamed #1770",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 39,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 39,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1770
   },
   {
    "id": "Unnamed #192",
@@ -23496,6 +25347,236 @@
    "generation": 192
   },
   {
+   "id": "Unnamed #1771",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.05,
+   "score": 50,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 50,
+     "weight": 0.1
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1771
+  },
+  {
+   "id": "Unnamed #1772",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 50,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 50,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1772
+  },
+  {
+   "id": "Unnamed #1773",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 38,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 38,
+     "weight": 0.07
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1773
+  },
+  {
+   "id": "Unnamed #1774",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1774
+  },
+  {
+   "id": "Unnamed #1775",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 40,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 40,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1775
+  },
+  {
+   "id": "Unnamed #1776",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1776
+  },
+  {
+   "id": "Unnamed #1777",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1777
+  },
+  {
+   "id": "Unnamed #1778",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 40,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 40,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1778
+  },
+  {
+   "id": "Unnamed #1779",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 44,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 44,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1779
+  },
+  {
+   "id": "Unnamed #1780",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 36,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 36,
+     "weight": 0.07
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1780
+  },
+  {
    "id": "Unnamed #193",
    "name": "Unnamed",
    "status": "ended",
@@ -23517,6 +25598,236 @@
    ],
    "ended": "2026-10-16",
    "generation": 193
+  },
+  {
+   "id": "Unnamed #1781",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 35,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 35,
+     "weight": 0.08
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1781
+  },
+  {
+   "id": "Unnamed #1782",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1782
+  },
+  {
+   "id": "Unnamed #1783",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 35,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 35,
+     "weight": 0.07
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1783
+  },
+  {
+   "id": "Unnamed #1784",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 42,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 42,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1784
+  },
+  {
+   "id": "Unnamed #1785",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 36,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 36,
+     "weight": 0.08
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1785
+  },
+  {
+   "id": "Unnamed #1786",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 35,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 35,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1786
+  },
+  {
+   "id": "Unnamed #1787",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 35,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 35,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1787
+  },
+  {
+   "id": "Unnamed #1788",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 38,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 38,
+     "weight": 0.08
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1788
+  },
+  {
+   "id": "Unnamed #1789",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 36,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 36,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1789
+  },
+  {
+   "id": "Unnamed #1790",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 35,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 35,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1790
   },
   {
    "id": "Unnamed #194",
@@ -23542,6 +25853,236 @@
    "generation": 194
   },
   {
+   "id": "Unnamed #1791",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 39,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 39,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1791
+  },
+  {
+   "id": "Unnamed #1792",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 40,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 40,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1792
+  },
+  {
+   "id": "Unnamed #1793",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 35,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 35,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1793
+  },
+  {
+   "id": "Unnamed #1794",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 35,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 35,
+     "weight": 0.08
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1794
+  },
+  {
+   "id": "Unnamed #1795",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 40,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 40,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1795
+  },
+  {
+   "id": "Unnamed #1796",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 40,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 40,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1796
+  },
+  {
+   "id": "Unnamed #1797",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 39,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 39,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1797
+  },
+  {
+   "id": "Unnamed #1798",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 35,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 35,
+     "weight": 0.08
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1798
+  },
+  {
+   "id": "Unnamed #1799",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 38,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 38,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1799
+  },
+  {
+   "id": "Unnamed #1800",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 42,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 42,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1800
+  },
+  {
    "id": "Unnamed #195",
    "name": "Unnamed",
    "status": "ended",
@@ -23563,6 +26104,236 @@
    ],
    "ended": "2026-10-16",
    "generation": 195
+  },
+  {
+   "id": "Unnamed #1801",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 36,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 36,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1801
+  },
+  {
+   "id": "Unnamed #1802",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 34,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 34,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1802
+  },
+  {
+   "id": "Unnamed #1803",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 42,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 42,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1803
+  },
+  {
+   "id": "Unnamed #1804",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 36,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 36,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1804
+  },
+  {
+   "id": "Unnamed #1805",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 35,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 35,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1805
+  },
+  {
+   "id": "Unnamed #1806",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.09,
+   "score": 50,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.2
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 50,
+     "weight": 0.18
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1806
+  },
+  {
+   "id": "Unnamed #1807",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 33,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 33,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1807
+  },
+  {
+   "id": "Unnamed #1808",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 34,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 34,
+     "weight": 0.07
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1808
+  },
+  {
+   "id": "Unnamed #1809",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.04,
+   "score": 36,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 36,
+     "weight": 0.1
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1809
+  },
+  {
+   "id": "Unnamed #1810",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 44,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 44,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1810
   },
   {
    "id": "Unnamed #196",
@@ -23588,6 +26359,236 @@
    "generation": 196
   },
   {
+   "id": "Unnamed #1811",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.09,
+   "score": 41,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.2
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 41,
+     "weight": 0.23
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1811
+  },
+  {
+   "id": "Unnamed #1812",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 43,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 43,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1812
+  },
+  {
+   "id": "Unnamed #1813",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1813
+  },
+  {
+   "id": "Unnamed #1814",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 37,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 37,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1814
+  },
+  {
+   "id": "Unnamed #1815",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 40,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 40,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1815
+  },
+  {
+   "id": "Unnamed #1816",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 35,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 35,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1816
+  },
+  {
+   "id": "Unnamed #1817",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1817
+  },
+  {
+   "id": "Unnamed #1818",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1818
+  },
+  {
+   "id": "Unnamed #1819",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1819
+  },
+  {
+   "id": "Unnamed #1820",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 44,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 44,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1820
+  },
+  {
    "id": "Unnamed #197",
    "name": "Unnamed",
    "status": "ended",
@@ -23609,6 +26610,236 @@
    ],
    "ended": "2026-10-16",
    "generation": 197
+  },
+  {
+   "id": "Unnamed #1821",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 45,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 45,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1821
+  },
+  {
+   "id": "Unnamed #1822",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 43,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 43,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1822
+  },
+  {
+   "id": "Unnamed #1823",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.05,
+   "score": 50,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 50,
+     "weight": 0.1
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1823
+  },
+  {
+   "id": "Unnamed #1824",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 43,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 43,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1824
+  },
+  {
+   "id": "Unnamed #1825",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1825
+  },
+  {
+   "id": "Unnamed #1826",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1826
+  },
+  {
+   "id": "Unnamed #1827",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.04,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.08
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1827
+  },
+  {
+   "id": "Unnamed #1828",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1828
+  },
+  {
+   "id": "Unnamed #1829",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 45,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 45,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1829
+  },
+  {
+   "id": "Unnamed #1830",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 42,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 42,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1830
   },
   {
    "id": "Unnamed #22",
@@ -23657,6 +26888,236 @@
    "generation": 198
   },
   {
+   "id": "Unnamed #1831",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1831
+  },
+  {
+   "id": "Unnamed #1832",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1832
+  },
+  {
+   "id": "Unnamed #1833",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 36,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 36,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1833
+  },
+  {
+   "id": "Unnamed #1834",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 44,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 44,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1834
+  },
+  {
+   "id": "Unnamed #1835",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1835
+  },
+  {
+   "id": "Unnamed #1836",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1836
+  },
+  {
+   "id": "Unnamed #1837",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 38,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 38,
+     "weight": 0.08
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1837
+  },
+  {
+   "id": "Unnamed #1838",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1838
+  },
+  {
+   "id": "Unnamed #1839",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 39,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 39,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1839
+  },
+  {
+   "id": "Unnamed #1840",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1840
+  },
+  {
    "id": "Unnamed #199",
    "name": "Unnamed",
    "status": "ended",
@@ -23678,6 +27139,236 @@
    ],
    "ended": "2026-10-16",
    "generation": 199
+  },
+  {
+   "id": "Unnamed #1841",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1841
+  },
+  {
+   "id": "Unnamed #1842",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 39,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 39,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1842
+  },
+  {
+   "id": "Unnamed #1843",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 45,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 45,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1843
+  },
+  {
+   "id": "Unnamed #1844",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1844
+  },
+  {
+   "id": "Unnamed #1845",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 40,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 40,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1845
+  },
+  {
+   "id": "Unnamed #1846",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 38,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 38,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1846
+  },
+  {
+   "id": "Unnamed #1847",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 38,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 38,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1847
+  },
+  {
+   "id": "Unnamed #1848",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1848
+  },
+  {
+   "id": "Unnamed #1849",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 39,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 39,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1849
+  },
+  {
+   "id": "Unnamed #1850",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 40,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 40,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1850
   },
   {
    "id": "Unnamed #200",
@@ -23703,6 +27394,236 @@
    "generation": 200
   },
   {
+   "id": "Unnamed #1851",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 49,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 49,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1851
+  },
+  {
+   "id": "Unnamed #1852",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1852
+  },
+  {
+   "id": "Unnamed #1853",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 40,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 40,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1853
+  },
+  {
+   "id": "Unnamed #1854",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 45,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 45,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1854
+  },
+  {
+   "id": "Unnamed #1855",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 40,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 40,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1855
+  },
+  {
+   "id": "Unnamed #1856",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.07,
+   "score": 50,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 50,
+     "weight": 0.15
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1856
+  },
+  {
+   "id": "Unnamed #1857",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1857
+  },
+  {
+   "id": "Unnamed #1858",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 42,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 42,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1858
+  },
+  {
+   "id": "Unnamed #1859",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1859
+  },
+  {
+   "id": "Unnamed #1860",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1860
+  },
+  {
    "id": "Unnamed #201",
    "name": "Unnamed",
    "status": "ended",
@@ -23724,6 +27645,236 @@
    ],
    "ended": "2026-10-16",
    "generation": 201
+  },
+  {
+   "id": "Unnamed #1861",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 36,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 36,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1861
+  },
+  {
+   "id": "Unnamed #1862",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 37,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 37,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1862
+  },
+  {
+   "id": "Unnamed #1863",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1863
+  },
+  {
+   "id": "Unnamed #1864",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1864
+  },
+  {
+   "id": "Unnamed #1865",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1865
+  },
+  {
+   "id": "Unnamed #1866",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 45,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 45,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1866
+  },
+  {
+   "id": "Unnamed #1867",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.06,
+   "score": 49,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 49,
+     "weight": 0.12
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1867
+  },
+  {
+   "id": "Unnamed #1868",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1868
+  },
+  {
+   "id": "Unnamed #1869",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1869
+  },
+  {
+   "id": "Unnamed #1870",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.04,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.08
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1870
   },
   {
    "id": "Unnamed #202",
@@ -23749,6 +27900,236 @@
    "generation": 202
   },
   {
+   "id": "Unnamed #1871",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 38,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 38,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1871
+  },
+  {
+   "id": "Unnamed #1872",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 39,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 39,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1872
+  },
+  {
+   "id": "Unnamed #1873",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1873
+  },
+  {
+   "id": "Unnamed #1874",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 49,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 49,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1874
+  },
+  {
+   "id": "Unnamed #1875",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1875
+  },
+  {
+   "id": "Unnamed #1876",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.07,
+   "score": 49,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 49,
+     "weight": 0.15
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1876
+  },
+  {
+   "id": "Unnamed #1877",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 36,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 36,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1877
+  },
+  {
+   "id": "Unnamed #1878",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.04,
+   "score": 50,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 50,
+     "weight": 0.08
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1878
+  },
+  {
+   "id": "Unnamed #1879",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1879
+  },
+  {
+   "id": "Unnamed #1880",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 45,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 45,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1880
+  },
+  {
    "id": "Unnamed #203",
    "name": "Unnamed",
    "status": "ended",
@@ -23770,6 +28151,236 @@
    ],
    "ended": "2026-10-16",
    "generation": 203
+  },
+  {
+   "id": "Unnamed #1881",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 39,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 39,
+     "weight": 0.07
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1881
+  },
+  {
+   "id": "Unnamed #1882",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.14,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.3
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.3
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1882
+  },
+  {
+   "id": "Unnamed #1883",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 39,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 39,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1883
+  },
+  {
+   "id": "Unnamed #1884",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.13,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.3
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.28
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1884
+  },
+  {
+   "id": "Unnamed #1885",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1885
+  },
+  {
+   "id": "Unnamed #1886",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.05,
+   "score": 49,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 49,
+     "weight": 0.1
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1886
+  },
+  {
+   "id": "Unnamed #1887",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.04,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.08
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1887
+  },
+  {
+   "id": "Unnamed #1888",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.05,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.1
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1888
+  },
+  {
+   "id": "Unnamed #1889",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 49,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 49,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1889
+  },
+  {
+   "id": "Unnamed #1890",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 41,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 41,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1890
   },
   {
    "id": "Unnamed #204",
@@ -23795,6 +28406,236 @@
    "generation": 204
   },
   {
+   "id": "Unnamed #1891",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 45,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 45,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1891
+  },
+  {
+   "id": "Unnamed #1892",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1892
+  },
+  {
+   "id": "Unnamed #1893",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.07,
+   "score": 49,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 49,
+     "weight": 0.15
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1893
+  },
+  {
+   "id": "Unnamed #1894",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.04,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.08
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1894
+  },
+  {
+   "id": "Unnamed #1895",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1895
+  },
+  {
+   "id": "Unnamed #1896",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 38,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 38,
+     "weight": 0.07
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1896
+  },
+  {
+   "id": "Unnamed #1897",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.24,
+   "score": 51,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.5
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 51,
+     "weight": 0.48
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1897
+  },
+  {
+   "id": "Unnamed #1898",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 41,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 41,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1898
+  },
+  {
+   "id": "Unnamed #1899",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1899
+  },
+  {
+   "id": "Unnamed #1900",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.08,
+   "score": 45,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.2
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 45,
+     "weight": 0.17
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1900
+  },
+  {
    "id": "Unnamed #205",
    "name": "Unnamed",
    "status": "ended",
@@ -23816,6 +28657,236 @@
    ],
    "ended": "2026-10-16",
    "generation": 205
+  },
+  {
+   "id": "Unnamed #1901",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1901
+  },
+  {
+   "id": "Unnamed #1902",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 35,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 35,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1902
+  },
+  {
+   "id": "Unnamed #1903",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.04,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.08
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1903
+  },
+  {
+   "id": "Unnamed #1904",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 45,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 45,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1904
+  },
+  {
+   "id": "Unnamed #1905",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1905
+  },
+  {
+   "id": "Unnamed #1906",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 43,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 43,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1906
+  },
+  {
+   "id": "Unnamed #1907",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1907
+  },
+  {
+   "id": "Unnamed #1908",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1908
+  },
+  {
+   "id": "Unnamed #1909",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1909
+  },
+  {
+   "id": "Unnamed #1910",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 49,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 49,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1910
   },
   {
    "id": "Unnamed #206",
@@ -23841,6 +28912,236 @@
    "generation": 206
   },
   {
+   "id": "Unnamed #1911",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 34,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 34,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1911
+  },
+  {
+   "id": "Unnamed #1912",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1912
+  },
+  {
+   "id": "Unnamed #1913",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.08,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.2
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.17
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1913
+  },
+  {
+   "id": "Unnamed #1914",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 43,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 43,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1914
+  },
+  {
+   "id": "Unnamed #1915",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 45,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 45,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1915
+  },
+  {
+   "id": "Unnamed #1916",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 35,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 35,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1916
+  },
+  {
+   "id": "Unnamed #1917",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1917
+  },
+  {
+   "id": "Unnamed #1918",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 36,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 36,
+     "weight": 0.08
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1918
+  },
+  {
+   "id": "Unnamed #1919",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 40,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 40,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1919
+  },
+  {
+   "id": "Unnamed #1920",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1920
+  },
+  {
    "id": "Unnamed #207",
    "name": "Unnamed",
    "status": "ended",
@@ -23862,6 +29163,236 @@
    ],
    "ended": "2026-10-16",
    "generation": 207
+  },
+  {
+   "id": "Unnamed #1921",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.07
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1921
+  },
+  {
+   "id": "Unnamed #1922",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 44,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 44,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1922
+  },
+  {
+   "id": "Unnamed #1923",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 49,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 49,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1923
+  },
+  {
+   "id": "Unnamed #1924",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 40,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 40,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1924
+  },
+  {
+   "id": "Unnamed #1925",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 36,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 36,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1925
+  },
+  {
+   "id": "Unnamed #1926",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.05,
+   "score": 49,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 49,
+     "weight": 0.1
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1926
+  },
+  {
+   "id": "Unnamed #1927",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1927
+  },
+  {
+   "id": "Unnamed #1928",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 44,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 44,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1928
+  },
+  {
+   "id": "Unnamed #1929",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1929
+  },
+  {
+   "id": "Unnamed #1930",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 49,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 49,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1930
   },
   {
    "id": "Unnamed #23",
@@ -23910,6 +29441,236 @@
    "generation": 208
   },
   {
+   "id": "Unnamed #1931",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 36,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 36,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1931
+  },
+  {
+   "id": "Unnamed #1932",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 37,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 37,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1932
+  },
+  {
+   "id": "Unnamed #1933",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 39,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 39,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1933
+  },
+  {
+   "id": "Unnamed #1934",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.06,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.12
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1934
+  },
+  {
+   "id": "Unnamed #1935",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1935
+  },
+  {
+   "id": "Unnamed #1936",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1936
+  },
+  {
+   "id": "Unnamed #1937",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 39,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 39,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1937
+  },
+  {
+   "id": "Unnamed #1938",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 49,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 49,
+     "weight": 0.07
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1938
+  },
+  {
+   "id": "Unnamed #1939",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.05,
+   "score": 49,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 49,
+     "weight": 0.1
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1939
+  },
+  {
+   "id": "Unnamed #1940",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1940
+  },
+  {
    "id": "Unnamed #209",
    "name": "Unnamed",
    "status": "ended",
@@ -23931,6 +29692,236 @@
    ],
    "ended": "2026-10-16",
    "generation": 209
+  },
+  {
+   "id": "Unnamed #1941",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 49,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 49,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1941
+  },
+  {
+   "id": "Unnamed #1942",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 38,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 38,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1942
+  },
+  {
+   "id": "Unnamed #1943",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 37,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 37,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1943
+  },
+  {
+   "id": "Unnamed #1944",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 36,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 36,
+     "weight": 0.07
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1944
+  },
+  {
+   "id": "Unnamed #1945",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 42,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 42,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1945
+  },
+  {
+   "id": "Unnamed #1946",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1946
+  },
+  {
+   "id": "Unnamed #1947",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1947
+  },
+  {
+   "id": "Unnamed #1948",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.04,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.08
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1948
+  },
+  {
+   "id": "Unnamed #1949",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 40,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 40,
+     "weight": 0.08
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1949
+  },
+  {
+   "id": "Unnamed #1950",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1950
   },
   {
    "id": "Unnamed #210",
@@ -23956,6 +29947,236 @@
    "generation": 210
   },
   {
+   "id": "Unnamed #1951",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1951
+  },
+  {
+   "id": "Unnamed #1952",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.07
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1952
+  },
+  {
+   "id": "Unnamed #1953",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 44,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 44,
+     "weight": 0.07
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1953
+  },
+  {
+   "id": "Unnamed #1954",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1954
+  },
+  {
+   "id": "Unnamed #1955",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1955
+  },
+  {
+   "id": "Unnamed #1956",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 42,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 42,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1956
+  },
+  {
+   "id": "Unnamed #1957",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 35,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 35,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1957
+  },
+  {
+   "id": "Unnamed #1958",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 42,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 42,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1958
+  },
+  {
+   "id": "Unnamed #1959",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1959
+  },
+  {
+   "id": "Unnamed #1960",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 49,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 49,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1960
+  },
+  {
    "id": "Unnamed #211",
    "name": "Unnamed",
    "status": "ended",
@@ -23977,6 +30198,236 @@
    ],
    "ended": "2026-10-16",
    "generation": 211
+  },
+  {
+   "id": "Unnamed #1961",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 45,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 45,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1961
+  },
+  {
+   "id": "Unnamed #1962",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 45,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 45,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1962
+  },
+  {
+   "id": "Unnamed #1963",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 43,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 43,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1963
+  },
+  {
+   "id": "Unnamed #1964",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1964
+  },
+  {
+   "id": "Unnamed #1965",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 40,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 40,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1965
+  },
+  {
+   "id": "Unnamed #1966",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1966
+  },
+  {
+   "id": "Unnamed #1967",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.07,
+   "score": 51,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 51,
+     "weight": 0.13
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1967
+  },
+  {
+   "id": "Unnamed #1968",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 41,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 41,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1968
+  },
+  {
+   "id": "Unnamed #1969",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 43,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 43,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1969
+  },
+  {
+   "id": "Unnamed #1970",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.04,
+   "score": 49,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 49,
+     "weight": 0.08
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1970
   },
   {
    "id": "Unnamed #212",
@@ -24002,6 +30453,236 @@
    "generation": 212
   },
   {
+   "id": "Unnamed #1971",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 39,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 39,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1971
+  },
+  {
+   "id": "Unnamed #1972",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1972
+  },
+  {
+   "id": "Unnamed #1973",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.06,
+   "score": 41,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 41,
+     "weight": 0.15
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1973
+  },
+  {
+   "id": "Unnamed #1974",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 39,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 39,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1974
+  },
+  {
+   "id": "Unnamed #1975",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 38,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 38,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1975
+  },
+  {
+   "id": "Unnamed #1976",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 36,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 36,
+     "weight": 0.08
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1976
+  },
+  {
+   "id": "Unnamed #1977",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.04,
+   "score": 49,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 49,
+     "weight": 0.08
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1977
+  },
+  {
+   "id": "Unnamed #1978",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.07
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1978
+  },
+  {
+   "id": "Unnamed #1979",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1979
+  },
+  {
+   "id": "Unnamed #1980",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 44,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 44,
+     "weight": 0.07
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1980
+  },
+  {
    "id": "Unnamed #213",
    "name": "Unnamed",
    "status": "ended",
@@ -24023,6 +30704,236 @@
    ],
    "ended": "2026-10-16",
    "generation": 213
+  },
+  {
+   "id": "Unnamed #1981",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1981
+  },
+  {
+   "id": "Unnamed #1982",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1982
+  },
+  {
+   "id": "Unnamed #1983",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.05,
+   "score": 43,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 43,
+     "weight": 0.12
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1983
+  },
+  {
+   "id": "Unnamed #1984",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.05,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.1
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1984
+  },
+  {
+   "id": "Unnamed #1985",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 42,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 42,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1985
+  },
+  {
+   "id": "Unnamed #1986",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1986
+  },
+  {
+   "id": "Unnamed #1987",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1987
+  },
+  {
+   "id": "Unnamed #1988",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1988
+  },
+  {
+   "id": "Unnamed #1989",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 36,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 36,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1989
+  },
+  {
+   "id": "Unnamed #1990",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1990
   },
   {
    "id": "Unnamed #214",
@@ -24048,6 +30959,236 @@
    "generation": 214
   },
   {
+   "id": "Unnamed #1991",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 38,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 38,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1991
+  },
+  {
+   "id": "Unnamed #1992",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1992
+  },
+  {
+   "id": "Unnamed #1993",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.04,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.08
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1993
+  },
+  {
+   "id": "Unnamed #1994",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1994
+  },
+  {
+   "id": "Unnamed #1995",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1995
+  },
+  {
+   "id": "Unnamed #1996",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1996
+  },
+  {
+   "id": "Unnamed #1997",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.17,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.4
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.37
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1997
+  },
+  {
+   "id": "Unnamed #1998",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 41,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 41,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1998
+  },
+  {
+   "id": "Unnamed #1999",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 1999
+  },
+  {
+   "id": "Unnamed #2000",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.04,
+   "score": 45,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 45,
+     "weight": 0.08
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2000
+  },
+  {
    "id": "Unnamed #215",
    "name": "Unnamed",
    "status": "ended",
@@ -24069,6 +31210,236 @@
    ],
    "ended": "2026-10-16",
    "generation": 215
+  },
+  {
+   "id": "Unnamed #2001",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 50,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 50,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2001
+  },
+  {
+   "id": "Unnamed #2002",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.04,
+   "score": 36,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 36,
+     "weight": 0.1
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2002
+  },
+  {
+   "id": "Unnamed #2003",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 43,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 43,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2003
+  },
+  {
+   "id": "Unnamed #2004",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2004
+  },
+  {
+   "id": "Unnamed #2005",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2005
+  },
+  {
+   "id": "Unnamed #2006",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2006
+  },
+  {
+   "id": "Unnamed #2007",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2007
+  },
+  {
+   "id": "Unnamed #2008",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2008
+  },
+  {
+   "id": "Unnamed #2009",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.04,
+   "score": 51,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 51,
+     "weight": 0.08
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2009
+  },
+  {
+   "id": "Unnamed #2010",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.05,
+   "score": 50,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 50,
+     "weight": 0.1
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2010
   },
   {
    "id": "Unnamed #216",
@@ -24094,6 +31465,236 @@
    "generation": 216
   },
   {
+   "id": "Unnamed #2011",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 49,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 49,
+     "weight": 0.07
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2011
+  },
+  {
+   "id": "Unnamed #2012",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 40,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 40,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2012
+  },
+  {
+   "id": "Unnamed #2013",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 39,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 39,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2013
+  },
+  {
+   "id": "Unnamed #2014",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 43,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 43,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2014
+  },
+  {
+   "id": "Unnamed #2015",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2015
+  },
+  {
+   "id": "Unnamed #2016",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2016
+  },
+  {
+   "id": "Unnamed #2017",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 49,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 49,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2017
+  },
+  {
+   "id": "Unnamed #2018",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 34,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 34,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2018
+  },
+  {
+   "id": "Unnamed #2019",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 35,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 35,
+     "weight": 0.08
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2019
+  },
+  {
+   "id": "Unnamed #2020",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 38,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 38,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2020
+  },
+  {
    "id": "Unnamed #217",
    "name": "Unnamed",
    "status": "ended",
@@ -24115,6 +31716,236 @@
    ],
    "ended": "2026-10-16",
    "generation": 217
+  },
+  {
+   "id": "Unnamed #2021",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.16,
+   "score": 50,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.3
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 50,
+     "weight": 0.32
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2021
+  },
+  {
+   "id": "Unnamed #2022",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2022
+  },
+  {
+   "id": "Unnamed #2023",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2023
+  },
+  {
+   "id": "Unnamed #2024",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2024
+  },
+  {
+   "id": "Unnamed #2025",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2025
+  },
+  {
+   "id": "Unnamed #2026",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 41,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 41,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2026
+  },
+  {
+   "id": "Unnamed #2027",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2027
+  },
+  {
+   "id": "Unnamed #2028",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2028
+  },
+  {
+   "id": "Unnamed #2029",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 45,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 45,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2029
+  },
+  {
+   "id": "Unnamed #2030",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.07
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2030
   },
   {
    "id": "Unnamed #3",
@@ -24186,6 +32017,236 @@
    "generation": 218
   },
   {
+   "id": "Unnamed #2031",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 37,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 37,
+     "weight": 0.08
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2031
+  },
+  {
+   "id": "Unnamed #2032",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 45,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 45,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2032
+  },
+  {
+   "id": "Unnamed #2033",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2033
+  },
+  {
+   "id": "Unnamed #2034",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2034
+  },
+  {
+   "id": "Unnamed #2035",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2035
+  },
+  {
+   "id": "Unnamed #2036",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 42,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 42,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2036
+  },
+  {
+   "id": "Unnamed #2037",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2037
+  },
+  {
+   "id": "Unnamed #2038",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2038
+  },
+  {
+   "id": "Unnamed #2039",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.07
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2039
+  },
+  {
+   "id": "Unnamed #2040",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2040
+  },
+  {
    "id": "Unnamed #219",
    "name": "Unnamed",
    "status": "ended",
@@ -24207,6 +32268,236 @@
    ],
    "ended": "2026-10-16",
    "generation": 219
+  },
+  {
+   "id": "Unnamed #2041",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 37,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 37,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2041
+  },
+  {
+   "id": "Unnamed #2042",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2042
+  },
+  {
+   "id": "Unnamed #2043",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 38,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 38,
+     "weight": 0.07
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2043
+  },
+  {
+   "id": "Unnamed #2044",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.07
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2044
+  },
+  {
+   "id": "Unnamed #2045",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.05,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.1
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2045
+  },
+  {
+   "id": "Unnamed #2046",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2046
+  },
+  {
+   "id": "Unnamed #2047",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 43,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 43,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2047
+  },
+  {
+   "id": "Unnamed #2048",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2048
+  },
+  {
+   "id": "Unnamed #2049",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 37,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 37,
+     "weight": 0.07
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2049
+  },
+  {
+   "id": "Unnamed #2050",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2050
   },
   {
    "id": "Unnamed #220",
@@ -24232,6 +32523,236 @@
    "generation": 220
   },
   {
+   "id": "Unnamed #2051",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 45,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 45,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2051
+  },
+  {
+   "id": "Unnamed #2052",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2052
+  },
+  {
+   "id": "Unnamed #2053",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2053
+  },
+  {
+   "id": "Unnamed #2054",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 45,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 45,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2054
+  },
+  {
+   "id": "Unnamed #2055",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2055
+  },
+  {
+   "id": "Unnamed #2056",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 45,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 45,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2056
+  },
+  {
+   "id": "Unnamed #2057",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2057
+  },
+  {
+   "id": "Unnamed #2058",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2058
+  },
+  {
+   "id": "Unnamed #2059",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 45,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 45,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2059
+  },
+  {
+   "id": "Unnamed #2060",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2060
+  },
+  {
    "id": "Unnamed #221",
    "name": "Unnamed",
    "status": "ended",
@@ -24253,6 +32774,236 @@
    ],
    "ended": "2026-10-16",
    "generation": 221
+  },
+  {
+   "id": "Unnamed #2061",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2061
+  },
+  {
+   "id": "Unnamed #2062",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.07
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2062
+  },
+  {
+   "id": "Unnamed #2063",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 38,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 38,
+     "weight": 0.07
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2063
+  },
+  {
+   "id": "Unnamed #2064",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 41,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 41,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2064
+  },
+  {
+   "id": "Unnamed #2065",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 39,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 39,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2065
+  },
+  {
+   "id": "Unnamed #2066",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 39,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 39,
+     "weight": 0.08
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2066
+  },
+  {
+   "id": "Unnamed #2067",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2067
+  },
+  {
+   "id": "Unnamed #2068",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 35,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 35,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2068
+  },
+  {
+   "id": "Unnamed #2069",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.07
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2069
+  },
+  {
+   "id": "Unnamed #2070",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 42,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 42,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2070
   },
   {
    "id": "Unnamed #222",
@@ -24278,6 +33029,236 @@
    "generation": 222
   },
   {
+   "id": "Unnamed #2071",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 40,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 40,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2071
+  },
+  {
+   "id": "Unnamed #2072",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 38,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 38,
+     "weight": 0.07
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2072
+  },
+  {
+   "id": "Unnamed #2073",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2073
+  },
+  {
+   "id": "Unnamed #2074",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.05,
+   "score": 49,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 49,
+     "weight": 0.1
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2074
+  },
+  {
+   "id": "Unnamed #2075",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2075
+  },
+  {
+   "id": "Unnamed #2076",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2076
+  },
+  {
+   "id": "Unnamed #2077",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2077
+  },
+  {
+   "id": "Unnamed #2078",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 38,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 38,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2078
+  },
+  {
+   "id": "Unnamed #2079",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2079
+  },
+  {
+   "id": "Unnamed #2080",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.06,
+   "score": 51,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 51,
+     "weight": 0.12
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2080
+  },
+  {
    "id": "Unnamed #223",
    "name": "Unnamed",
    "status": "ended",
@@ -24299,6 +33280,236 @@
    ],
    "ended": "2026-10-16",
    "generation": 223
+  },
+  {
+   "id": "Unnamed #2081",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2081
+  },
+  {
+   "id": "Unnamed #2082",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 39,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 39,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2082
+  },
+  {
+   "id": "Unnamed #2083",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2083
+  },
+  {
+   "id": "Unnamed #2084",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2084
+  },
+  {
+   "id": "Unnamed #2085",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 38,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 38,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2085
+  },
+  {
+   "id": "Unnamed #2086",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2086
+  },
+  {
+   "id": "Unnamed #2087",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 38,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 38,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2087
+  },
+  {
+   "id": "Unnamed #2088",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 48,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 48,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2088
+  },
+  {
+   "id": "Unnamed #2089",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2089
+  },
+  {
+   "id": "Unnamed #2090",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2090
   },
   {
    "id": "Unnamed #224",
@@ -24324,6 +33535,236 @@
    "generation": 224
   },
   {
+   "id": "Unnamed #2091",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.03,
+   "score": 36,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 36,
+     "weight": 0.07
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2091
+  },
+  {
+   "id": "Unnamed #2092",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 35,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 35,
+     "weight": 0.07
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2092
+  },
+  {
+   "id": "Unnamed #2093",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 41,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 41,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2093
+  },
+  {
+   "id": "Unnamed #2094",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2094
+  },
+  {
+   "id": "Unnamed #2095",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.04,
+   "score": 51,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 51,
+     "weight": 0.08
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2095
+  },
+  {
+   "id": "Unnamed #2096",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2096
+  },
+  {
+   "id": "Unnamed #2097",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 39,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 39,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2097
+  },
+  {
+   "id": "Unnamed #2098",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 42,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 42,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2098
+  },
+  {
+   "id": "Unnamed #2099",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2099
+  },
+  {
+   "id": "Unnamed #2100",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 35,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 35,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2100
+  },
+  {
    "id": "Unnamed #225",
    "name": "Unnamed",
    "status": "ended",
@@ -24345,6 +33786,236 @@
    ],
    "ended": "2026-10-16",
    "generation": 225
+  },
+  {
+   "id": "Unnamed #2101",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 45,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 45,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2101
+  },
+  {
+   "id": "Unnamed #2102",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2102
+  },
+  {
+   "id": "Unnamed #2103",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2103
+  },
+  {
+   "id": "Unnamed #2104",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.05,
+   "score": 36,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 36,
+     "weight": 0.13
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2104
+  },
+  {
+   "id": "Unnamed #2105",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2105
+  },
+  {
+   "id": "Unnamed #2106",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2106
+  },
+  {
+   "id": "Unnamed #2107",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.02,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 46,
+     "weight": 0.05
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2107
+  },
+  {
+   "id": "Unnamed #2108",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 47,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 47,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2108
+  },
+  {
+   "id": "Unnamed #2109",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 40,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 40,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2109
+  },
+  {
+   "id": "Unnamed #2110",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-04",
+   "merit": 0.01,
+   "score": 39,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-04",
+     "value": 39,
+     "weight": 0.03
+    }
+   ],
+   "ended": "2026-11-04",
+   "generation": 2110
   },
   {
    "id": "Unnamed #226",
@@ -44578,7 +54249,7 @@
   {
    "id": "Will Reed #1",
    "name": "Will Reed",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-11-03",
    "merit": 0.84,
    "score": 59,
@@ -44595,6 +54266,7 @@
      "weight": 1.43
     }
    ],
+   "ended": "2026-11-03",
    "generation": 1
   },
   {
