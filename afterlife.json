@@ -1,7 +1,7 @@
 {
  "schema": "agent-afterlife/1",
  "title": "Alex's fleet",
- "generated": "2026-11-09T13:03:40+00:00",
+ "generated": "2026-11-10T13:03:43+00:00",
  "metrics": [
   {
    "key": "merged",
@@ -336,13 +336,13 @@
    "name": "Unnamed",
    "status": "alive",
    "born": "2026-11-03",
-   "merit": 21.32,
-   "score": 49,
+   "merit": 23.33,
+   "score": 48,
    "stats": {
     "merged": 2,
     "opened": 1,
     "issues": 0,
-    "hours": 43.8
+    "hours": 48.9
    },
    "series": [
     {
@@ -374,6 +374,11 @@
      "date": "2026-11-08",
      "value": 46,
      "weight": 5.08
+    },
+    {
+     "date": "2026-11-09",
+     "value": 39,
+     "weight": 5.17
     }
    ],
    "generation": 1422
@@ -2423,6 +2428,29 @@
    ],
    "ended": "2026-11-02",
    "generation": 1327
+  },
+  {
+   "id": "Unnamed #2420",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-09",
+   "merit": 0.01,
+   "score": 46,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-09",
+     "value": 46,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-09",
+   "generation": 2420
   },
   {
    "id": "Ethan Choi #1",
@@ -5273,7 +5301,7 @@
   {
    "id": "Unnamed #1245",
    "name": "Unnamed",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-10-29",
    "merit": 6.9,
    "score": 63,
@@ -5315,6 +5343,7 @@
      "weight": 0.1
     }
    ],
+   "ended": "2026-11-07",
    "generation": 1245
   },
   {
@@ -5684,7 +5713,7 @@
   {
    "id": "Unnamed #1247",
    "name": "Unnamed",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-10-30",
    "merit": 0.46,
    "score": 31,
@@ -5716,6 +5745,7 @@
      "weight": 0.0
     }
    ],
+   "ended": "2026-11-05",
    "generation": 1247
   },
   {
@@ -42355,6 +42385,52 @@
    "generation": 2419
   },
   {
+   "id": "Unnamed #2421",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-09",
+   "merit": 0.03,
+   "score": 41,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-09",
+     "value": 41,
+     "weight": 0.08
+    }
+   ],
+   "ended": "2026-11-09",
+   "generation": 2421
+  },
+  {
+   "id": "Unnamed #2422",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-09",
+   "merit": 0.01,
+   "score": 44,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-09",
+     "value": 44,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-09",
+   "generation": 2422
+  },
+  {
    "id": "Unnamed #257",
    "name": "Unnamed",
    "status": "ended",
@@ -42376,6 +42452,29 @@
    ],
    "ended": "2026-10-16",
    "generation": 257
+  },
+  {
+   "id": "Unnamed #2423",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-09",
+   "merit": 0.01,
+   "score": 44,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-09",
+     "value": 44,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-09",
+   "generation": 2423
   },
   {
    "id": "Unnamed #36",
