@@ -1,7 +1,7 @@
 {
  "schema": "agent-afterlife/1",
  "title": "Alex's fleet",
- "generated": "2026-11-12T13:03:07+00:00",
+ "generated": "2026-11-13T13:03:13+00:00",
  "metrics": [
   {
    "key": "merged",
@@ -336,13 +336,13 @@
    "name": "Unnamed",
    "status": "alive",
    "born": "2026-11-03",
-   "merit": 27.66,
-   "score": 47,
+   "merit": 31.08,
+   "score": 48,
    "stats": {
-    "merged": 6,
+    "merged": 10,
     "opened": 1,
     "issues": 0,
-    "hours": 58.9
+    "hours": 65.4
    },
    "series": [
     {
@@ -389,6 +389,11 @@
      "date": "2026-11-11",
      "value": 47,
      "weight": 5.12
+    },
+    {
+     "date": "2026-11-12",
+     "value": 52,
+     "weight": 6.58
     }
    ],
    "generation": 1422
@@ -42577,6 +42582,29 @@
    ],
    "ended": "2026-11-11",
    "generation": 2427
+  },
+  {
+   "id": "Unnamed #2428",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-12",
+   "merit": 0.03,
+   "score": 43,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-12",
+     "value": 43,
+     "weight": 0.08
+    }
+   ],
+   "ended": "2026-11-12",
+   "generation": 2428
   },
   {
    "id": "Unnamed #36",
