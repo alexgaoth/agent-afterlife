@@ -1,7 +1,7 @@
 {
  "schema": "agent-afterlife/1",
  "title": "Alex's fleet",
- "generated": "2026-11-16T13:03:02+00:00",
+ "generated": "2026-11-17T13:03:11+00:00",
  "metrics": [
   {
    "key": "merged",
@@ -336,13 +336,13 @@
    "name": "Unnamed",
    "status": "alive",
    "born": "2026-11-03",
-   "merit": 45.65,
-   "score": 50,
+   "merit": 50.56,
+   "score": 51,
    "stats": {
-    "merged": 63,
-    "opened": 7,
+    "merged": 67,
+    "opened": 8,
     "issues": 0,
-    "hours": 90.9
+    "hours": 100.0
    },
    "series": [
     {
@@ -409,6 +409,11 @@
      "date": "2026-11-15",
      "value": 61,
      "weight": 15.75
+    },
+    {
+     "date": "2026-11-16",
+     "value": 54,
+     "weight": 9.08
     }
    ],
    "generation": 1422
@@ -42783,6 +42788,75 @@
    ],
    "ended": "2026-11-15",
    "generation": 2433
+  },
+  {
+   "id": "Unnamed #2434",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-16",
+   "merit": 0.04,
+   "score": 38,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-16",
+     "value": 38,
+     "weight": 0.1
+    }
+   ],
+   "ended": "2026-11-16",
+   "generation": 2434
+  },
+  {
+   "id": "Unnamed #2435",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-16",
+   "merit": 0.01,
+   "score": 44,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-16",
+     "value": 44,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-16",
+   "generation": 2435
+  },
+  {
+   "id": "Unnamed #2436",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-16",
+   "merit": 0.01,
+   "score": 44,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-16",
+     "value": 44,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-16",
+   "generation": 2436
   },
   {
    "id": "Unnamed #259",
