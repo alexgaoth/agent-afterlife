@@ -97,6 +97,8 @@ every agent-day in the fleet (0 to 100), and the score is the hours-weighted ave
 
 ## Write an adapter
 
+A longer example, from a cron job's CSV to an adapter and a nightly site: [docs/walkthrough-cron.md](docs/walkthrough-cron.md).
+
 A module whose default export has a `name` and a `sessions(path, ctx)` function. This one is
 [`examples/my-adapter.js`](examples/my-adapter.js), for a made-up runner that writes one JSON file per run:
 
@@ -138,6 +140,7 @@ agent-afterlife serve examples/my-adapter.js examples/runs
 | `files(dir, regex, { maxDepth })` | Every file under `dir` (recursive, no `node_modules` or `.git`) whose path matches, sorted. With `--since`, files not modified since then are skipped. |
 | `lines(file, filter?)` | Async iterator over the parsed lines of a JSON Lines file. Bad lines are skipped. `filter` (a string or a list) skips lines that do not contain it before parsing, which is much faster on big transcripts. |
 | `shellEvents(command)` | What a shell command did: `{ commits, prs_opened, prs_merged, tests }`. It reads each simple command, so a commit message or `git log --grep commit` does not count. For adapters that read agent transcripts. |
+| `parseCsv(text)` | Rows of a CSV or TSV text with a header row, as objects; numbers and true/false typed. |
 | `options` | The `--opt key=value` pairs, as an object. Document the ones your adapter reads in its `description`. |
 | `since` | `--since` as milliseconds, or `undefined`. |
 | `log(message)` | Prints to stderr, prefixed with the adapter's name. |
