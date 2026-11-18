@@ -7,6 +7,7 @@
   "required": ["schema", "agents"],
   "additionalProperties": false,
   "properties": {
+    "$schema": { "type": "string", "description": "Optional link to this schema, for editors." },
     "schema": { "const": "agent-afterlife/1", "description": "Format version." },
     "title": { "type": "string", "description": "Optional name of the fleet, shown in the page header." },
     "generated": { "type": "string", "format": "date-time", "description": "When the producer wrote this document." },
@@ -15,6 +16,17 @@
       "additionalProperties": false,
       "properties": {
         "minMerit": { "type": "number", "minimum": 0, "default": 0.1, "description": "Agents below this merit are passers-by: an unmarked grave, no seat in the temple." }
+      }
+    },
+    "source": {
+      "type": "object",
+      "description": "Optional: where the data came from and how merit was computed. The pages may show it.",
+      "additionalProperties": false,
+      "properties": {
+        "tool": { "type": "string", "description": "The producer, for example 'agent-afterlife 0.1.0' or 'my-exporter'." },
+        "adapter": { "type": "string", "description": "The importer that read the raw data, for example 'claude-code'." },
+        "merit": { "type": "string", "description": "How merit was computed, in words or as a formula, for example 'prs*5 + commits + hours/2'." },
+        "url": { "type": "string", "description": "Optional link to the producer." }
       }
     },
     "metrics": {
