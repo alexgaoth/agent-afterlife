@@ -65,6 +65,8 @@ npx github:alexgaoth/agent-afterlife init --source data/agents.csv  # or your ow
 
 Then commit, push, and set Settings > Pages > Source to "GitHub Actions". Or write the workflow yourself: the action takes the same sources and options as the command.
 
+GitLab Pages, Netlify, Cloudflare Pages or your own server: `init --ci gitlab`, `init --ci netlify`, and recipes for the rest in **[docs/hosting.md](docs/hosting.md)**.
+
 Or start from a copy of this repository: **Use this template** on GitHub (or fork it), then run `init` in your copy. Without a workflow, Pages from the `main` branch serves the demo fleet, and `?data=<url>` shows any document.
 
 ```yaml

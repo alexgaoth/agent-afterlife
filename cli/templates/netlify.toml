@@ -1,0 +1,9 @@
+# Agent Afterlife on Netlify: builds the temple and the graveyard into site/ on every deploy.
+# For a daily rebuild, add a build hook (Site configuration > Build hooks) and call it from any scheduler.
+# Docs: https://github.com/alexgaoth/agent-afterlife/blob/main/docs/hosting.md
+[build]
+  command = "npx -y github:alexgaoth/agent-afterlife build __SOURCE__ --out site"
+  publish = "site"
+
+[build.environment]
+  NODE_VERSION = "22"
