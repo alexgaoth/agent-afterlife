@@ -13,12 +13,19 @@ import { track, toMs } from "../core.js";
 import { json, jsonl, csv } from "./generic.js";
 import { shellEvents } from "./shell.js";
 import claudeCode from "./claude-code.js";
+import codex from "./codex.js";
+import gemini from "./gemini.js";
+import droid from "./droid.js";
+import aider from "./aider.js";
+import cursor from "./cursor.js";
+import openhands from "./openhands.js";
 import git from "./git.js";
 import github from "./github.js";
 import linear from "./linear.js";
 import jira from "./jira.js";
 
-export const BUILT_IN = [claudeCode, git, github, linear, jira, json, jsonl, csv];
+// Agent harnesses first, then work trackers, then plain files.
+export const BUILT_IN = [claudeCode, codex, gemini, droid, aider, cursor, openhands, git, github, linear, jira, json, jsonl, csv];
 const BY_EXT = { ".json": json, ".jsonl": jsonl, ".ndjson": jsonl, ".csv": csv, ".tsv": csv };
 
 /** An adapter by name, by file extension of the data, or from a module path ("./my-adapter.js"). */

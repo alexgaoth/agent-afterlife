@@ -15,11 +15,23 @@ agent-afterlife serve <source> [path]            # import and look at it at once
 | Source | Reads | Notes |
 |---|---|---|
 | `claude-code` | `~/.claude/projects/*/*.jsonl` | One transcript = one agent. Name: the session's name (`claude -n`, `/rename`), else the project folder. Counts prompts, tool calls, file edits, shell commands, commits, PRs opened and merged (failed commands do not count), test runs, cost; subagents count as their parent's work. `--opt names=project` or `names=session`. |
+| `codex` | `~/.codex/sessions` (`.jsonl` and `.jsonl.zst`) | OpenAI Codex CLI. Prompts, tool calls, commands, edits (patches), commits/PRs/tests, tokens, model. |
+| `gemini` | `~/.gemini/tmp/<project>/` | Gemini CLI chat recordings (`chats/session-*.jsonl`, older `.json`) and checkpoints. |
+| `droid` | `~/.factory/sessions` | Factory Droid. Prompts, tool calls, commands, edits, commits/PRs/tests, tokens and model from `<id>.settings.json`. |
+| `aider` | `.aider.chat.history.md` under a folder (default `.`) | One life per `# aider chat started at`. Prompts, applied edits, commits, commands, cost. No per-message times, so hours are near 0. |
+| `cursor` | Cursor's `state.vscdb` | Composer (chat and agent) sessions. Needs the `sqlite3` tool; reads only times, counts and tool names. |
+| `openhands` | `~/.openhands` | OpenHands conversations: new (`events/event-*.json`, `base_state.json`) and old (`events/<n>.json`, `metadata.json`) stores. |
 | `git` | local repositories (a repo, or a folder of repos) | Commits whose author or trailer names an agent (`Co-authored-by: Claude`, `Generated with ...`, `Name (aider)`, `copilot-swe-agent[bot]`, ...). One agent's commits in one repo are one life until a gap of 3 hours. Works with any workflow that commits. `--opt by=author`, `gap=<hours>`, `all=1`, `agent=<regex>=<Name>`. |
 | `github` | `owner/repo[,owner/repo]` | Pull requests whose author, branch (`claude/...`, `codex/...`) or body footer names an agent; one life per PR, alive while open. `GITHUB_TOKEN` or the `gh` login. `--opt by=author`, `max=<n>`, `agent=<regex>=<Name>`. |
 | `linear` | team keys (`ENG,OPS`) or `all` | One life per started issue, named by the agent it is delegated to, else its assignee; alive while in progress. `LINEAR_API_KEY`. `--opt by=assignee`, `only=<regex>`. A Linear CSV export also works with `csv`. |
 | `jira` | a project key or JQL | One life per started issue, named by its assignee. `JIRA_URL`, `JIRA_EMAIL`, `JIRA_API_TOKEN`. `--opt only=<regex>`, `points=<field id>`. |
 | `json`, `jsonl`, `csv` | a file you give | Sessions, events or day rows; below. |
+
+Every harness adapter names an agent by its **project folder**, so one project's sessions become the
+generations of one lineage, and no session title (often written from a prompt) is shown. `--opt names=title`
+uses the tool's session titles instead. Claude Code also uses names you gave on purpose (`claude -n`, `/rename`).
+`codex`, `gemini`, `aider`, `cursor` and `openhands` were written from the tools' formats and public source;
+if your version logs differently, please open an issue with the line types (not the content).
 
 ## No code: a file of sessions, events or day rows
 
