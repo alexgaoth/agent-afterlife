@@ -11,8 +11,8 @@ import { track, toMs } from "../core.js";
 const F = {
   name: ["name", "agent", "agent_name", "agentname", "who", "author", "assignee"],
   session: ["session", "session_id", "sessionid", "run", "run_id", "thread", "conversation"],
-  start: ["start", "started", "started_at", "start_time", "born", "begin", "created_at", "first_seen"],
-  end: ["end", "ended", "ended_at", "end_time", "finished_at", "closed_at", "last_seen", "updated_at"],
+  start: ["start", "started", "started_at", "start_time", "born", "begin", "created_at", "created", "first_seen"],
+  end: ["end", "ended", "ended_at", "end_time", "finished_at", "closed_at", "completed", "completed_at", "resolved", "canceled", "last_seen", "updated_at"],
   time: ["time", "timestamp", "ts", "at", "when", "datetime"],
   date: ["date", "day"],
   kind: ["kind", "type", "event", "action"],
