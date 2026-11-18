@@ -8,7 +8,7 @@
 //
 // All text from the data goes in with textContent. SVG strings below hold only numbers.
 
-import { loadData, ranked, living, passersBy, epitaph, shownStats } from "../shared/afterlife.js";
+import { loadData, ranked, living, passersBy, epitaph, shownStats, notify, onOpenRequest } from "../shared/afterlife.js";
 
 const SCHEMA_URL = "../schema/afterlife.schema.json";
 const README_URL = "https://github.com/alexgaoth/agent-afterlife#bring-your-own-data";
@@ -374,6 +374,7 @@ function renderGate(el, lane, L) {
 const dialog = $("tablet");
 
 function open(a, from) {
+  notify("select", { id: a.id });
   opener = from || null;
   const rank = RANK.get(a.id);
   $("t-place").textContent = rank ? `${ordinal(rank)} of ${RANKED.length}` : a.status === "alive" ? "Still working" : "A passer-by, unranked";
@@ -453,6 +454,7 @@ async function main() {
   const want = params.get("agent");
   const a = want && data.agents.find((x) => x.id === want);
   if (a) open(a, document.querySelector(`[data-id="${CSS.escape(a.id)}"]`));
+  onOpenRequest((id) => { const x = data.agents.find((y) => y.id === id); if (x) open(x, document.querySelector(`[data-id="${CSS.escape(x.id)}"]`)); });
 }
 
 main();

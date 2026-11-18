@@ -43,7 +43,10 @@ test("serve gives the site and the data, and nothing outside the site", async ()
   const base = new URL(url).origin;
   try {
     assert.equal((await fetch(`${base}/temple/`)).status, 200);
-    assert.deepEqual(await (await fetch(`${base}/data.json`)).json(), doc);
+    const data = await fetch(`${base}/data.json`);
+    assert.deepEqual(await data.json(), doc);
+    assert.equal(data.headers.get("access-control-allow-origin"), null);           // other websites cannot read it
+    assert.equal((await fetch(`${base}/shared/embed.js`)).headers.get("access-control-allow-origin"), "*");
     for (const p of ["/package.json", "/cli/site.js", "/%2e%2e/%2e%2e/etc/passwd"]) assert.equal((await fetch(base + p)).status, 404, p);
   } finally { server.close(); }
 });
