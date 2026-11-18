@@ -1,0 +1,4 @@
+name,start,end,commits,prs_merged,status
+Ada,2026-01-05T09:00:00Z,2026-01-05T11:30:00Z,4,1,ended
+Basil,2026-01-06T10:00:00Z,2026-01-06T10:40:00Z,1,0,ended
+Cleo,2026-01-07T11:00:00Z,2026-01-07T15:00:00Z,6,2,running

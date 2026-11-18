@@ -2,4 +2,5 @@
 __pycache__/
 # Real fleet data never belongs here; serve it with tools/serve.py instead.
 data.json
+afterlife.json
 *.local.json
