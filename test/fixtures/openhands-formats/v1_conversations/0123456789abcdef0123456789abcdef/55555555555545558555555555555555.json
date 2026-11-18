@@ -1,0 +1,1 @@
+{"kind": "ConversationStateUpdateEvent", "id": "55555555-5555-4555-8555-555555555555", "timestamp": "2026-02-03T09:03:30", "source": "environment", "key": "execution_status", "value": "idle"}
