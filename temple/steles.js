@@ -10,6 +10,7 @@ const PLACES = {
   concentration: [-5.2, -6], survival: [5.2, -6],
   chronicle: [-5.2, 6], longevity: [5.2, 6],
   lineage: [-5.2, 18], quality: [5.2, 18],
+  trend: [-5.2, 28], rhythm: [5.2, 28],
 };
 const STONE = 0x6f6d64;
 

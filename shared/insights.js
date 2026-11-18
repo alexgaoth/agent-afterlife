@@ -8,6 +8,8 @@
 //   lineage        merit by generation of a reused name
 //   quality        how scores spread, and whether score goes with merit (Spearman)
 //   survival       how long agents last (Kaplan-Meier: agents still working count as far as they have got)
+//   trend          whether agents started later earn more merit a day (Spearman over start dates)
+//   rhythm         which weekdays carry the merit
 
 const MIN_N = 5;
 
@@ -192,9 +194,54 @@ export function survival(data) {
   };
 }
 
+/**
+ * Is the fleet getting better? Merit per day served against the day an agent started (Spearman), and the median
+ * in equal-sized groups by start date. Per day, so recent agents are not punished for having had less time.
+ */
+export function trend(data) {
+  const ws = worked(data).map((a) => ({ t: a.born.slice(0, 10), v: a.merit / daysServed(a) })).sort((a, b) => a.t.localeCompare(b.t));
+  const n = ws.length;
+  if (n < 8) return tooFew("trend", "进退", "Is the fleet getting better", n);
+  const rho = spearman(ws.map((w) => Date.parse(w.t)), ws.map((w) => w.v));
+  const k = Math.min(6, Math.max(3, Math.floor(n / 8)));
+  const rows = Array.from({ length: k }, (_, g) => {
+    const part = ws.slice(Math.floor((g * n) / k), Math.floor(((g + 1) * n) / k));
+    return { label: part[0].t.slice(5), n: part.length, median: round(median(part.map((w) => w.v)), 2) };
+  });
+  const first = rows[0].median, last = rows.at(-1).median;
+  const lead = Math.abs(rho) < 0.1 ? "No clear trend: agents started later earn about the same merit a day as earlier ones"
+    : `Agents started later earn ${Math.abs(rho) < 0.3 ? "slightly " : ""}${rho > 0 ? "more" : "less"} merit a day: the median went from ${first} in the first ${k === 3 ? "third" : `of ${k} groups`} to ${last} in the last`;
+  return {
+    key: "trend", cn: "进退", title: "Is the fleet getting better", n,
+    finding: `${lead} (Spearman ρ ${round(rho, 2)}, n ${n}). Groups are equal in size, by start date.`,
+    stats: { rho, first, last },
+    chart: { kind: "bars", unit: "median merit a day", rows },
+  };
+}
+
+/** Which weekdays carry the work: each weekday's share of the fleet's merit, from the day-by-day chronicle. */
+export function rhythm(data) {
+  const c = chronicle(data);
+  const rows = c.chart?.rows || [];
+  if (rows.length < 14) return tooFew("rhythm", "七曜", "Which days carry the work", rows.length);
+  const NAMES = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const merit = Array(7).fill(0), days = Array(7).fill(0);
+  for (const r of rows) { const d = (new Date(`${r.date}T12:00:00Z`).getUTCDay() + 6) % 7; merit[d] += r.merit; days[d]++; }
+  const total = merit.reduce((s, x) => s + x, 0) || 1;
+  const out = NAMES.map((label, i) => ({ label, n: days[i], median: Math.round((merit[i] / total) * 100) }));
+  const top = out.reduce((b, r) => (r.median > b.median ? r : b), out[0]);
+  const weekend = out[5].median + out[6].median;
+  return {
+    key: "rhythm", cn: "七曜", title: "Which days carry the work", n: rows.length,
+    finding: `Most merit lands on ${top.label === "Sat" || top.label === "Sun" ? "a weekend day, " : ""}${({ Mon: "Mondays", Tue: "Tuesdays", Wed: "Wednesdays", Thu: "Thursdays", Fri: "Fridays", Sat: "Saturdays", Sun: "Sundays" })[top.label]} (${top.median}%); the weekend carries ${weekend}%, over ${rows.length} days. Dates are the producer's own calendar days.`,
+    stats: { top: top.label, weekend },
+    chart: { kind: "bars", unit: "% of merit", rows: out },
+  };
+}
+
 /** All insights, in the order the temple's steles stand. */
 export function insights(data) {
-  return [concentration(data), survival(data), chronicle(data), longevity(data), lineage(data), quality(data)];
+  return [concentration(data), survival(data), chronicle(data), longevity(data), lineage(data), quality(data), trend(data), rhythm(data)];
 }
 
 /** Per-agent marks the statues show: gilded (top 10% by merit), days served, merit percentile. */
