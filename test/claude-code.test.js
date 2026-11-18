@@ -35,3 +35,14 @@ test("claude-code: the document is valid and uses the adapter's merit", async ()
   assert.deepEqual(validate(doc), []);
   assert.equal(doc.agents[0].merit, 8.11);   // 5 + 2 + 1 + 1/20 + 0.25/4, to 2 places
 });
+
+test("claude-code: copied history (a fork, a session continued in another folder) counts once", async () => {
+  const root = new URL("./fixtures/claude-code-copies/projects", import.meta.url).pathname;
+  const s = await runAdapter(adapter, root);
+  assert.equal(s.length, 2);                                  // the two files of one session id are one agent
+  const sum = (k) => s.reduce((t, x) => t + (x.stats[k] || 0), 0);
+  assert.equal(sum("prompts"), 4);                            // u1 u2 u3 u4, each once
+  assert.equal(sum("edits"), 1);                              // a1 once, though three files hold it
+  assert.equal(sum("commits"), 1);
+  assert.deepEqual(s.map((x) => x.name).sort(), ["proj-a", "proj-a"]);
+});

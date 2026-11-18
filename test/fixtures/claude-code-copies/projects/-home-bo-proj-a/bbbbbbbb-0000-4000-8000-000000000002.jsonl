@@ -1,0 +1,4 @@
+{"type":"user","uuid":"u1","message":{"role":"user","content":"Start."},"timestamp":"2026-01-05T09:00:00.000Z","cwd":"/home/bo/proj-a","sessionId":"bbbbbbbb-0000-4000-8000-000000000002"}
+{"type":"assistant","uuid":"a1","message":{"model":"m","role":"assistant","content":[{"type":"tool_use","id":"e1","name":"Edit","input":{}}]},"timestamp":"2026-01-05T09:01:00.000Z","sessionId":"bbbbbbbb-0000-4000-8000-000000000002"}
+{"type":"user","uuid":"u3","message":{"role":"user","content":"Fork: commit it."},"timestamp":"2026-01-05T09:10:00.000Z","cwd":"/home/bo/proj-a","sessionId":"bbbbbbbb-0000-4000-8000-000000000002"}
+{"type":"assistant","uuid":"a3","message":{"model":"m","role":"assistant","content":[{"type":"tool_use","id":"c3","name":"Bash","input":{"command":"git commit -m x"}}]},"timestamp":"2026-01-05T09:11:00.000Z","sessionId":"bbbbbbbb-0000-4000-8000-000000000002"}

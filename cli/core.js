@@ -221,7 +221,8 @@ function numeric(stats = {}) { return Object.fromEntries(Object.entries(stats).f
 function tidy(stats) {
   const out = {};
   for (const [k, v] of Object.entries(stats)) {
-    if (typeof v === "number" && Number.isFinite(v)) out[k] = Number.isInteger(v) ? v : round(v, k === "cost_usd" ? 2 : 1);
+    // Small numbers keep two decimals, so a one-minute session shows 0.02 h, not 0.
+    if (typeof v === "number" && Number.isFinite(v)) out[k] = Number.isInteger(v) ? v : round(v, k === "cost_usd" || Math.abs(v) < 1 ? 2 : 1);
     else if (typeof v === "string" && v) out[k] = v.slice(0, 80);
   }
   return out;
