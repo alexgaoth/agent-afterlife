@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { mkdtempSync, rmSync, existsSync } from "node:fs";
+import { mkdtempSync, rmSync, existsSync, writeFileSync, readdirSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { parseCsv, rowsToSessions } from "../cli/adapters/generic.js";
@@ -65,4 +65,15 @@ test("serve and build take a source as well as a document", () => {
     assert.equal(r.status, 0, r.stderr);
     assert.ok(existsSync(join(dir, "site", "data.json")));
   } finally { rmSync(dir, { recursive: true, force: true }); }
+});
+
+test("a custom adapter written as ES module in a plain .js file loads on every Node version", async (t) => {
+  const dir = mkdtempSync(join(tmpdir(), "aa-esm-"));
+  t.after(() => rmSync(dir, { recursive: true, force: true }));
+  const file = join(dir, "mine.js");                      // no package.json with "type": "module" here
+  writeFileSync(file, 'export default { name: "mine", async sessions(path, { track }) { return [track({ name: "Ada" }).at("2026-01-05T09:00:00Z").session()]; } };\n');
+  const a = await loadAdapter(file);
+  assert.equal(a.name, "mine");
+  assert.equal((await runAdapter(a, dir)).length, 1);
+  assert.deepEqual(readdirSync(dir), ["mine.js"]);       // the temporary .mjs copy is gone
 });

@@ -21,15 +21,15 @@ kill_tree() { local c; for c in $(pgrep -P "$1" 2>/dev/null); do kill_tree "$c";
 serving() {
   local what=$1; shift
   local log="$WORK/serve.log"; : > "$log"
-  aa "$@" > "$log" 2>&1 & local pid=$!
+  aa "$@" > "$log" 2>&1 & local pid=$!; disown $pid 2>/dev/null
   local url="" i
   for i in $(seq 1 120); do url=$(grep -o 'http://[^ ]*' "$log" | head -1); [ -n "$url" ] && break; kill -0 $pid 2>/dev/null || break; sleep 0.5; done
   if [ -z "$url" ]; then bad "$what: no URL ($(tail -3 "$log" | tr '\n' ' '))"; kill_tree $pid; return; fi
   local base=${url%%/temple*}; base=${base%%/graveyard*}; base=${base%/}
   local page data
   page=$(curl -s -o /dev/null -w '%{http_code}' --noproxy '*' "$url")
-  data=$(curl -s --noproxy '*' "$base/data.json" | head -c 200)
-  if [ "$page" = 200 ] && { [[ "$*" == demo* ]] || [[ "$data" == *agent-afterlife/1* ]]; }; then ok "$what"; else bad "$what: page $page, data ${data:0:80}"; fi
+  data=$(curl -s --noproxy '*' "$base/data.json")
+  if [ "$page" = 200 ] && { [[ "$*" == demo* ]] || [[ "$data" == *'"agent-afterlife/1"'* ]]; }; then ok "$what"; else bad "$what: page $page, data ${data:0:80}"; fi
   kill_tree $pid; sleep 0.3
 }
 
