@@ -48,6 +48,7 @@ function alternate(list, east, west) {
 
 /** ranked: ended agents, best first (shared/afterlife.js ranked()). Returns every seat and who waits outside. */
 export function seat(ranked) {
+  const rankOf = new Map(ranked.map((a, k) => [a.id, k + 1]));   // a lookup, not indexOf: fleets can be large
   const nHall = ORIGINAL.hallEast.length + ORIGINAL.hallWest.length;
   const nWings = ORIGINAL.wingsEast.length + ORIGINAL.wingsWest.length;
   const zones = {
@@ -62,11 +63,11 @@ export function seat(ranked) {
     names.forEach((orig, i) => {
       const agent = zones[zone][i] || null;
       seats.push({ zone, no: i + 1, orig, agent });
-      if (agent) placement.set(agent.id, { zone, no: i + 1, orig, rank: ranked.indexOf(agent) + 1 });
+      if (agent) placement.set(agent.id, { zone, no: i + 1, orig, rank: rankOf.get(agent.id) });
     });
   }
   const outside = ranked.slice(2 + nHall + nWings);
-  outside.forEach((a) => placement.set(a.id, { zone: "outside", rank: ranked.indexOf(a) + 1 }));
+  outside.forEach((a) => placement.set(a.id, { zone: "outside", rank: rankOf.get(a.id) }));
   return { seats, outside, placement };
 }
 

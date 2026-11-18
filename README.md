@@ -123,6 +123,12 @@ Show the temple or the graveyard inside your own dashboard. The view is an ifram
 
 Or a plain iframe: `<iframe src="https://<your site>/temple/?embed=1&data=<url>"></iframe>`. With `?embed=1` a page hides its links back to this site, and it sends messages to its parent: `agent-afterlife:loaded` (data checked), `agent-afterlife:shown` (first frame drawn, with timings: hide your spinner), `agent-afterlife:steady` (milliseconds per frame) and `agent-afterlife:select` (an agent opened). A full example: [`examples/embed.html`](examples/embed.html). `embed.js` from your own `build` or Pages site works the same way.
 
+## Without a mouse, or without sight
+
+- **Text version** (`text/`): the same document as plain HTML, the first link on every page. The eight findings as headings and paragraphs, the enshrined in a table (rank, name, seat, merit, dates, record), who is still working, and the passers-by. Works with screen readers and in browsers without WebGL.
+- **Keyboard in the temple:** arrow keys walk and turn, <kbd>[</kbd> and <kbd>]</kbd> go from statue to statue by rank (the name is announced), <kbd>E</kbd> or <kbd>Enter</kbd> reads it, <kbd>Y</kbd> opens the annals, <kbd>Esc</kbd> steps out. Where the browser refuses pointer lock, keyboard mode starts by itself; `?keys=1` asks for it.
+- **The graveyard:** every headstone is a button with its name, dates and record as its label; the tablet that opens is a dialog that returns focus when closed.
+
 ## The temple
 
 Walk with WASD or the arrow keys, hurry with Shift, look with the mouse, read a statue with E (or a click), step out with Esc. On a phone: drag to look, hold the button to walk.
