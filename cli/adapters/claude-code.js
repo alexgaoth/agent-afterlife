@@ -6,7 +6,7 @@
 //   --opt names=session   only session names; unnamed sessions are "Unnamed"
 // Subagent transcripts (<session>/subagents/*.jsonl) count as their parent's work: a "subagents" stat.
 // Live sessions are read from ~/.claude/sessions/<pid>.json when that folder is next to the projects folder.
-import { existsSync, readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { basename, dirname, join } from "node:path";
 
 const EDIT_TOOLS = new Set(["Edit", "Write", "MultiEdit", "NotebookEdit"]);
@@ -24,29 +24,48 @@ export default {
   async sessions(root, ctx) {
     const live = liveSessions(join(dirname(root), "sessions"));
     const files = (await ctx.files(root, /\.jsonl$/, { maxDepth: 1 })).filter((f) => !f.includes(`${"/"}subagents${"/"}`));
-    const out = [];
+    // A session continued in another project folder, or a fork, copies earlier messages into a new transcript.
+    // Read the oldest transcripts first and count each message (by its uuid) once; files that share a session id
+    // are one agent.
+    files.sort((a, b) => created(a) - created(b) || a.localeCompare(b));
+    const seen = new Set(), prsSeen = new Set(), bySession = new Map();
     for (const file of files) {
-      const s = await readSession(file, ctx, live);
-      if (s) out.push(s);
+      const id = basename(file, ".jsonl");
+      if (!bySession.has(id)) bySession.set(id, newState(ctx));
+      await readInto(bySession.get(id), file, ctx, seen, prsSeen);
     }
-    ctx.log(`${files.length} transcripts read`);
+    const out = [];
+    for (const [id, st] of bySession) { const s = finish(st, id, ctx, live); if (s) out.push(s); }
+    ctx.log(`${files.length} transcripts read, ${bySession.size} sessions`);
     return out;
   },
 };
 
-async function readSession(file, ctx, live) {
-  const t = ctx.track({ name: "" });
-  let sessionId = basename(file, ".jsonl"), agentName, title, cwd, cost;
-  const prs = new Set(), models = {}, pending = new Map();
+function created(file) {
+  try { const st = statSync(file); return st.birthtimeMs > 0 ? st.birthtimeMs : st.mtimeMs; } catch { return 0; }
+}
+
+function newState(ctx) {
+  return { t: ctx.track({ name: "" }), agentName: undefined, title: undefined, cwd: undefined, folder: undefined, cost: 0, lines: 0,
+    prs: 0, models: {}, pending: new Map(), subagentDirs: new Set() };
+}
+
+async function readInto(st, file, ctx, seen, prsSeen) {
+  const { t, models, pending } = st;
+  st.folder ??= dirname(file);
+  st.subagentDirs.add(join(dirname(file), basename(file, ".jsonl"), "subagents"));
   for await (const d of ctx.lines(file, WANTED)) {
     switch (d.type) {
-      case "agent-name": if (d.agentName) agentName = d.agentName; break;
-      case "custom-title": if (d.customTitle) title = d.customTitle; break;
-      case "pr-link": if (d.prUrl && !prs.has(d.prUrl)) { prs.add(d.prUrl); t.count("prs_opened", 1, d.timestamp); } break;
-      case "cost-state": cost = d; break;
+      case "agent-name": if (d.agentName) st.agentName = d.agentName; break;
+      case "custom-title": if (d.customTitle) st.title = d.customTitle; break;
+      case "pr-link": if (d.prUrl && !prsSeen.has(d.prUrl)) { prsSeen.add(d.prUrl); st.prs++; t.count("prs_opened", 1, d.timestamp); } break;
+      case "cost-state":                               // per process; a continued session has one per file
+        if (typeof d.totalCostUSD === "number") st.cost = Math.max(st.cost, d.totalCostUSD);
+        if (typeof d.totalLinesAdded === "number") st.lines = Math.max(st.lines, d.totalLinesAdded);
+        break;
       case "user": {
-        if (d.sessionId) sessionId = d.sessionId;
-        cwd ??= d.cwd;
+        if (d.uuid) { if (seen.has(d.uuid)) break; seen.add(d.uuid); }
+        st.cwd ??= d.cwd;
         t.at(d.timestamp);
         const c = d.message?.content;
         const isPrompt = !d.isMeta && !d.isSidechain && (typeof c === "string" || (Array.isArray(c) && c.some((x) => x?.type === "text") && !c.some((x) => x?.type === "tool_result")));
@@ -61,7 +80,8 @@ async function readSession(file, ctx, live) {
         break;
       }
       case "assistant": {
-        cwd ??= d.cwd;
+        if (d.uuid) { if (seen.has(d.uuid)) break; seen.add(d.uuid); }
+        st.cwd ??= d.cwd;
         t.at(d.timestamp);
         const m = d.message || {};
         if (m.model && m.model !== "<synthetic>") models[m.model] = (models[m.model] || 0) + 1;
@@ -75,7 +95,7 @@ async function readSession(file, ctx, live) {
             const counted = {};
             for (const k of ["commits", "prs_merged", "tests"]) if (ev[k]) { t.count(k, ev[k], d.timestamp); counted[k] = ev[k]; }
             // PRs opened come from pr-link lines when the transcript has them; else from `gh pr create`.
-            if (ev.prs_opened && !prs.size) { t.count("prs_opened_cmd", ev.prs_opened, d.timestamp); counted.prs_opened_cmd = ev.prs_opened; }
+            if (ev.prs_opened) { t.count("prs_opened_cmd", ev.prs_opened, d.timestamp); counted.prs_opened_cmd = ev.prs_opened; }
             if (Object.keys(counted).length) pending.set(x.id, counted);
           }
         }
@@ -83,22 +103,25 @@ async function readSession(file, ctx, live) {
       }
     }
   }
+}
+
+function finish(st, sessionId, ctx, live) {
+  const { t } = st;
   if (t.empty) return null;
-  const project = cwd ? basename(cwd) : projectFromFolder(basename(dirname(file)));
+  const project = st.cwd ? basename(st.cwd) : projectFromFolder(basename(st.folder || ""));
   const mode = ctx.options.names;
-  const name = mode === "project" ? project : agentName || title || (mode === "session" ? "Unnamed" : project);
-  const model = Object.entries(models).sort((a, b) => b[1] - a[1])[0]?.[0];
+  const name = mode === "project" ? project : st.agentName || st.title || (mode === "session" ? "Unnamed" : project);
+  const model = Object.entries(st.models).sort((a, b) => b[1] - a[1])[0]?.[0];
   if (model) t.set("model", model);
-  if (cost) {
-    if (typeof cost.totalCostUSD === "number") t.count("cost_usd", cost.totalCostUSD);
-    if (typeof cost.totalLinesAdded === "number") t.count("lines_added", cost.totalLinesAdded);
-  }
-  const sub = join(dirname(file), sessionId, "subagents");
-  if (existsSync(sub)) t.count("subagents", readdirSync(sub).filter((f) => f.endsWith(".jsonl")).length);
+  if (st.cost) t.count("cost_usd", st.cost);
+  if (st.lines) t.count("lines_added", st.lines);
+  let subagents = 0;
+  for (const dir of st.subagentDirs) if (existsSync(dir)) subagents += readdirSync(dir).filter((f) => f.endsWith(".jsonl")).length;
+  if (subagents) t.count("subagents", subagents);
   const s = t.session({ name: name || "Unnamed", ...(live ? { alive: live.has(sessionId) } : {}) });
-  // Fold `gh pr create` counts into prs_opened when there were no pr-link lines.
+  // `gh pr create` counts only when the session has no pr-link lines (those are exact).
   for (const bag of [s.stats, ...Object.values(s.days)]) {
-    if (bag.prs_opened_cmd) { bag.prs_opened = (bag.prs_opened || 0) + bag.prs_opened_cmd; }
+    if (bag.prs_opened_cmd && !st.prs) bag.prs_opened = (bag.prs_opened || 0) + bag.prs_opened_cmd;
     delete bag.prs_opened_cmd;
     for (const k of ["commits", "prs_merged", "tests"]) if (bag[k] <= 0) delete bag[k];
   }

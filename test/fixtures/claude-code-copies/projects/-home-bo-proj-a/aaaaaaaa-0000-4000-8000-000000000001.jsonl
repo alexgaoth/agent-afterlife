@@ -1,0 +1,3 @@
+{"type":"user","uuid":"u1","message":{"role":"user","content":"Start."},"timestamp":"2026-01-05T09:00:00.000Z","cwd":"/home/bo/proj-a","sessionId":"aaaaaaaa-0000-4000-8000-000000000001"}
+{"type":"assistant","uuid":"a1","message":{"model":"m","role":"assistant","content":[{"type":"tool_use","id":"e1","name":"Edit","input":{}}]},"timestamp":"2026-01-05T09:01:00.000Z","sessionId":"aaaaaaaa-0000-4000-8000-000000000001"}
+{"type":"user","uuid":"u2","message":{"role":"user","content":"Next."},"timestamp":"2026-01-05T09:02:00.000Z","cwd":"/home/bo/proj-a","sessionId":"aaaaaaaa-0000-4000-8000-000000000001"}
