@@ -10,6 +10,7 @@ Open the site with no data and it shows a made-up demo fleet: **[intro.alexgaoth
 ## Use it with your own agents
 
 ```sh
+npx github:alexgaoth/agent-afterlife serve claude-code            # your Claude Code sessions (~/.claude/projects)
 npx github:alexgaoth/agent-afterlife serve my-events.csv          # any file of sessions, events or day rows
 npx github:alexgaoth/agent-afterlife serve ./my-adapter.js         # your own 30-line adapter
 npx github:alexgaoth/agent-afterlife import my-events.csv --merit "commits + prs_merged*5"

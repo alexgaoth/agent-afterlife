@@ -1,0 +1,2 @@
+{"type":"user","message":{"role":"user","content":[{"type":"text","text":"Fix the flaky test."}]},"timestamp":"2026-01-06T14:00:00.000Z","cwd":"/home/ada/code/demo-app","sessionId":"22222222-bbbb-4bbb-8bbb-222222222222"}
+{"type":"assistant","message":{"model":"claude-y","role":"assistant","content":[{"type":"tool_use","id":"t1","name":"Write","input":{"file_path":"test/a.test.js"}},{"type":"tool_use","id":"t2","name":"Read","input":{"file_path":"x"}}]},"timestamp":"2026-01-06T14:03:00.000Z","sessionId":"22222222-bbbb-4bbb-8bbb-222222222222"}
