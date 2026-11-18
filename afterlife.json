@@ -1,7 +1,7 @@
 {
  "schema": "agent-afterlife/1",
  "title": "Alex's fleet",
- "generated": "2026-11-17T13:03:11+00:00",
+ "generated": "2026-11-18T13:05:11+00:00",
  "metrics": [
   {
    "key": "merged",
@@ -336,13 +336,13 @@
    "name": "Unnamed",
    "status": "alive",
    "born": "2026-11-03",
-   "merit": 50.56,
+   "merit": 56.72,
    "score": 51,
    "stats": {
-    "merged": 67,
+    "merged": 76,
     "opened": 8,
-    "issues": 0,
-    "hours": 100.0
+    "issues": 1,
+    "hours": 110.8
    },
    "series": [
     {
@@ -414,6 +414,11 @@
      "date": "2026-11-16",
      "value": 54,
      "weight": 9.08
+    },
+    {
+     "date": "2026-11-17",
+     "value": 57,
+     "weight": 10.82
     }
    ],
    "generation": 1422
@@ -2488,6 +2493,29 @@
    "generation": 2420
   },
   {
+   "id": "Unnamed #2437",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-17",
+   "merit": 0.01,
+   "score": 45,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.0
+   },
+   "series": [
+    {
+     "date": "2026-11-17",
+     "value": 45,
+     "weight": 0.02
+    }
+   ],
+   "ended": "2026-11-17",
+   "generation": 2437
+  },
+  {
    "id": "Ethan Choi #1",
    "name": "Ethan Choi",
    "status": "ended",
@@ -2824,15 +2852,15 @@
   {
    "id": "Kat Manalac #1",
    "name": "Kat Manalac",
-   "status": "ended",
+   "status": "alive",
    "born": "2026-10-05",
-   "merit": 2.07,
-   "score": 56,
+   "merit": 3.22,
+   "score": 62,
    "stats": {
-    "merged": 9,
+    "merged": 22,
     "opened": 0,
     "issues": 0,
-    "hours": 3.7
+    "hours": 5.2
    },
    "series": [
     {
@@ -2874,9 +2902,13 @@
      "date": "2026-10-30",
      "value": 44,
      "weight": 0.0
+    },
+    {
+     "date": "2026-11-17",
+     "value": 79,
+     "weight": 1.45
     }
    ],
-   "ended": "2026-10-30",
    "generation": 1
   },
   {
@@ -3952,7 +3984,7 @@
   {
    "id": "Unnamed #1212",
    "name": "Unnamed",
-   "status": "ended",
+   "status": "alive",
    "born": "2026-10-23",
    "merit": 0.59,
    "score": 55,
@@ -3969,13 +4001,12 @@
      "weight": 1.08
     }
    ],
-   "ended": "2026-10-23",
    "generation": 1212
   },
   {
    "id": "Unnamed #1220",
    "name": "Unnamed",
-   "status": "ended",
+   "status": "alive",
    "born": "2026-10-26",
    "merit": 0.42,
    "score": 56,
@@ -3992,7 +4023,6 @@
      "weight": 0.75
     }
    ],
-   "ended": "2026-10-26",
    "generation": 1220
   },
   {
@@ -5337,15 +5367,15 @@
   {
    "id": "Unnamed #1245",
    "name": "Unnamed",
-   "status": "ended",
+   "status": "alive",
    "born": "2026-10-29",
-   "merit": 6.9,
+   "merit": 6.98,
    "score": 63,
    "stats": {
     "merged": 20,
     "opened": 2,
     "issues": 0,
-    "hours": 10.9
+    "hours": 11.2
    },
    "series": [
     {
@@ -5377,9 +5407,13 @@
      "date": "2026-11-07",
      "value": 59,
      "weight": 0.1
+    },
+    {
+     "date": "2026-11-17",
+     "value": 38,
+     "weight": 0.23
     }
    ],
-   "ended": "2026-11-07",
    "generation": 1245
   },
   {
@@ -5609,12 +5643,12 @@
   {
    "id": "Unnamed #44",
    "name": "Unnamed",
-   "status": "ended",
+   "status": "alive",
    "born": "2026-10-12",
-   "merit": 6.73,
+   "merit": 6.75,
    "score": 75,
    "stats": {
-    "merged": 52,
+    "merged": 53,
     "opened": 2,
     "issues": 0,
     "hours": 9.0
@@ -5639,9 +5673,13 @@
      "date": "2026-10-15",
      "value": 83,
      "weight": 0.02
+    },
+    {
+     "date": "2026-11-17",
+     "value": 58,
+     "weight": 0.05
     }
    ],
-   "ended": "2026-10-15",
    "generation": 44
   },
   {
@@ -5749,7 +5787,7 @@
   {
    "id": "Unnamed #1247",
    "name": "Unnamed",
-   "status": "ended",
+   "status": "alive",
    "born": "2026-10-30",
    "merit": 0.46,
    "score": 31,
@@ -5781,7 +5819,6 @@
      "weight": 0.0
     }
    ],
-   "ended": "2026-11-05",
    "generation": 1247
   },
   {
@@ -6071,15 +6108,15 @@
   {
    "id": "Unnamed #41",
    "name": "Unnamed",
-   "status": "ended",
+   "status": "alive",
    "born": "2026-10-10",
-   "merit": 12.57,
-   "score": 69,
+   "merit": 13.48,
+   "score": 68,
    "stats": {
-    "merged": 13,
-    "opened": 10,
+    "merged": 17,
+    "opened": 13,
     "issues": 0,
-    "hours": 18.2
+    "hours": 19.8
    },
    "series": [
     {
@@ -6141,9 +6178,13 @@
      "date": "2026-11-04",
      "value": 48,
      "weight": 1.72
+    },
+    {
+     "date": "2026-11-17",
+     "value": 58,
+     "weight": 1.58
     }
    ],
-   "ended": "2026-11-04",
    "generation": 41
   },
   {
@@ -42857,6 +42898,29 @@
    ],
    "ended": "2026-11-16",
    "generation": 2436
+  },
+  {
+   "id": "Unnamed #2438",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-17",
+   "merit": 0.03,
+   "score": 38,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-17",
+     "value": 38,
+     "weight": 0.08
+    }
+   ],
+   "ended": "2026-11-17",
+   "generation": 2438
   },
   {
    "id": "Unnamed #259",
