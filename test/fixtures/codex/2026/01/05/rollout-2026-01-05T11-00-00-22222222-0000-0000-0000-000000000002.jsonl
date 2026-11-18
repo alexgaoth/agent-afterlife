@@ -1,0 +1,5 @@
+{"timestamp":"2026-01-05T11:00:00Z","type":"session_meta","payload":{"id":"22222222-0000-0000-0000-000000000002","cwd":"/work/other"}}
+{"timestamp":"2026-01-05T11:00:10Z","type":"event_msg","payload":{"type":"user_message","message":"hi"}}
+{"timestamp":"2026-01-05T11:01:00Z","type":"response_item","payload":{"type":"function_call","name":"shell","arguments":"{\"command\":[\"bash\",\"-lc\",\"npm test && gh pr create --fill\"]}"}}
+{"timestamp":"2026-01-05T11:02:00Z","type":"response_item","payload":{"type":"custom_tool_call","name":"apply_patch","input":"*** Begin Patch"}}
+{"timestamp":"2026-01-05T11:03:00Z","type":"response_item","payload":{"type":"local_shell_call","action":{"command":["git","commit","-m","y"]}}}

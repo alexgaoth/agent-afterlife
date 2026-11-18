@@ -1,0 +1,8 @@
+{"sessionId":"aaaa1111-0000","projectHash":"abc","startTime":"2026-01-05T09:00:00Z","lastUpdated":"2026-01-05T09:20:00Z"}
+{"id":"m1","timestamp":"2026-01-05T09:00:00Z","type":"user","content":"hello"}
+{"id":"m2","timestamp":"2026-01-05T09:02:00Z","type":"gemini","content":"ok","model":"model-g","tokens":{"input":10,"output":5,"total":15},"toolCalls":[{"id":"t1","name":"write_file","args":{},"status":"success","timestamp":"2026-01-05T09:02:30Z"},{"id":"t2","name":"run_shell_command","args":{"command":"git commit -am z"},"status":"success","timestamp":"2026-01-05T09:03:00Z"}]}
+{"id":"m3","timestamp":"2026-01-05T09:05:00Z","type":"user","content":"again"}
+{"id":"m4","timestamp":"2026-01-05T09:06:00Z","type":"gemini","content":"ok","tokens":{"total":20}}
+{"$rewindTo":"m3"}
+{"$set":{"summary":"Fix login"}}
+{"$patch":{"id":"m2"}}
