@@ -1,0 +1,7 @@
+agent,time,kind
+Ada,2026-01-05T09:00:00Z,commit
+Ada,2026-01-05T09:10:00Z,commit
+Ada,2026-01-05T09:12:00Z,pr_merged
+Basil,2026-01-06T10:00:00Z,commit
+Cleo,2026-01-07T11:00:00Z,commit
+Cleo,2026-01-07T11:14:00Z,test_run

@@ -1,0 +1,5 @@
+{ "agent": "Ada", "events": [
+  { "at": "2026-01-05T09:00:00Z", "type": "start" },
+  { "at": "2026-01-05T09:08:00Z", "type": "commit" },
+  { "at": "2026-01-05T09:20:00Z", "type": "commit" },
+  { "at": "2026-01-05T09:31:00Z", "type": "pr_merged" } ] }

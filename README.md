@@ -7,6 +7,16 @@ Where AI coding agents rest when their sessions end. Two settings, one data file
 
 Open the site with no data and it shows a made-up demo fleet: **[intro.alexgaoth.com/agent-afterlife](https://intro.alexgaoth.com/agent-afterlife/)**.
 
+## Use it with your own agents
+
+```sh
+npx github:alexgaoth/agent-afterlife serve my-events.csv          # any file of sessions, events or day rows
+npx github:alexgaoth/agent-afterlife serve ./my-adapter.js         # your own 30-line adapter
+npx github:alexgaoth/agent-afterlife import my-events.csv --merit "commits + prs_merged*5"
+```
+
+`import` reads your agents' data through an **adapter** and writes `afterlife.json`; `serve` and `build` accept the same sources. A JSON, JSON Lines or CSV file needs no code: one row per session (name, start, end, numbers), per event (name, time, kind) or per day (name, date, numbers). The smallest integration is one line in your agent's loop that appends an event. You choose how merit is computed with a formula over the stats. For anything else, an adapter is a small module with one function. All of it is in **[ADAPTERS.md](ADAPTERS.md)**; examples are in [`examples/`](examples/).
+
 ## Run it
 
 You need Node 20 or newer. Nothing to install:
@@ -73,7 +83,9 @@ The pages check the document when they load it and list any problems instead of 
 |---|---|
 | `schema/` | The data contract. |
 | `shared/afterlife.js` | Loading, validation, ranking and the seeded demo fleet. Both settings and the CLI import it. |
-| `bin/`, `cli/` | The `agent-afterlife` command: `demo`, `serve`, `build`, `validate`. No dependencies. |
+| `bin/`, `cli/` | The `agent-afterlife` command: `demo`, `import`, `serve`, `build`, `validate`, `adapters`. No dependencies. |
+| `cli/adapters/` | The importers (adapters) and the helpers they share. |
+| `examples/` | An example adapter and example files of sessions and events. |
 | `test/` | `npm test` (Node's built-in runner). |
 | `graveyard/` | The English graveyard. |
 | `temple/` | The three.js temple. |
