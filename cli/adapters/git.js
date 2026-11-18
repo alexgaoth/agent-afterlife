@@ -5,11 +5,13 @@
 // An agent's commits in one repository form one session until a gap of more than --opt gap=<hours> (3).
 //   --opt by=author          every author is an agent, named by the author's name
 //   --opt agent=<regex>=<N>  also count commits matching regex as agent N (";" between several)
-//   --opt all=1              read every branch (git log --all), not only the checked-out one
+//   --opt lines=0            skip line counts (much faster on long histories; merit then counts commits)
+//   --opt all=1              read every branch (git log --all), not only the checked-out one (automatic for a
+//                            repository with several worktrees: each repository is read once)
 // The path is a repository, or a folder whose sub-folders (two levels) are repositories. Default: ".".
-import { execFile } from "node:child_process";
-import { existsSync, readdirSync, statSync } from "node:fs";
-import { basename, join } from "node:path";
+import { execFile, spawn } from "node:child_process";
+import { existsSync, readdirSync, readFileSync, realpathSync, statSync } from "node:fs";
+import { basename, dirname, join, resolve } from "node:path";
 import { promisify } from "node:util";
 import { agentOf, credits, extraAgents } from "./agents.js";
 
@@ -25,26 +27,90 @@ export default {
     const repos = findRepos(path);
     if (!repos.length) throw new Error(`no git repository at ${path} or in its sub-folders`);
     const extra = extraAgents(ctx.options.agent);
+    const byAuthor = ctx.options.by === "author";
     const gapMs = Number(ctx.options.gap ?? 3) * 36e5;
-    const out = [];
-    for (const repo of repos) {
-      let commits;
-      try { commits = await log(repo, ctx); } catch (e) { ctx.log(`${repo}: ${e.message.split("\n")[0]}`); continue; }
-      out.push(...commitsToSessions(commits, { repo: basename(repo), byAuthor: ctx.options.by === "author", extra, gapMs, track: ctx.track }));
+    // Worktrees and checkouts of one repository share its history: read each repository once (all its branches
+    // when it has several checkouts), and count each commit once even if two clones hold it.
+    const groups = new Map();
+    for (const r of repos) {
+      const common = commonDir(r);
+      if (!groups.has(common)) groups.set(common, []);
+      groups.get(common).push(r);
     }
-    ctx.log(`${repos.length} repositories read`);
+    const lines = ctx.options.lines !== "0";
+    const list = [...groups].map(([common, checkouts]) => ({ repo: checkouts[0], name: repoName(common, checkouts[0]), all: checkouts.length > 1 || !!ctx.options.all }));
+    const fail = (g, e) => { ctx.log(`${g.repo}: ${String(e.stderr || e.message).trim().split("\n")[0]}`); g.commits = []; };
+    // Read in parallel, but decide in a fixed order which repository a shared commit belongs to (the first),
+    // so the result does not depend on which git finished first.
+    await pool(list, async (g) => { try { g.commits = await log(g.repo, ctx, g); } catch (e) { fail(g, e); } });
+    const seen = new Set();
+    for (const g of list) g.commits = g.commits.filter((c) => !seen.has(c.sha) && seen.add(c.sha) && (byAuthor || agentOf([c.author, c.email, c.committer, ...credits(c.body)], extra)));
+    if (lines) await pool(list.filter((g) => g.commits.length), async (g) => {
+      try { const st = await shortstats(g.repo, g.commits.map((c) => c.sha)); for (const c of g.commits) Object.assign(c, st.get(c.sha) || {}); }
+      catch (e) { ctx.log(`${g.repo}: line counts skipped: ${String(e.stderr || e.message).trim().split("\n")[0]}`); }
+    });
+    const out = list.flatMap((g) => commitsToSessions(g.commits, { repo: g.name, byAuthor, extra, gapMs, track: ctx.track }));
+    ctx.log(`${repos.length} checkouts of ${groups.size} repositories read`);
     return out;
   },
 };
 
+/** Run fn over items, four at a time. */
+async function pool(items, fn, n = 4) {
+  const queue = [...items];
+  await Promise.all(Array.from({ length: Math.min(n, queue.length) }, async () => { while (queue.length) await fn(queue.shift()); }));
+}
+
+/** The repository's shared git directory: <repo>/.git, or for a worktree the main repository's. */
+export function commonDir(checkout) {
+  const dotgit = join(checkout, ".git");
+  try {
+    if (statSync(dotgit).isDirectory()) return realpathSync(dotgit);
+    const m = /^gitdir:\s*(.+)$/m.exec(readFileSync(dotgit, "utf8"));
+    if (!m) return realpathSync(dotgit);
+    const gitdir = resolve(checkout, m[1].trim());
+    const cd = join(gitdir, "commondir");
+    return realpathSync(existsSync(cd) ? resolve(gitdir, readFileSync(cd, "utf8").trim()) : gitdir);
+  } catch { return dotgit; }
+}
+
+function repoName(common, checkout) {
+  return basename(common) === ".git" ? basename(dirname(common)) : basename(common).replace(/\.git$/, "") || basename(checkout);
+}
+
 const RS = "\x1e", US = "\x1f", GS = "\x1d";
 
-async function log(repo, ctx) {
-  const args = ["-C", repo, "log", "--no-merges", "--numstat", `--format=${RS}%H${US}%an${US}%ae${US}%cn${US}%aI${US}%B${GS}`];
-  if (ctx.options.all) args.splice(3, 0, "--all");
+// Commit metadata only: cheap even for long histories. Line counts come later, for agent commits only.
+async function log(repo, ctx, { all = false } = {}) {
+  const args = ["-C", repo, "log", "--no-merges", `--format=${RS}%H${US}%an${US}%ae${US}%cn${US}%aI${US}%B${GS}`];
+  if (all) args.push("--all");
   if (ctx.since !== undefined) args.push(`--since=${new Date(ctx.since).toISOString()}`);
   const { stdout } = await run("git", args, { maxBuffer: 1 << 30 });
   return parseLog(stdout);
+}
+
+/** Files, lines added and removed for the given commits: one `git log --stdin --shortstat` run. */
+function shortstats(repo, shas) {
+  return new Promise((resolve, reject) => {
+    const p = spawn("git", ["-C", repo, "log", "--no-walk=unsorted", "--stdin", "--shortstat", `--format=${RS}%H`], { stdio: ["pipe", "pipe", "pipe"] });
+    let out = "", err = "";
+    p.stdout.setEncoding("utf8").on("data", (d) => { out += d; });
+    p.stderr.setEncoding("utf8").on("data", (d) => { err += d; });
+    p.on("error", reject);
+    p.on("close", (code) => {
+      if (code) return reject(Object.assign(new Error(`git log --stdin exited ${code}`), { stderr: err }));
+      const m = new Map();
+      for (const rec of out.split(RS)) {
+        const [sha, ...rest] = rec.trim().split("\n");
+        if (!sha) continue;
+        const t = rest.join(" ");
+        const n = (re) => Number((re.exec(t) || [0, 0])[1]);
+        m.set(sha, { files: n(/(\d+) files? changed/), added: n(/(\d+) insertions?/), removed: n(/(\d+) deletions?/) });
+      }
+      resolve(m);
+    });
+    p.stdin.end(shas.join("\n") + "\n");
+  });
 }
 
 /** Parse the output of the git log format above. */
