@@ -19,8 +19,10 @@ Usage:
   agent-afterlife build <source|file|url> --out <dir>   write a static site for any host
   agent-afterlife validate <file|url>             check a document against the schema
   agent-afterlife adapters                        list the built-in sources and which ones this machine has
-  agent-afterlife init [dir] [--source <source>]  add a GitHub Pages workflow that builds your own site
-                                                  (default source: github, the repository's own agent PRs)
+  agent-afterlife init [dir] [--source <s>] [--ci github|gitlab|netlify]
+                                                  add the file that builds and publishes your own site
+                                                  (GitHub Pages by default; source: the repo's agent PRs, or
+                                                  its commits on GitLab/Netlify)
 
 A <source> is a built-in adapter (${BUILT_IN.map((a) => a.name).join(", ")}), several joined
 with commas, your own adapter module (./my-adapter.js), or a .json/.jsonl/.csv file of sessions, events
@@ -49,7 +51,7 @@ const { values: opt, positionals: [cmd, ...args] } = parseArgs({
     out: { type: "string", short: "o" }, page: { type: "string", default: "temple" }, port: { type: "string", default: "8123" },
     "no-open": { type: "boolean" }, snapshot: { type: "boolean" }, json: { type: "boolean" },
     merit: { type: "string" }, since: { type: "string" }, title: { type: "string" }, "min-merit": { type: "string" },
-    "alive-within": { type: "string" }, anonymize: { type: "boolean" }, anonymise: { type: "boolean" }, source: { type: "string" },
+    "alive-within": { type: "string" }, anonymize: { type: "boolean" }, anonymise: { type: "boolean" }, source: { type: "string" }, ci: { type: "string", default: "github" },
     opt: { type: "string", multiple: true }, agents: { type: "string" },
     help: { type: "boolean", short: "h" }, version: { type: "boolean", short: "v" },
   },
@@ -186,28 +188,34 @@ async function main() {
     }
     case "init": {
       const dir = resolve(args[0] || ".");
-      const source = opt.source || "github";
-      const wf = join(dir, ".github", "workflows", "afterlife.yml");
-      if (existsSync(wf)) fail(`${wf} exists already; delete it first to write a new one.`);
-      const pathLine = source === "github" ? "# path: owner/repo        # default: this repository" : source === "git" ? "# path: .                 # this repository" : "# path: ...";
-      const tpl = readFileSync(new URL("../cli/templates/afterlife.yml", import.meta.url), "utf8")
-        .replace("__SOURCE__", source).replace("__PATH_LINE__", pathLine);
-      mkdirSync(join(dir, ".github", "workflows"), { recursive: true });
-      writeFileSync(wf, tpl);
-      const rel = relative(process.cwd(), wf);
-      const wrote = [rel.startsWith("..") ? wf : rel];
-      if (/\.(csv|jsonl?|tsv)$/.test(source) && !existsSync(join(dir, source))) {
-        mkdirSync(resolve(dir, source, ".."), { recursive: true });
-        copyFileSync(new URL("../examples/events.csv", import.meta.url), join(dir, source));
-        wrote.push(`${source} (example rows: replace them with yours)`);
+      const CI = {
+        github: { file: join(".github", "workflows", "afterlife.yml"), tpl: "afterlife.yml", source: "github",
+                  next: "On GitHub: Settings > Pages > Build and deployment > Source: GitHub Actions. Then push.\n  Your site: https://<owner>.github.io/<repo>/" },
+        gitlab: { file: ".gitlab-ci.yml", tpl: "gitlab-ci.yml", source: "git .",
+                  next: "Push to the default branch; the pages job publishes public/.\n  Your site: Deploy > Pages shows its address. A daily rebuild: Build > Pipeline schedules." },
+        netlify: { file: "netlify.toml", tpl: "netlify.toml", source: "git .",
+                   next: "Connect the repository on Netlify (Add new site > Import an existing project); it reads netlify.toml." },
+      }[opt.ci];
+      if (!CI) fail(`--ci must be github, gitlab or netlify, not "${opt.ci}". For other hosts see docs/hosting.md.`);
+      const source = opt.source || CI.source;
+      const target = join(dir, CI.file);
+      if (existsSync(target)) fail(`${target} exists already; delete it first to write a new one.`);
+      let text = readFileSync(new URL(`../cli/templates/${CI.tpl}`, import.meta.url), "utf8").replace("__SOURCE__", source);
+      if (opt.ci === "github") {
+        const pathLine = source === "github" ? "# path: owner/repo        # default: this repository" : source === "git" ? "# path: .                 # this repository" : "# path: ...";
+        text = text.replace("__PATH_LINE__", pathLine);
       }
-      return console.log(`Wrote ${wrote.join(" and ")}.
-
-Next:
-  1. Commit and push.
-  2. On GitHub: Settings > Pages > Build and deployment > Source: GitHub Actions.
-  3. Actions > afterlife > Run workflow (or wait for the next push). Your site: https://<owner>.github.io/<repo>/
-Edit the workflow's "with:" block to change the source, merit, title or names.`);
+      mkdirSync(resolve(target, ".."), { recursive: true });
+      writeFileSync(target, text);
+      const rel = relative(process.cwd(), target);
+      const wrote = [rel.startsWith("..") ? target : rel];
+      const file = source.split(" ")[0];
+      if (/\.(csv|jsonl?|tsv)$/.test(file) && !existsSync(join(dir, file))) {
+        mkdirSync(resolve(dir, file, ".."), { recursive: true });
+        copyFileSync(new URL("../examples/events.csv", import.meta.url), join(dir, file));
+        wrote.push(`${file} (example rows: replace them with yours)`);
+      }
+      return console.log(`Wrote ${wrote.join(" and ")}.\n\nNext:\n  Commit it.\n  ${CI.next}\nEdit the file to change the source, merit, title or names.`);
     }
     case "serve": {
       const src = need(args[0], "serve needs a source, a file or a URL (or run: agent-afterlife demo).");
