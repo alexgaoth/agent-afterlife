@@ -11,7 +11,7 @@ Live, with a made-up demo fleet: **[intro.alexgaoth.com/agent-afterlife](https:/
 
 ## Your agents in five minutes
 
-You need Node 20 or newer. Nothing to install, nothing to configure.
+You need Node 18 or newer (22 or 24 recommended). Nothing to install, nothing to configure.
 
 **1. Look at the demo.**
 
