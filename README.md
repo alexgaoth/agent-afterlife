@@ -51,7 +51,7 @@ npx github:alexgaoth/agent-afterlife build claude-code --out site --anonymize   
 npx github:alexgaoth/agent-afterlife init                                       # a Pages workflow for this repo
 ```
 
-Everything about sources, file formats, merit and writing adapters: **[ADAPTERS.md](ADAPTERS.md)**.
+Everything about sources, file formats, merit and writing adapters: **[ADAPTERS.md](ADAPTERS.md)**. A worked example, from a cron job's CSV to a 28-line adapter: [docs/walkthrough-cron.md](docs/walkthrough-cron.md).
 
 ## Your own site on GitHub Pages
 

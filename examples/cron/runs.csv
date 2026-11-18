@@ -1,0 +1,4 @@
+run_id,agent,start,end,exit_code,prs_merged
+r-0105,triage,2026-01-05T02:00:04Z,2026-01-05T02:41:30Z,0,2
+r-0106,triage,2026-01-06T02:00:03Z,2026-01-06T02:12:55Z,1,0
+r-0107,release-notes,2026-01-07T02:00:05Z,2026-01-07T03:05:12Z,0,1
