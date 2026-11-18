@@ -31,6 +31,10 @@
   .gatecard .keys { font-size: 14px; color: #5d564a; margin: 12px 0 0; }
   #enter { padding: 10px 22px; background: var(--cinnabar); color: #f3ead6; border: 0; cursor: pointer; }
   #enter:active { transform: translateY(1px); }
+  #enter:disabled { cursor: progress; opacity: .78; }
+  #enter:disabled::after { content: ""; display: inline-block; width: .9em; margin-left: .2em; animation: wait 1.2s steps(4) infinite; text-align: left; }
+  @keyframes wait { 0% { content: ""; } 25% { content: "."; } 50% { content: ".."; } 75% { content: "..."; } }
+  @media (prefers-reduced-motion: reduce) { #enter:disabled::after { animation: none; } }
   .gatecard a { color: var(--ink); font-size: 14px; margin-left: 14px; }
 
   #hud { position: fixed; top: 14px; left: 16px; font-size: 14px; color: var(--ink); text-shadow: 0 1px 0 rgba(255,250,235,.6); pointer-events: none; }
@@ -123,7 +127,7 @@
     <div>
       <h1>The Temple</h1>
       <p>The best agents are enshrined as the Song court seated its generals in 1123. Walk in and look at a statue to read its name.</p>
-      <button id="enter" type="button">Enter the temple</button><a id="back" href="../">Agent Afterlife</a>
+      <button id="enter" type="button" disabled aria-live="polite">Reading the records…</button><a id="back" href="../">Agent Afterlife</a>
       <p class="keys">WASD or arrows to walk, Shift to hurry, mouse to look, E to read a statue or stele, Y for the annals, Esc to step out.</p>
       <p class="keys"><button id="open-annals" type="button" class="linkish">Read the annals (年鉴)</button>: what the fleet's numbers say.</p>
     </div>

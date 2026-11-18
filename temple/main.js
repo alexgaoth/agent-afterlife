@@ -5,6 +5,9 @@ import { loadData, ranked, living, passersBy, epitaph, shownStats, notify, onOpe
 
 // Timing marks (performance.getEntriesByType("mark")): afterlife:data, afterlife:fonts, afterlife:scene, afterlife:first-frame.
 const mark = (name) => performance.mark(`afterlife:${name}`);
+// The enter button says what is happening until the first frame is drawn, then it opens the temple.
+const progress = (text) => { const b = document.getElementById("enter"); if (b && b.disabled) b.textContent = text; };
+const painted = () => new Promise((r) => setTimeout(r, 30));   // let the page show the new text (a timer also runs in a background tab)
 import { insights, honours } from "../shared/insights.js";
 import { drawInsight } from "./insight-art.js";
 import { buildSteleForest } from "./steles.js";
@@ -28,6 +31,8 @@ if (!data) {
 }
 await Promise.all(['28px "Ma Shan Zheng"', '24px "IM Fell English"'].map((f) => document.fonts.load(f).catch(() => {})));
 mark("fonts");
+progress("Raising the halls");
+await painted();
 
 // ------------------------------------------------------------------ scene
 // ?still=1 keeps the last frame in the drawing buffer, so a screenshot after the loop stops still sees it.
@@ -320,6 +325,7 @@ function resize() {
 addEventListener("resize", resize); resize();
 const clock = new THREE.Clock();
 mark("scene");
+progress("Lighting the lanterns");
 const still = params.get("still") === "1";   // ?still=1 draws a few frames and stops: for screenshots and tests
 renderer.setAnimationLoop(() => {
   if (still && frame > 1) {   // two frames: the first uploads textures
@@ -336,6 +342,7 @@ renderer.setAnimationLoop(() => {
   mural.render(scene, camera);
   if (frame === 1) {
     mark("first-frame");
+    const enter = $("enter"); enter.disabled = false; enter.textContent = "Enter the temple";
     const t = Object.fromEntries(performance.getEntriesByType("mark").filter((m) => m.name.startsWith("afterlife:")).map((m) => [m.name.slice(10), Math.round(m.startTime)]));
     notify("shown", { ms: t["first-frame"], marks: t, quality });       // embedders can hide their spinner now
   }
