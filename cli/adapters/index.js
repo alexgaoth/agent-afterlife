@@ -11,6 +11,7 @@ import { pathToFileURL } from "node:url";
 import { createInterface } from "node:readline";
 import { track, toMs } from "../core.js";
 import { json, jsonl, csv } from "./generic.js";
+import { shellEvents } from "./shell.js";
 
 export const BUILT_IN = [json, jsonl, csv];
 const BY_EXT = { ".json": json, ".jsonl": jsonl, ".ndjson": jsonl, ".csv": csv, ".tsv": csv };
@@ -30,11 +31,11 @@ export async function loadAdapter(spec) {
 }
 
 /** Run one adapter and return its sessions; with `since` (ms), only those active since then. */
-export async function runAdapter(adapter, path, { since, log = () => {} } = {}) {
+export async function runAdapter(adapter, path, { since, options = {}, log = () => {} } = {}) {
   const where = expandHome(path || adapter.impliedPath || adapter.defaultPath || "");
   if (!where) throw new Error(`${adapter.name} needs a path`);
   if (!existsSync(where)) throw new Error(`${adapter.name}: ${where} does not exist`);
-  const ctx = helpers({ since, log });
+  const ctx = helpers({ since, options, log });
   const out = [];
   const got = await adapter.sessions(where, ctx);
   for await (const s of got || []) if (s && (since === undefined || toMs(s.end ?? s.start) >= since)) out.push(s);
@@ -42,10 +43,12 @@ export async function runAdapter(adapter, path, { since, log = () => {} } = {}) 
 }
 
 /** What an adapter's sessions(path, ctx) receives as ctx. */
-export function helpers({ since, log = () => {} } = {}) {
+export function helpers({ since, options = {}, log = () => {} } = {}) {
   return {
     track,
+    shellEvents,
     since,
+    options,
     log,
     home: homedir(),
     /** Every file under dir (recursive) whose path matches re, skipping files untouched since `since`. */

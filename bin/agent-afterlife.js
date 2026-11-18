@@ -31,6 +31,7 @@ Import options (import, serve, build):
   --min-merit <n>          below this merit an agent is a passer-by (default 0.1)
   --alive-within <min>     an agent active this recently counts as alive (default 30)
   --anonymize              replace names with made-up ones, drop urls and epitaphs (for publishing)
+  --opt <key=value>        an option for the adapter (repeatable); see its description
 
 Site options:
   --page temple|graveyard|home   which page to open (default: temple)
@@ -47,6 +48,7 @@ const { values: opt, positionals: [cmd, ...args] } = parseArgs({
     "no-open": { type: "boolean" }, snapshot: { type: "boolean" }, json: { type: "boolean" },
     merit: { type: "string" }, since: { type: "string" }, title: { type: "string" }, "min-merit": { type: "string" },
     "alive-within": { type: "string" }, anonymize: { type: "boolean" }, anonymise: { type: "boolean" },
+    opt: { type: "string", multiple: true },
     help: { type: "boolean", short: "h" }, version: { type: "boolean", short: "v" },
   },
 });
@@ -96,7 +98,7 @@ async function importDoc(spec, path) {
     let adapter;
     try { adapter = await loadAdapter(sp); } catch (e) { fail(e.message); }
     let got;
-    try { got = await runAdapter(adapter, path, { since: since(opt.since), log: (m) => console.error(`${adapter.name}: ${m}`) }); }
+    try { got = await runAdapter(adapter, path, { since: since(opt.since), options: adapterOptions(), log: (m) => console.error(`${adapter.name}: ${m}`) }); }
     catch (e) { fail(`${adapter.name}: ${e.message}`); }
     console.error(`${adapter.name}: ${got.length} sessions`);
     if (specs.length > 1) for (const s of got) s.stats = { ...s.stats, tool: adapter.name };
@@ -116,6 +118,17 @@ async function importDoc(spec, path) {
   const problems = validate(doc);
   if (problems.length) fail(`The import made a document that does not follow the schema (a bug; please report it):\n  - ${problems.join("\n  - ")}`);
   return doc;
+}
+
+/** --opt key=value (repeatable): options for the adapter, which documents its own. */
+function adapterOptions() {
+  const o = {};
+  for (const kv of opt.opt || []) {
+    const i = kv.indexOf("=");
+    if (i < 1) fail(`--opt must be key=value, not "${kv}"`);
+    o[kv.slice(0, i)] = kv.slice(i + 1);
+  }
+  return o;
 }
 
 /** Without a formula: a merit column if there is one, else hours, else days worked. */

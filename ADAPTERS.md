@@ -97,6 +97,8 @@ agent-afterlife serve examples/my-adapter.js examples/runs
 | `track({ name, idleMinutes = 15 })` | Collects one agent's activity. `.at(time)` marks activity, `.count(stat, n, time)` counts an event on that day, `.count(stat, n)` adds a total without a time (it goes on the last day), `.set(stat, "text")` sets a string stat, `.session(extra)` returns the session (or `null` if there was no activity). Hours are the gaps between activities up to `idleMinutes`. |
 | `files(dir, regex)` | Every file under `dir` (recursive, no `node_modules` or `.git`) whose path matches, sorted. With `--since`, files not modified since then are skipped. |
 | `lines(file, filter?)` | Async iterator over the parsed lines of a JSON Lines file. Bad lines are skipped. `filter` (a string or a list) skips lines that do not contain it before parsing, which is much faster on big transcripts. |
+| `shellEvents(command)` | What a shell command did: `{ commits, prs_opened, prs_merged, tests }`. It reads each simple command, so a commit message or `git log --grep commit` does not count. For adapters that read agent transcripts. |
+| `options` | The `--opt key=value` pairs, as an object. Document the ones your adapter reads in its `description`. |
 | `since` | `--since` as milliseconds, or `undefined`. |
 | `log(message)` | Prints to stderr, prefixed with the adapter's name. |
 | `home` | The user's home folder. |
