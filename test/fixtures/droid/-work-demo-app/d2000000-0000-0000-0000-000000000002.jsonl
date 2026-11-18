@@ -1,0 +1,2 @@
+{"type":"session_start","id":"d2","cwd":"/work/demo-app"}
+{"type":"message","id":"1","timestamp":"2026-01-06T09:00:00Z","message":{"role":"user","content":[{"type":"text","text":"go"}]}}

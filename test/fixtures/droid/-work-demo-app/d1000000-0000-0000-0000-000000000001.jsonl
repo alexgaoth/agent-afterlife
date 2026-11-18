@@ -1,0 +1,8 @@
+{"type":"session_start","id":"d1000000-0000-0000-0000-000000000001","title":"Add search","cwd":"/work/demo-app"}
+{"type":"message","id":"1","timestamp":"2026-01-05T09:00:00Z","message":{"role":"user","content":[{"type":"text","text":"context"}],"visibility":"llm_only"}}
+{"type":"message","id":"2","timestamp":"2026-01-05T09:00:10Z","message":{"role":"user","content":[{"type":"text","text":"do it"}],"userMessageSource":"cli_tui"}}
+{"type":"message","id":"3","timestamp":"2026-01-05T09:01:00Z","message":{"role":"assistant","modelId":"model-d","content":[{"type":"tool_use","id":"u1","name":"Execute","input":{"command":"gh pr merge 3 --squash"}},{"type":"tool_use","id":"u2","name":"Edit","input":{"file_path":"a"}}]}}
+{"type":"message","id":"4","timestamp":"2026-01-05T09:02:00Z","message":{"role":"user","content":[{"type":"tool_result","tool_use_id":"u1","content":"ok"}]}}
+{"type":"message","id":"5","timestamp":"2026-01-05T09:02:30Z","message":{"role":"user","content":[],"hookEventName":"PostToolUse"}}
+{"type":"todo_state","id":"6","timestamp":"2026-01-05T09:03:00Z"}
+{"type":"message","id":"7","timestamp":"2026-01-05T09:04:00Z","message":{"role":"assistant","content":[{"type":"tool_use","id":"u3","name":"Execute","input":{"command":"pytest -q"}}]}}

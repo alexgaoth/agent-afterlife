@@ -1,0 +1,1 @@
+{"agent":{"llm":{"model":"model-o"}},"workspace":{"working_dir":"/work/demo-app"},"stats":{"usage_to_metrics":{"agent":{"accumulated_cost":0.5,"accumulated_token_usage":{"prompt_tokens":1000,"completion_tokens":200}}}}}

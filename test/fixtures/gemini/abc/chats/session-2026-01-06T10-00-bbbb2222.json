@@ -1,0 +1,1 @@
+{"sessionId":"bbbb2222","projectHash":"abc","startTime":"2026-01-06T10:00:00Z","lastUpdated":"2026-01-06T10:10:00Z","messages":[{"id":"a","timestamp":"2026-01-06T10:00:00Z","type":"user","content":"x"},{"id":"b","timestamp":"2026-01-06T10:05:00Z","type":"gemini","content":"y","toolCalls":[{"name":"replace","args":{},"timestamp":"2026-01-06T10:05:10Z"}]}]}

@@ -1,0 +1,11 @@
+{"timestamp":"2026-01-05T09:00:00Z","type":"session_meta","payload":{"id":"11111111-0000-0000-0000-000000000001","cwd":"/work/demo-app"}}
+{"timestamp":"2026-01-05T09:00:01Z","type":"turn_context","payload":{"model":"model-x","cwd":"/work/demo-app"}}
+{"timestamp":"2026-01-05T09:00:02Z","type":"event_msg","payload":{"type":"item_completed","item":{"type":"UserMessage","content":[]},"completed_at_ms":1767603602000}}
+{"timestamp":"2026-01-05T09:02:00Z","type":"response_item","payload":{"type":"function_call","name":"exec_command","arguments":"{\"cmd\":\"git commit -m x\"}"}}
+{"timestamp":"2026-01-05T09:02:01Z","type":"event_msg","payload":{"type":"item_completed","item":{"type":"CommandExecution","command":"git commit -m x"},"completed_at_ms":1767603721000}}
+{"timestamp":"2026-01-05T09:05:00Z","type":"response_item","payload":{"type":"custom_tool_call","name":"exec","input":"1+1"}}
+{"timestamp":"2026-01-05T09:06:00Z","type":"event_msg","payload":{"type":"item_completed","item":{"type":"FileChange","changes":{}},"completed_at_ms":1767603960000}}
+{"timestamp":"2026-01-05T09:06:00Z","type":"event_msg","payload":{"type":"token_count","info":{"total_token_usage":{"total_tokens":1200}}}}
+{"timestamp":"2026-01-05T09:30:00Z","type":"event_msg","payload":{"type":"token_count","info":{"total_token_usage":{"total_tokens":3000}}}}
+not json
+{"timestamp":"2026-01-05T09:10:00Z","type":"event_msg","payload":{"type":"mystery"}}

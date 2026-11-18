@@ -12,8 +12,14 @@ import { createInterface } from "node:readline";
 import { track, toMs } from "../core.js";
 import { json, jsonl, csv } from "./generic.js";
 import { shellEvents } from "./shell.js";
+import codex from "./codex.js";
+import gemini from "./gemini.js";
+import droid from "./droid.js";
+import aider from "./aider.js";
+import cursor from "./cursor.js";
+import openhands from "./openhands.js";
 
-export const BUILT_IN = [json, jsonl, csv];
+export const BUILT_IN = [json, jsonl, csv, codex, gemini, droid, aider, cursor, openhands];
 const BY_EXT = { ".json": json, ".jsonl": jsonl, ".ndjson": jsonl, ".csv": csv, ".tsv": csv };
 
 /** An adapter by name, by file extension of the data, or from a module path ("./my-adapter.js"). */
