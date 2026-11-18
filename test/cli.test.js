@@ -24,10 +24,10 @@ test("demo --json prints a valid document", () => {
 test("build writes the site with the data linked from both pages", () => {
   const out = join(mkdtempSync(join(tmpdir(), "aa-")), "site");
   assert.equal(run("build", FIXTURE, "--out", out).status, 0);
-  for (const f of ["index.html", "data.json", "temple/main.js", "graveyard/graveyard.js", "shared/afterlife.js", "schema/afterlife.schema.json"])
+  for (const f of ["index.html", "data.json", "temple/main.js", "graveyard/graveyard.js", "text/text.js", "shared/afterlife.js", "schema/afterlife.schema.json"])
     assert.ok(existsSync(join(out, f)), f);
   assert.ok(!existsSync(join(out, "cli")) && !existsSync(join(out, "test")));
-  for (const p of ["temple", "graveyard"]) assert.match(readFileSync(join(out, p, "index.html"), "utf8"), /<meta name="afterlife-data" content="data.json">/);
+  for (const p of ["temple", "graveyard", "text"]) assert.match(readFileSync(join(out, p, "index.html"), "utf8"), /<meta name="afterlife-data" content="data.json">/);
 });
 
 test("setDataMeta adds, replaces and removes the tag", () => {
