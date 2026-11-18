@@ -105,7 +105,7 @@ Show the temple or the graveyard inside your own dashboard. The view is an ifram
 </script>
 ```
 
-Or a plain iframe: `<iframe src="https://<your site>/temple/?embed=1&data=<url>"></iframe>`. With `?embed=1` a page hides its links back to this site, and it sends `agent-afterlife:loaded` and `agent-afterlife:select` messages to its parent. A full example: [`examples/embed.html`](examples/embed.html). `embed.js` from your own `build` or Pages site works the same way.
+Or a plain iframe: `<iframe src="https://<your site>/temple/?embed=1&data=<url>"></iframe>`. With `?embed=1` a page hides its links back to this site, and it sends messages to its parent: `agent-afterlife:loaded` (data checked), `agent-afterlife:shown` (first frame drawn, with timings: hide your spinner), `agent-afterlife:steady` (milliseconds per frame) and `agent-afterlife:select` (an agent opened). A full example: [`examples/embed.html`](examples/embed.html). `embed.js` from your own `build` or Pages site works the same way.
 
 ## The temple
 
@@ -116,7 +116,7 @@ Walk with WASD or the arrow keys, hurry with Shift, look with the mouse, read a 
 - **What the numbers say.** Five steles (碑林) along the path each carry one statistic about the fleet, carved with its chart: how unevenly merit is shared (功德), output day by day (年表), whether a longer life pays (寿), whether reused names do better (世系) and how scores spread (品). Look at one and press E, or press Y anywhere, for the annals (年鉴) scroll with every chart and finding. The statistics come from `shared/insights.js`, use only schema fields, cover agents that did real work, and say how many agents each rests on.
 - **Walking through time.** Stone lanterns (石灯笼) line the path, one per work day: the oldest at the gate, the newest at the hall steps. A lantern burns as bright as the fleet's merit that day; look at one for its date, merit and how many agents worked and ended. All lanterns are instanced: one draw call per part.
 - **Reading a statue.** Gilded all over (金身): the top 10% of working agents by merit. Incense in the tripod censer (鼎): one stick per day served. Height: up to 8% taller or shorter within its group, by merit rank. Robe colour, hat or helmet, beard and weapon (halberd 戟, or for a red-faced general the crescent glaive 偃月刀) only tell agents apart. Each statue is merged into a few draw calls per material.
-- **Links.** `?cam=x,y,z,yaw,pitch` starts at a viewpoint, `?read=<agent id>` opens that agent's scroll, `?annals[=key]` opens the annals, `?plain=1` turns the mural effect off, `?still=1` draws a few frames and freezes (for screenshots).
+- **Links.** `?cam=x,y,z,yaw,pitch` starts at a viewpoint, `?read=<agent id>` opens that agent's scroll, `?annals[=key]` opens the annals, `?plain=1` turns the mural effect off, `?quality=low` draws fewer pixels and no shadows (the default when the browser has no GPU; `?quality=high` forces full quality), `?still=1` draws a few frames and freezes (for screenshots).
 
 ## The data format
 

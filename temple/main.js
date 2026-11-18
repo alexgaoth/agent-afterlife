@@ -2,6 +2,9 @@
 import * as THREE from "three";
 import { PointerLockControls } from "three/addons/controls/PointerLockControls.js";
 import { loadData, ranked, living, passersBy, epitaph, shownStats, notify, onOpenRequest } from "../shared/afterlife.js";
+
+// Timing marks (performance.getEntriesByType("mark")): afterlife:data, afterlife:fonts, afterlife:scene, afterlife:first-frame.
+const mark = (name) => performance.mark(`afterlife:${name}`);
 import { insights, honours } from "../shared/insights.js";
 import { drawInsight } from "./insight-art.js";
 import { buildSteleForest } from "./steles.js";
@@ -16,6 +19,7 @@ const params = new URLSearchParams(location.search);
 const TIER = { main: "main", companion: "companion", hallEast: "hall", hallWest: "hall", wingsEast: "wings", wingsWest: "wings" };
 
 const { data, errors } = await loadData();
+mark("data");
 if (!data) {
   $("intro").hidden = true;
   $("error").hidden = false;
@@ -23,12 +27,23 @@ if (!data) {
   throw new Error("invalid data");
 }
 await Promise.all(['28px "Ma Shan Zheng"', '24px "IM Fell English"'].map((f) => document.fonts.load(f).catch(() => {})));
+mark("fonts");
 
 // ------------------------------------------------------------------ scene
 // ?still=1 keeps the last frame in the drawing buffer, so a screenshot after the loop stops still sees it.
 const renderer = new THREE.WebGLRenderer({ antialias: false, powerPreference: "high-performance", preserveDrawingBuffer: params.get("still") === "1" });
-renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
-renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+// ?quality=low draws fewer pixels (the mural effect costs per pixel); it is the default on a software renderer
+// (no GPU: SwiftShader, llvmpipe), where a full-size frame takes seconds. ?quality=high forces full size.
+const quality = params.get("quality") || (softwareGL(renderer) ? "low" : "high");
+renderer.setPixelRatio(quality === "low" ? 0.6 : Math.min(devicePixelRatio, 1.5));
+function softwareGL(r) {
+  try {
+    const gl = r.getContext(), ext = gl.getExtension("WEBGL_debug_renderer_info");
+    const name = String(gl.getParameter(ext ? ext.UNMASKED_RENDERER_WEBGL : gl.RENDERER));
+    return /swiftshader|llvmpipe|softpipe|software|basic render/i.test(name);
+  } catch { return false; }
+}
+renderer.shadowMap.enabled = quality !== "low"; renderer.shadowMap.type = THREE.PCFSoftShadowMap;   // low: no shadow pass
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 document.body.prepend(renderer.domElement);
 
@@ -296,6 +311,7 @@ function resize() {
 }
 addEventListener("resize", resize); resize();
 const clock = new THREE.Clock();
+mark("scene");
 const still = params.get("still") === "1";   // ?still=1 draws a few frames and stops: for screenshots and tests
 renderer.setAnimationLoop(() => {
   if (still && frame > 3) {
@@ -310,6 +326,12 @@ renderer.setAnimationLoop(() => {
   if (controls.isLocked || touchWalk) walk(dt);
   if (frame++ % 6 === 0) lookAround();
   mural.render(scene, camera);
+  if (frame === 1) {
+    mark("first-frame");
+    const t = Object.fromEntries(performance.getEntriesByType("mark").filter((m) => m.name.startsWith("afterlife:")).map((m) => [m.name.slice(10), Math.round(m.startTime)]));
+    notify("shown", { ms: t["first-frame"], marks: t, quality });       // embedders can hide their spinner now
+  }
+  if (frame === 31) notify("steady", { msPerFrame: Math.round((performance.now() - performance.getEntriesByName("afterlife:first-frame")[0].startTime) / 30), quality });
 });
 if (params.get("cam")) { $("intro").hidden = true; }   // a set camera (for links and screenshots) skips the intro
 onOpenRequest((id) => { $("intro").hidden = true; openScroll(id); });
