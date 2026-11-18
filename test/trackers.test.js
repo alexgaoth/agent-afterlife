@@ -95,6 +95,8 @@ test("github: a server error is tried again; a repository that keeps failing is 
   assert.deepEqual([calls.flaky, calls.down, calls.gone, calls.ok], [3, 4, 1, 1]);
   assert.ok(logs.some((m) => /2 of 4 repositories skipped/.test(m)));
   await assert.rejects(github.sessions("acme/down", ctx), /acme\/down: gh: HTTP 503/);
+});
+
 test("git: a repository and its worktrees are read once, with every branch, each commit once", async (t) => {
   const top = mkdtempSync(join(tmpdir(), "aa-wt-"));
   t.after(() => rmSync(top, { recursive: true, force: true }));
