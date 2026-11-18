@@ -10,6 +10,13 @@ agent-afterlife import <source> [path]           # write afterlife.json
 agent-afterlife serve <source> [path]            # import and look at it at once
 ```
 
+## Built in
+
+| Source | Reads | Notes |
+|---|---|---|
+| `claude-code` | `~/.claude/projects/*/*.jsonl` | One transcript = one agent. Name: the session's name (`claude -n`, `/rename`), else the project folder. Counts prompts, tool calls, file edits, shell commands, commits, PRs opened and merged (failed commands do not count), test runs, cost; subagents count as their parent's work. `--opt names=project` or `names=session`. |
+| `json`, `jsonl`, `csv` | a file you give | Sessions, events or day rows; below. |
+
 ## No code: a file of sessions, events or day rows
 
 If your workflow can write a file, you need no adapter. `import` reads `.json` (an array), `.jsonl` and
