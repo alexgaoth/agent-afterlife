@@ -42,6 +42,10 @@ const renderer = new THREE.WebGLRenderer({ antialias: false, powerPreference: "h
 // (no GPU: SwiftShader, llvmpipe), where a full-size frame takes seconds. ?quality=high forces full size.
 const quality = params.get("quality") || (softwareGL(renderer) ? "low" : "high");
 renderer.setPixelRatio(quality === "low" ? 0.6 : Math.min(devicePixelRatio, 1.5));
+// The scene is one image to assistive technology; the text version (linked first on the page) has the same content.
+Object.assign(renderer.domElement, { tabIndex: 0 });
+renderer.domElement.setAttribute("role", "img");
+renderer.domElement.setAttribute("aria-label", "A walkable temple of AI agents. Arrow keys walk and turn, [ and ] go from statue to statue, E reads one. The text version has the same content.");
 function softwareGL(r) {
   try {
     const gl = r.getContext(), ext = gl.getExtension("WEBGL_debug_renderer_info");
@@ -74,6 +78,9 @@ for (const s of seats) {
   scene.add(g);
   if (s.agent) g.traverse((o) => o.isMesh && pickable.push(o));
 }
+const seatedByRank = seats.filter((x) => x.agent)
+  .map((x) => ({ at: world.seats[x.zone][x.no - 1], zone: x.zone, agent: x.agent, rank: placement.get(x.agent.id).rank }))
+  .sort((a, b) => a.rank - b.rank);
 
 // Living agents walk the courtyard as pilgrims (香客). They take a seat when their session ends.
 const alive = living(data);
@@ -105,16 +112,53 @@ camera.position.set(start[0], world.floorAt(start[0], start[2]) + EYE + start[1]
 camera.rotation.order = "YXZ";
 camera.rotation.set(THREE.MathUtils.degToRad(start[4] || 0), THREE.MathUtils.degToRad(start[3] || 0), 0);
 
+// Keyboard mode: walking without pointer lock, for keyboard users and where the lock is refused (some iframes,
+// some browsers). It starts by itself when the lock fails, or with ?keys=1; Esc leaves it.
+let keyboardMode = false;
+const exploring = () => controls.isLocked || keyboardMode || touchWalk;
+function setKeyboardMode(on) {
+  keyboardMode = on;
+  $("intro").hidden = on; $("hud").hidden = !on;
+  if (on) renderer.domElement.focus();
+}
+document.addEventListener("pointerlockerror", () => setKeyboardMode(true));
+
 const keys = new Set();
 addEventListener("keydown", (e) => {
+  if (e.target.closest?.("dialog, input, textarea")) return;
   keys.add(e.code);
-  if (e.code === "KeyE" && looking && controls.isLocked) act(looking);
+  if ((e.code === "KeyE" || (e.code === "Enter" && keyboardMode)) && looking && exploring()) act(looking);
   if (e.code === "KeyY" && !$("annals").open) openAnnals();
+  if ((e.code === "BracketRight" || e.code === "BracketLeft") && exploring()) { e.preventDefault(); stepToStatue(e.code === "BracketRight" ? 1 : -1); }
+  if (e.code === "Escape" && keyboardMode && !$("scroll").open && !$("annals").open) setKeyboardMode(false);
 });
 addEventListener("keyup", (e) => keys.delete(e.code));
-$("enter").addEventListener("click", () => controls.lock());
-controls.addEventListener("lock", () => { $("intro").hidden = true; $("hud").hidden = false; });
+$("enter").addEventListener("click", () => {
+  if (params.get("keys") === "1" || !renderer.domElement.requestPointerLock) return setKeyboardMode(true);
+  controls.lock();
+});
+controls.addEventListener("lock", () => { keyboardMode = false; $("intro").hidden = true; $("hud").hidden = false; });
 controls.addEventListener("unlock", () => { if (!$("scroll").open) { $("intro").hidden = false; } });
+
+// [ and ]: stand before the previous or next enshrined statue, by merit rank. The label (role=status) says who it is.
+let statueAt = -1;
+function stepToStatue(step) {
+  const list = seatedByRank;
+  if (!list.length) return;
+  statueAt = (statueAt + step + list.length) % list.length;
+  const { at, agent, zone } = list[statueAt];
+  const fx = Math.sin(at.r), fz = Math.cos(at.r);                    // the way the statue faces
+  const back = zone === "main" || zone === "companion" ? 4.2 : 2.6;   // the two great statues need more room
+  const x = at.x + fx * back, z = at.z + fz * back;
+  camera.position.set(x, world.floorAt(x, z) + EYE, z);
+  camera.lookAt(at.x, at.y + 1.7, at.z);
+  looking = null; lookAround();
+  if (looking !== agent.id) {                                         // the gaze missed: say it anyway
+    looking = agent.id;
+    $("label").hidden = false;
+    $("label").innerHTML = `<b>${esc(nameOnTablet(agent))} ${generationCn(agent)}</b><span>${esc(where(agent))}</span><kbd>E</kbd>`;
+  }
+}
 renderer.domElement.addEventListener("click", () => {
   if (controls.isLocked && looking) act(looking);
 });
@@ -127,7 +171,9 @@ const dir = new THREE.Vector3(), side = new THREE.Vector3();
 function walk(dt) {
   const speed = (keys.has("ShiftLeft") || keys.has("ShiftRight") ? 7 : 3.6) * dt;
   const f = (keys.has("KeyW") || keys.has("ArrowUp") || touchWalk ? 1 : 0) - (keys.has("KeyS") || keys.has("ArrowDown") ? 1 : 0);
-  const s = (keys.has("KeyD") || keys.has("ArrowRight") ? 1 : 0) - (keys.has("KeyA") || keys.has("ArrowLeft") ? 1 : 0);
+  const s = (keys.has("KeyD") ? 1 : 0) - (keys.has("KeyA") ? 1 : 0);
+  const turn = (keys.has("ArrowLeft") ? 1 : 0) - (keys.has("ArrowRight") ? 1 : 0);   // arrows turn, so no mouse is needed
+  if (turn) camera.rotation.y += turn * 1.9 * dt;
   if (!f && !s) return;
   camera.getWorldDirection(dir); dir.y = 0; dir.normalize();
   side.crossVectors(dir, camera.up).normalize();
@@ -321,7 +367,7 @@ renderer.setAnimationLoop(() => {
     return;
   }
   const dt = Math.min(0.05, clock.getDelta());
-  if (controls.isLocked || touchWalk) walk(dt);
+  if (exploring()) walk(dt);
   pilgrims?.update(still ? 0 : clock.elapsedTime);   // ?still=1: the same positions on every load
   if (frame++ % 6 === 0) lookAround();
   mural.render(scene, camera);

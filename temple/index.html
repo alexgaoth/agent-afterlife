@@ -118,17 +118,20 @@
   @media (prefers-reduced-motion: reduce) { dialog[open] .roll, dialog[open] .handscroll { animation: none; } }
   @media (max-width: 560px) { .gatecard { grid-template-columns: 1fr; justify-items: start; } .plaque { font-size: 32px; } }
   .embed #back { display: none; }
+  .skip { position: absolute; left: 12px; top: -60px; z-index: 1000; padding: 8px 14px; background: #1f1b17; color: #f4efe3; font: 16px Georgia, serif; text-decoration: underline; }
+  .skip:focus { top: 12px; }
 </style>
 </head>
 <body>
+<a class="skip" id="skip-text" href="../text/">Text version (for screen readers and keyboards)</a>
 <div id="intro">
   <div class="gatecard">
     <div class="plaque" aria-hidden="true">武成王庙</div>
     <div>
       <h1>The Temple</h1>
       <p>The best agents are enshrined as the Song court seated its generals in 1123. Walk in and look at a statue to read its name.</p>
-      <button id="enter" type="button" disabled aria-live="polite">Reading the records…</button><a id="back" href="../">Agent Afterlife</a>
-      <p class="keys">WASD or arrows to walk, Shift to hurry, mouse to look, E to read a statue or stele, Y for the annals, Esc to step out.</p>
+      <button id="enter" type="button" disabled aria-live="polite">Reading the records…</button><a id="back" href="../">Agent Afterlife</a> <a id="text-link" href="../text/">Text version</a>
+      <p class="keys">WASD or arrows to walk (arrows turn), Shift to hurry, mouse to look, <kbd>[</kbd> <kbd>]</kbd> from statue to statue, E to read a statue or stele, Y for the annals, Esc to step out. No mouse? Add <code>?keys=1</code> to walk with the keyboard only.</p>
       <p class="keys"><button id="open-annals" type="button" class="linkish">Read the annals (年鉴)</button>: what the fleet's numbers say.</p>
     </div>
   </div>
@@ -155,6 +158,10 @@
   // Carry ?data= back to the landing page.
   const d = new URLSearchParams(location.search).get("data");
   if (d) document.getElementById("back").href = "../?data=" + encodeURIComponent(d);
+  // The text version shows the same data.
+  const q = new URLSearchParams(location.search), keep = new URLSearchParams();
+  for (const k of ["data", "demo"]) if (q.has(k)) keep.set(k, q.get(k));
+  for (const id of ["skip-text", "text-link"]) document.getElementById(id).href = "../text/" + (String(keep) ? "?" + keep : "");
 </script>
 <script type="module" src="main.js"></script>
 </body>
