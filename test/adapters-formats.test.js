@@ -30,6 +30,8 @@ function scratch(files) {
   }
   return dir;
 }
+// ctx.log lines carry no tool prefix (the CLI adds the adapter name); thrown errors do.
+const bare = (msg) => msg.replace(/^[a-z]+: /, "");
 const text = (tool, n, version = "") => `${tool}: ${n} ${n === 1 ? "file" : "files"} in an unknown format${version}, skipped; please open an issue with the line types, not the content`;
 
 // ------------------------------------------------------------------------------------------------ aider
@@ -57,7 +59,7 @@ test("aider: a file with no start line is reported once; if every file is like t
   try {
     const { sessions, logs } = await run("aider", dir);
     assert.equal(sessions.length, 1);
-    assert.deepEqual(logs.filter((l) => /unknown format/.test(l)), [text("aider", 2)]);
+    assert.deepEqual(logs.filter((l) => /unknown format/.test(l)), [bare(text("aider", 2))]);
     await assert.rejects(run("aider", bad), new Error(text("aider", 2)));
   } finally { rmSync(dir, { recursive: true, force: true }); rmSync(bad, { recursive: true, force: true }); }
 });
@@ -97,7 +99,7 @@ test("gemini: files in an unknown format are reported once with their version; a
   try {
     const { sessions, logs } = await run("gemini", dir);
     assert.equal(sessions.length, 1);
-    assert.deepEqual(logs.filter((l) => /unknown format/.test(l)), [text("gemini", 4, " (version 7)")]);
+    assert.deepEqual(logs.filter((l) => /unknown format/.test(l)), [bare(text("gemini", 4, " (version 7)"))]);
     await assert.rejects(run("gemini", bad), new Error(text("gemini", 2, " (version 7, 8)")));
     const cli = spawnSync("node", [BIN, "import", "gemini", bad, "--out", join(bad, "out.json")], { encoding: "utf8" });
     assert.equal(cli.status, 1);
@@ -137,7 +139,7 @@ test("openhands: a conversation with no readable events is reported once; all un
   try {
     const { sessions, logs } = await run("openhands", dir);
     assert.equal(sessions.length, 1);
-    assert.deepEqual(logs.filter((l) => /unknown format/.test(l)), [unit(2, " (version 3)")]);
+    assert.deepEqual(logs.filter((l) => /unknown format/.test(l)), [bare(unit(2, " (version 3)"))]);
     await assert.rejects(run("openhands", bad), new Error(unit(1, " (version 3)")));
   } finally { rmSync(dir, { recursive: true, force: true }); rmSync(bad, { recursive: true, force: true }); }
 });
@@ -193,7 +195,7 @@ test("cursor: a composerData with an unknown _v is reported once; all unknown is
   try {
     const { sessions, logs } = await run("cursor", mixed);
     assert.equal(sessions.length, 1);
-    assert.deepEqual(logs, [unit(2, "session", " (version 99)")]);
+    assert.deepEqual(logs, [bare(unit(2, "session", " (version 99)"))]);
     await assert.rejects(run("cursor", bad), new Error(unit(2, "session", " (version 99)")));
     // a database with other tables only (a newer layout we have never seen)
     assert.equal(spawnSync("sqlite3", [join(other, "state.vscdb")], { input: "CREATE TABLE chatStore (id TEXT, blob BLOB);" }).status, 0);

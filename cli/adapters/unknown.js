@@ -19,7 +19,7 @@ export function unknownFormats(tool, unit = "file") {
     finish(ctx) {
       if (!count) return;
       if (!ok) throw new Error(message());
-      ctx.log(message());
+      ctx.log(message().slice(tool.length + 2));   // ctx.log adds the adapter's name itself
     },
   };
 }
