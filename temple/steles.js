@@ -7,7 +7,7 @@ import { drawInsight } from "./insight-art.js";
 
 // Where each insight stands (x, z) and which way its face turns (toward the path).
 const PLACES = {
-  concentration: [-5.2, -6],
+  concentration: [-5.2, -6], survival: [5.2, -6],
   chronicle: [-5.2, 6], longevity: [5.2, 6],
   lineage: [-5.2, 18], quality: [5.2, 18],
 };

@@ -44,6 +44,28 @@ export function drawInsight(ctx, ins, x, y, w, h, hand = "ink") {
     ctx.fillStyle = H.text; ctx.textAlign = "right";
     ctx.fillText(`top 10% → ${Math.round((1 - p[1]) * 100)}%`, X(p[0]) - 8, Y(p[1]) + 4);
     ctx.textAlign = "left"; ctx.fillText("agents, least to most →", X(0), h - fs * 0.4);
+  } else if (c.kind === "survival") {
+    // A step curve: the share of agents still working after each day, shaded beneath; the median marked.
+    axes();
+    const T = c.rows.length, U = (t) => t / T;
+    const pts = [[0, 1]];
+    for (const r of c.rows) { pts.push([U(r.t), pts.at(-1)[1]]); pts.push([U(r.t), r.s]); }
+    ctx.fillStyle = H.fill; ctx.beginPath(); ctx.moveTo(X(0), Y(0));
+    for (const [u, v] of pts) ctx.lineTo(X(u), Y(v));
+    ctx.lineTo(X(1), Y(0)); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = H.line; ctx.lineWidth = Math.max(2.6, fs / 6); ctx.beginPath();
+    pts.forEach(([u, v], i) => (i ? ctx.lineTo(X(u), Y(v)) : ctx.moveTo(X(u), Y(v)))); ctx.stroke();
+    ctx.setLineDash([4, 5]); ctx.strokeStyle = H.faint; ctx.lineWidth = 1.2;
+    ctx.beginPath(); ctx.moveTo(X(0), Y(0.5)); ctx.lineTo(X(1), Y(0.5)); ctx.stroke(); ctx.setLineDash([]);
+    if (c.median) {
+      const u = U(c.median);
+      ctx.fillStyle = H.mark; ctx.beginPath(); ctx.arc(X(u), Y(0.5), 4, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = H.text; ctx.textAlign = u > 0.6 ? "right" : "left";
+      ctx.fillText(`half by day ${c.median}`, X(u) + (u > 0.6 ? -8 : 8), Y(0.5) - 8);
+    }
+    ctx.fillStyle = H.text; ctx.textAlign = "left"; ctx.fillText("0", X(0), h - fs * 0.3);
+    ctx.textAlign = "right"; ctx.fillText(`${T} day${T === 1 ? "" : "s"}`, X(1), h - fs * 0.3);
+    ctx.save(); ctx.translate(fs, Y(0.5)); ctx.rotate(-Math.PI / 2); ctx.textAlign = "center"; ctx.fillText("still working", 0, 0); ctx.restore();
   } else if (c.kind === "days") {
     // Merit per day as bars; births tick up from the baseline, deaths tick down.
     axes();
