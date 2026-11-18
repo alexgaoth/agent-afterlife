@@ -38,3 +38,15 @@ test("a long list of problems is cut short", () => {
   assert.equal(p.length, 41);
   assert.match(p.at(-1), /more problems/);
 });
+
+test("demo(seed, n): any size, the same every time, valid; the default is unchanged in shape", () => {
+  const big = demo(1123, 10000);
+  assert.deepEqual(validate(big), []);
+  assert.equal(big.agents.length, 10000);
+  assert.equal(new Set(big.agents.map((a) => a.id)).size, 10000);
+  assert.equal(big.agents.filter((a) => a.status === "alive").length, 100);
+  assert.equal(JSON.stringify(demo(7, 500)), JSON.stringify(demo(7, 500)));
+  assert.equal(demo().agents.length, 90);
+  assert.equal(demo().title, "A demo fleet");
+  assert.deepEqual(validate(demo(1123, 1)), []);
+});

@@ -4,7 +4,8 @@
 //   a SESSION  has a start:   name, start [, end, alive|status, merit, score, url, epitaph, any numbers]
 //   an EVENT   has a time:    name, time [, kind, n]          e.g. {"agent":"Ada","time":"...","kind":"commit"}
 //   a DAY      has a date:    name, date [, any numbers]      e.g. one row per agent per day
-// Records with the same name (and the same session id, if there is one) are one agent.
+// A session record is one agent life. Event and day records with the same name (and the same session id, if
+// there is one) are one agent life.
 import { readFile } from "node:fs/promises";
 import { track, toMs } from "../core.js";
 
@@ -33,7 +34,9 @@ export function rowsToSessions(records) {
     if (!raw || typeof raw !== "object") continue;
     const r = lower(raw);
     const name = String(pick(r, "name") ?? "Unnamed");
-    const key = `${name}\u0000${pick(r, "session") ?? r.id ?? ""}`;
+    // A session row is one life by itself; events and day rows with one name (and session id) make one life.
+    const sid = pick(r, "session") ?? r.id;
+    const key = sid !== undefined ? `${name}\u0000${sid}` : pick(r, "start") !== undefined ? `\u0001${groups.size}` : `${name}\u0000`;
     if (!groups.has(key)) groups.set(key, { name, rows: [] });
     groups.get(key).rows.push(r);
   }

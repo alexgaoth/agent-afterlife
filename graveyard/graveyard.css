@@ -71,6 +71,8 @@ a { color: var(--paper); }
 .monuments li:nth-child(3) { grid-column: 3; grid-row: 1; }
 
 .plot { margin-top: 26px; }
+/* A large fleet has thousands of stones: the browser skips laying out and painting the ones off screen. */
+.row > li { content-visibility: auto; contain-intrinsic-size: auto 110px auto 190px; overflow-clip-margin: 40px; }   /* room for lean, grass and shadow */
 .row { list-style: none; padding: 0; margin: 0 auto; max-width: 1040px; display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; gap: 34px clamp(16px, 3vw, 40px); }
 .plot-medium .row { gap: 26px clamp(12px, 2vw, 24px); }
 .plot-small .row { gap: 22px clamp(10px, 1.6vw, 18px); }
