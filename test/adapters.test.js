@@ -32,6 +32,9 @@ test("records: sessions, events and day rows", () => {
   assert.deepEqual([dy.stats.merged, dy.stats.hours, dy.score], [3, 3, 70]);
   const split = rowsToSessions([{ name: "Ada", session: 1, time: "2026-01-05T09:00Z" }, { name: "Ada", session: 2, time: "2026-01-06T09:00Z" }]);
   assert.equal(split.length, 2);
+  // Two session rows with one name and no session id are two lives (generations), not one.
+  const rows = rowsToSessions([{ name: "Ada", start: "2026-01-05T09:00Z", end: "2026-01-05T10:00Z" }, { name: "Ada", start: "2026-01-06T09:00Z", end: "2026-01-06T09:30Z" }]);
+  assert.deepEqual(rows.map((x) => x.stats.hours), [1, 0.5]);
 });
 
 test("the example adapter and example files import to valid documents", async () => {

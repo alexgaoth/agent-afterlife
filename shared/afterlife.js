@@ -227,27 +227,32 @@ function rng(seed) {
 
 const DEMO_NAMES = ["Marlow", "Tamsin", "Corwin", "Isolde", "Ansel", "Briar", "Odile", "Fenwick", "Rosalind", "Thaddeus", "Wren", "Ottoline", "Caspian", "Hester", "Lucan", "Sabine"];
 
-/** A made-up fleet of 90 agents over three weeks. No real data. */
-export function demo(seed = 1123) {
+/**
+ * A made-up fleet, the same on every call for the same seed and size. No real data. The default (90 agents over
+ * three weeks) is what the pages show; larger fleets (`agent-afterlife demo --agents 10000`) span more days.
+ */
+export function demo(seed = 1123, n = 90) {
   const r = rng(seed);
   const start = Date.UTC(2026, 0, 5);
-  const day = (n) => new Date(start + n * 864e5).toISOString().slice(0, 10);
+  const D = n <= 90 ? 21 : Math.min(365, Math.ceil(21 * Math.sqrt(n / 90)));   // days the fleet spans
+  const living = n === 90 ? 8 : Math.max(8, Math.round(n / 100));
+  const day = (k) => new Date(start + k * 864e5).toISOString().slice(0, 10);
   const agents = [];
-  for (let i = 0; i < 90; i++) {
+  for (let i = 0; i < n; i++) {
     const name = r() < 0.12 ? "Unnamed" : DEMO_NAMES[Math.floor(r() * DEMO_NAMES.length)];
-    const first = Math.floor((i / 90) * 20);
+    const first = Math.floor((i / n) * (D - 1));
     const span = [1, 1, 1, 2, 2, 3, 4, 5][Math.floor(r() * 8)];
     const busy = r() ** 2;                     // most agents are brief; a few carry the work
     const series = [];
     let merit = 0, merged = 0, issues = 0, hours = 0;
-    for (let d = 0; d < span && first + d < 21; d++) {
+    for (let d = 0; d < span && first + d < D; d++) {
       const h = +(0.05 + busy * (1 + r() * 8)).toFixed(2);
       const v = Math.round(Math.min(98, Math.max(5, 35 + 50 * busy + (r() - 0.5) * 20)));
       series.push({ date: day(first + d), value: v, weight: h });
       merit += (v / 100) * h; hours += h;
       merged += Math.floor(busy * r() * 12); issues += Math.floor(busy * r() * 6);
     }
-    const alive = i >= 82;                    // the newest eight are still running
+    const alive = i >= n - living;            // the newest are still running
     agents.push({
       id: `${name}-${i}`, name, status: alive ? "alive" : "ended",
       born: series[0].date, ...(alive ? {} : { ended: series[series.length - 1].date }),
@@ -260,10 +265,10 @@ export function demo(seed = 1123) {
   const gen = {};
   for (const a of agents) { gen[a.name] = (gen[a.name] || 0) + 1; a.id = `${a.name} #${gen[a.name]}`; a.generation = gen[a.name]; }
   const doc = {
-    schema: SCHEMA, title: "A demo fleet", generated: new Date(start + 21 * 864e5).toISOString(),
+    schema: SCHEMA, title: n === 90 ? "A demo fleet" : `A demo fleet of ${n}`, generated: new Date(start + D * 864e5).toISOString(),
     metrics: [{ key: "merged", label: "PRs merged" }, { key: "issues", label: "Issues closed" }, { key: "hours", label: "Hours worked", unit: " h" }],
     agents,
-    edicts: [{ date: day(20) + "T08:00:00Z", items: [{ kind: "enshrined", agent: agents[70].id, to: "wings" }, { kind: "promoted", agent: agents[52].id, from: "wings", to: "hall" }] }],
+    edicts: n < 4 ? [] : [{ date: day(D - 1) + "T08:00:00Z", items: [{ kind: "enshrined", agent: agents[Math.floor((n * 70) / 90)].id, to: "wings" }, { kind: "promoted", agent: agents[Math.floor((n * 52) / 90)].id, from: "wings", to: "hall" }] }],
   };
   return normalise(doc);
 }
