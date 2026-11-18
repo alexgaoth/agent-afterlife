@@ -15,8 +15,10 @@ import { shellEvents } from "./shell.js";
 import claudeCode from "./claude-code.js";
 import git from "./git.js";
 import github from "./github.js";
+import linear from "./linear.js";
+import jira from "./jira.js";
 
-export const BUILT_IN = [claudeCode, git, github, json, jsonl, csv];
+export const BUILT_IN = [claudeCode, git, github, linear, jira, json, jsonl, csv];
 const BY_EXT = { ".json": json, ".jsonl": jsonl, ".ndjson": jsonl, ".csv": csv, ".tsv": csv };
 
 /** An adapter by name, by file extension of the data, or from a module path ("./my-adapter.js"). */

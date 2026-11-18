@@ -17,6 +17,8 @@ agent-afterlife serve <source> [path]            # import and look at it at once
 | `claude-code` | `~/.claude/projects/*/*.jsonl` | One transcript = one agent. Name: the session's name (`claude -n`, `/rename`), else the project folder. Counts prompts, tool calls, file edits, shell commands, commits, PRs opened and merged (failed commands do not count), test runs, cost; subagents count as their parent's work. `--opt names=project` or `names=session`. |
 | `git` | local repositories (a repo, or a folder of repos) | Commits whose author or trailer names an agent (`Co-authored-by: Claude`, `Generated with ...`, `Name (aider)`, `copilot-swe-agent[bot]`, ...). One agent's commits in one repo are one life until a gap of 3 hours. Works with any workflow that commits. `--opt by=author`, `gap=<hours>`, `all=1`, `agent=<regex>=<Name>`. |
 | `github` | `owner/repo[,owner/repo]` | Pull requests whose author, branch (`claude/...`, `codex/...`) or body footer names an agent; one life per PR, alive while open. `GITHUB_TOKEN` or the `gh` login. `--opt by=author`, `max=<n>`, `agent=<regex>=<Name>`. |
+| `linear` | team keys (`ENG,OPS`) or `all` | One life per started issue, named by the agent it is delegated to, else its assignee; alive while in progress. `LINEAR_API_KEY`. `--opt by=assignee`, `only=<regex>`. A Linear CSV export also works with `csv`. |
+| `jira` | a project key or JQL | One life per started issue, named by its assignee. `JIRA_URL`, `JIRA_EMAIL`, `JIRA_API_TOKEN`. `--opt only=<regex>`, `points=<field id>`. |
 | `json`, `jsonl`, `csv` | a file you give | Sessions, events or day rows; below. |
 
 ## No code: a file of sessions, events or day rows
