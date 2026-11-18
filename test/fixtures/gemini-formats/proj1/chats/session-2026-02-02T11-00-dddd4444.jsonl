@@ -1,0 +1,6 @@
+{"sessionId":"dddd4444","projectHash":"p1","startTime":"2026-02-02T11:00:00Z","lastUpdated":"2026-02-02T11:00:00Z"}
+{"id":"a1","timestamp":"2026-02-02T11:00:00Z","type":"user","content":"first"}
+{"id":"a2","timestamp":"2026-02-02T11:01:00Z","type":"gemini","content":"ok"}
+{"$rewindTo":"not-there"}
+{"id":"b1","timestamp":"2026-02-02T11:02:00Z","type":"user","content":"second"}
+{"$set":{"messages":[{"id":"c1","timestamp":"2026-02-02T11:03:00Z","type":"user","content":"third"},{"id":"c2","timestamp":"2026-02-02T11:04:00Z","type":"user","content":"fourth"}]}}

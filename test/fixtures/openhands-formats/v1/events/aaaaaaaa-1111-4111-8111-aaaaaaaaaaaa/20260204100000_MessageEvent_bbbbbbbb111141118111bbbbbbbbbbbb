@@ -1,0 +1,1 @@
+{"kind": "MessageEvent", "id": "bbbbbbbb-1111-4111-8111-bbbbbbbbbbbb", "timestamp": "2026-02-04T10:00:00", "source": "user", "llm_message": {"role": "user", "content": [{"type": "text", "text": "hello"}]}}

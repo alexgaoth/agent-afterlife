@@ -1,0 +1,2 @@
+CREATE TABLE cursorDiskKV (key TEXT UNIQUE ON CONFLICT REPLACE, value BLOB);
+INSERT INTO cursorDiskKV VALUES ('composerData:old1', CAST('{"_v":2,"composerId":"old1","name":"Old chat","createdAt":1748764800000,"lastUpdatedAt":1748765400000,"conversation":[{"type":1,"bubbleId":"i1","text":"a","timestamp":1748764800000},{"type":2,"bubbleId":"i2","text":"b","timestamp":1748764860000,"toolFormerData":{"name":"search_replace","params":"{}"}},{"type":1,"bubbleId":"i3","text":"c","timestamp":1748764920000}]}' AS BLOB));

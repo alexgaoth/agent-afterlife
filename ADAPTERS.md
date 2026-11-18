@@ -32,6 +32,9 @@ generations of one lineage, and no session title (often written from a prompt) i
 uses the tool's session titles instead. Claude Code also uses names you gave on purpose (`claude -n`, `/rename`).
 `codex`, `gemini`, `aider`, `cursor` and `openhands` were written from the tools' formats and public source;
 if your version logs differently, please open an issue with the line types (not the content).
+`gemini`, `aider`, `cursor` and `openhands` say so when they meet files in a format they do not know (for example
+`gemini: 3 files in an unknown format (version 7), skipped`); if every file is unknown the import stops with that message.
+Each adapter's header comment lists the formats it reads and the source they come from.
 
 ## No code: a file of sessions, events or day rows
 

@@ -1,0 +1,13 @@
+{"sessionId":"cccc3333","projectHash":"p1","startTime":"2026-02-01T10:00:00Z","lastUpdated":"2026-02-01T10:00:00Z","kind":"main"}
+{"id":"u1","timestamp":"2026-02-01T10:00:00Z","type":"user","content":[{"text":"add a flag"}]}
+{"id":"g1","timestamp":"2026-02-01T10:01:00Z","type":"gemini","content":"","model":"model-g","tokens":{"input":10,"output":5,"cached":0,"total":15},"toolCalls":[{"id":"t1","name":"replace","args":{},"status":"executing","timestamp":"2026-02-01T10:01:10Z"}]}
+{"id":"g1","timestamp":"2026-02-01T10:01:00Z","type":"gemini","content":"","model":"model-g","tokens":{"input":10,"output":5,"cached":0,"total":15},"toolCalls":[{"id":"t1","name":"replace","args":{},"status":"success","timestamp":"2026-02-01T10:01:10Z"},{"id":"t2","name":"run_shell_command","args":{"command":"npm test"},"status":"success","timestamp":"2026-02-01T10:01:30Z"}]}
+{"id":"u2","timestamp":"2026-02-01T10:02:00Z","type":"user","content":[{"functionResponse":{"id":"t2","name":"run_shell_command","response":{"output":"ok"}}}]}
+{"id":"u3","timestamp":"2026-02-01T10:03:00Z","type":"user","content":"/help"}
+{"id":"u4","timestamp":"2026-02-01T10:03:30Z","type":"user","content":"<session_context>\nThis is the Gemini CLI.</session_context>"}
+{"id":"i1","timestamp":"2026-02-01T10:03:40Z","type":"info","content":"Request cancelled."}
+{"id":"u5","timestamp":"2026-02-01T10:04:00Z","type":"user","content":"thanks"}
+{"id":"g2","timestamp":"2026-02-01T10:05:00Z","type":"gemini","content":"done","thoughts":[{"subject":"x","description":"y","timestamp":"2026-02-01T10:04:30Z"}]}
+{"$patch":{"id":"g2","content":"done."}}
+{"$patch":{"removeIds":["u5"]}}
+{"$set":{"lastUpdated":"2026-02-01T10:05:00Z","summary":"Add a flag"}}

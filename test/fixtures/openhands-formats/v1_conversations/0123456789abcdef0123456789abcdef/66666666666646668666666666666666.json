@@ -1,0 +1,1 @@
+{"kind": "MessageEvent", "id": "66666666-6666-4666-8666-666666666666", "timestamp": "2026-02-03T09:04:00", "source": "agent", "llm_message": {"role": "assistant", "content": [{"type": "text", "text": "done"}]}}

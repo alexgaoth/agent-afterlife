@@ -101,7 +101,7 @@ async function importDoc(spec, path) {
     try { adapter = await loadAdapter(sp); } catch (e) { fail(e.message); }
     let got;
     try { got = await runAdapter(adapter, path, { since: since(opt.since), options: adapterOptions(), log: (m) => console.error(`${adapter.name}: ${m}`) }); }
-    catch (e) { fail(`${adapter.name}: ${e.message}`); }
+    catch (e) { fail(e.message.startsWith(`${adapter.name}: `) ? e.message : `${adapter.name}: ${e.message}`); }
     console.error(`${adapter.name}: ${got.length} sessions`);
     if (specs.length > 1) for (const s of got) s.stats = { ...s.stats, tool: adapter.name };
     sessions.push(...got); names.push(adapter.name);

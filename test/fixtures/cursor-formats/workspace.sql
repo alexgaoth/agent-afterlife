@@ -1,0 +1,3 @@
+CREATE TABLE ItemTable (key TEXT UNIQUE ON CONFLICT REPLACE, value BLOB);
+INSERT INTO ItemTable VALUES ('composer.composerData', CAST('{"allComposers":[{"composerId":"w1","name":"Workspace chat","createdAt":1730455200000,"lastUpdatedAt":1730455500000,"conversation":[{"type":1,"bubbleId":"w1a","text":"q"},{"type":2,"bubbleId":"w1b","text":"a"}]}],"selectedComposerId":"w1","composerDataVersion":1}' AS BLOB));
+INSERT INTO ItemTable VALUES ('workbench.panel.aichat.view.aichat.chatdata', CAST('{"tabs":[{"tabId":"t1","chatTitle":"Panel chat","lastSendTime":1727784300000,"bubbles":[{"type":"user","text":"q","timestamp":1727784000000},{"type":"ai","text":"a","timestamp":1727784060000},{"type":"user","text":"q2","timestamp":1727784120000}]}]}' AS BLOB));
