@@ -10,6 +10,10 @@ Open the site with no data and it shows a made-up demo fleet: **[intro.alexgaoth
 ## Use it with your own agents
 
 ```sh
+npx github:alexgaoth/agent-afterlife serve claude-code            # your Claude Code sessions (~/.claude/projects)
+npx github:alexgaoth/agent-afterlife serve codex,droid,gemini      # several harnesses at once (also aider, cursor, openhands)
+npx github:alexgaoth/agent-afterlife serve git ~/code              # commits by any AI agent, from their trailers
+npx github:alexgaoth/agent-afterlife serve github owner/repo       # pull requests by agents (Copilot, Codex, Devin, ...)
 npx github:alexgaoth/agent-afterlife serve my-events.csv          # any file of sessions, events or day rows
 npx github:alexgaoth/agent-afterlife serve ./my-adapter.js         # your own 30-line adapter
 npx github:alexgaoth/agent-afterlife import my-events.csv --merit "commits + prs_merged*5"

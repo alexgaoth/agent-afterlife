@@ -12,14 +12,18 @@ import { createInterface } from "node:readline";
 import { track, toMs } from "../core.js";
 import { json, jsonl, csv } from "./generic.js";
 import { shellEvents } from "./shell.js";
+import claudeCode from "./claude-code.js";
 import codex from "./codex.js";
 import gemini from "./gemini.js";
 import droid from "./droid.js";
 import aider from "./aider.js";
 import cursor from "./cursor.js";
 import openhands from "./openhands.js";
+import git from "./git.js";
+import github from "./github.js";
 
-export const BUILT_IN = [json, jsonl, csv, codex, gemini, droid, aider, cursor, openhands];
+// Agent harnesses first, then work trackers, then plain files.
+export const BUILT_IN = [claudeCode, codex, gemini, droid, aider, cursor, openhands, git, github, json, jsonl, csv];
 const BY_EXT = { ".json": json, ".jsonl": jsonl, ".ndjson": jsonl, ".csv": csv, ".tsv": csv };
 
 /** An adapter by name, by file extension of the data, or from a module path ("./my-adapter.js"). */
@@ -38,9 +42,9 @@ export async function loadAdapter(spec) {
 
 /** Run one adapter and return its sessions; with `since` (ms), only those active since then. */
 export async function runAdapter(adapter, path, { since, options = {}, log = () => {} } = {}) {
-  const where = expandHome(path || adapter.impliedPath || adapter.defaultPath || "");
-  if (!where) throw new Error(`${adapter.name} needs a path`);
-  if (!existsSync(where)) throw new Error(`${adapter.name}: ${where} does not exist`);
+  const where = adapter.remote ? path || adapter.defaultPath : expandHome(path || adapter.impliedPath || adapter.defaultPath || "");
+  if (!where) throw new Error(`${adapter.name} needs ${adapter.remote ? "a target, for example owner/repo" : "a path"}`);
+  if (!adapter.remote && !existsSync(where)) throw new Error(`${adapter.name}: ${where} does not exist`);
   const ctx = helpers({ since, options, log });
   const out = [];
   const got = await adapter.sessions(where, ctx);

@@ -8,7 +8,7 @@
 // A prompt is a user message with a text block that is not hook output (hookEventName) and not "llm_only" (injected context).
 // Tools by name: Execute { command } = shell; Edit, Create, ApplyPatch, MultiEdit = file writes; every tool_use is a tool call.
 // <session id>.settings.json holds { model, tokenUsage: { inputTokens, outputTokens, ... } }; read when present.
-// The session name is the recorded title, else the basename of cwd (the project folder), else the sessions folder's name.
+// Name: the basename of cwd (the project folder), else "Droid". With --opt names=title, the recorded session title first.
 //
 // Verified on the structure of real local logs. Uncertain: the "llm_only" visibility rule for prompts is inferred
 // from the values seen (llm_only, user_only, none); other Droid versions may name tools differently.
@@ -59,7 +59,7 @@ export default {
           if (n) t.count("tokens", n);
         }
         if (model) t.set("model", model);
-        const s = t.session({ name: title || (cwd ? basename(String(cwd)) : "") || "Droid" });
+        const s = t.session({ name: (ctx.options.names === "title" && title) || (cwd ? basename(String(cwd)) : "") || "Droid" });
         if (s) sessions.push(s);
       } catch (e) { ctx.log(`skipping ${basename(file)}: ${e.message}`); }
     }

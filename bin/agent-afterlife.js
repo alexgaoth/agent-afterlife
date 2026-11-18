@@ -173,7 +173,7 @@ async function main() {
     case "adapters": {
       for (const a of BUILT_IN) {
         const where = a.defaultPath ? expandHome(a.defaultPath) : null;
-        const state = !where ? "give a file" : existsSync(where) ? `found ${a.defaultPath}` : `not found (${a.defaultPath})`;
+        const state = a.remote ? "give a target (see the description)" : !where ? "give a file" : existsSync(where) ? `found ${a.defaultPath}` : `not found (${a.defaultPath})`;
         console.log(`  ${a.name.padEnd(12)} ${a.description}\n  ${"".padEnd(12)} ${state}`);
       }
       return console.log("\nYour own: agent-afterlife import ./my-adapter.js [path]   (see ADAPTERS.md)");

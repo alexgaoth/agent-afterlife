@@ -8,7 +8,8 @@
 //   type "event_msg"       payload.type: "user_message", "exec_command_end", "patch_apply_end", "token_count" { info.total_token_usage },
 //                          and in newer versions "item_completed" { item: { type: "UserMessage" | "CommandExecution" { command } | "FileChange" } }
 // Newer versions compress finished sessions to "*.jsonl.zst"; those are read with Node's zlib (Node 22.15+) or the `zstd` tool.
-// A title comes from ~/.codex/session_index.jsonl ({ id, thread_name }); else the folder name of the session's cwd.
+// Name: the folder name of the session's cwd, so one project's sessions form one lineage. With --opt names=title,
+// the session's title from ~/.codex/session_index.jsonl ({ id, thread_name }).
 //
 // Verified on the structure of real local logs (newer format: session_meta, turn_context, response_item, item_completed,
 // token_count, session_index). The older format (shell function_call with a "command" array, apply_patch, user_message
@@ -57,7 +58,7 @@ async function titles(dir, ctx) {
 
 export default {
   name: "codex",
-  description: "OpenAI Codex CLI sessions (~/.codex/sessions/YYYY/MM/DD/rollout-*.jsonl, also .jsonl.zst)",
+  description: "OpenAI Codex CLI sessions (~/.codex/sessions, also .jsonl.zst). --opt names=title",
   defaultPath: "~/.codex/sessions",
   merit: "prs_merged*5 + prs_opened*2 + commits + edits/20 + hours/4",
   async sessions(dir, ctx) {
@@ -101,7 +102,7 @@ export default {
             }
           }
         }
-        const t = ctx.track({ name: names.get(id) || (cwd ? basename(String(cwd)) : "") || "Codex" });
+        const t = ctx.track({ name: (ctx.options.names === "title" && names.get(id)) || (cwd ? basename(String(cwd)) : "") || "Codex" });
         for (const a of all) t.at(a);
         const prompt = [prompts.event, prompts.item, prompts.message].find((x) => x.length) || [];
         for (const a of prompt) t.count("prompts", 1, a);

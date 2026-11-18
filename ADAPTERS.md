@@ -10,6 +10,27 @@ agent-afterlife import <source> [path]           # write afterlife.json
 agent-afterlife serve <source> [path]            # import and look at it at once
 ```
 
+## Built in
+
+| Source | Reads | Notes |
+|---|---|---|
+| `claude-code` | `~/.claude/projects/*/*.jsonl` | One transcript = one agent. Name: the session's name (`claude -n`, `/rename`), else the project folder. Counts prompts, tool calls, file edits, shell commands, commits, PRs opened and merged (failed commands do not count), test runs, cost; subagents count as their parent's work. `--opt names=project` or `names=session`. |
+| `codex` | `~/.codex/sessions` (`.jsonl` and `.jsonl.zst`) | OpenAI Codex CLI. Prompts, tool calls, commands, edits (patches), commits/PRs/tests, tokens, model. |
+| `gemini` | `~/.gemini/tmp/<project>/` | Gemini CLI chat recordings (`chats/session-*.jsonl`, older `.json`) and checkpoints. |
+| `droid` | `~/.factory/sessions` | Factory Droid. Prompts, tool calls, commands, edits, commits/PRs/tests, tokens and model from `<id>.settings.json`. |
+| `aider` | `.aider.chat.history.md` under a folder (default `.`) | One life per `# aider chat started at`. Prompts, applied edits, commits, commands, cost. No per-message times, so hours are near 0. |
+| `cursor` | Cursor's `state.vscdb` | Composer (chat and agent) sessions. Needs the `sqlite3` tool; reads only times, counts and tool names. |
+| `openhands` | `~/.openhands` | OpenHands conversations: new (`events/event-*.json`, `base_state.json`) and old (`events/<n>.json`, `metadata.json`) stores. |
+| `git` | local repositories (a repo, or a folder of repos) | Commits whose author or trailer names an agent (`Co-authored-by: Claude`, `Generated with ...`, `Name (aider)`, `copilot-swe-agent[bot]`, ...). One agent's commits in one repo are one life until a gap of 3 hours. Works with any workflow that commits. `--opt by=author`, `gap=<hours>`, `all=1`, `agent=<regex>=<Name>`. |
+| `github` | `owner/repo[,owner/repo]` | Pull requests whose author, branch (`claude/...`, `codex/...`) or body footer names an agent; one life per PR, alive while open. `GITHUB_TOKEN` or the `gh` login. `--opt by=author`, `max=<n>`, `agent=<regex>=<Name>`. |
+| `json`, `jsonl`, `csv` | a file you give | Sessions, events or day rows; below. |
+
+Every harness adapter names an agent by its **project folder**, so one project's sessions become the
+generations of one lineage, and no session title (often written from a prompt) is shown. `--opt names=title`
+uses the tool's session titles instead. Claude Code also uses names you gave on purpose (`claude -n`, `/rename`).
+`codex`, `gemini`, `aider`, `cursor` and `openhands` were written from the tools' formats and public source;
+if your version logs differently, please open an issue with the line types (not the content).
+
 ## No code: a file of sessions, events or day rows
 
 If your workflow can write a file, you need no adapter. `import` reads `.json` (an array), `.jsonl` and
@@ -95,7 +116,7 @@ agent-afterlife serve examples/my-adapter.js examples/runs
 | Helper | Does |
 |---|---|
 | `track({ name, idleMinutes = 15 })` | Collects one agent's activity. `.at(time)` marks activity, `.count(stat, n, time)` counts an event on that day, `.count(stat, n)` adds a total without a time (it goes on the last day), `.set(stat, "text")` sets a string stat, `.session(extra)` returns the session (or `null` if there was no activity). Hours are the gaps between activities up to `idleMinutes`. |
-| `files(dir, regex)` | Every file under `dir` (recursive, no `node_modules` or `.git`) whose path matches, sorted. With `--since`, files not modified since then are skipped. |
+| `files(dir, regex, { maxDepth })` | Every file under `dir` (recursive, no `node_modules` or `.git`) whose path matches, sorted. With `--since`, files not modified since then are skipped. |
 | `lines(file, filter?)` | Async iterator over the parsed lines of a JSON Lines file. Bad lines are skipped. `filter` (a string or a list) skips lines that do not contain it before parsing, which is much faster on big transcripts. |
 | `shellEvents(command)` | What a shell command did: `{ commits, prs_opened, prs_merged, tests }`. It reads each simple command, so a commit message or `git log --grep commit` does not count. For adapters that read agent transcripts. |
 | `options` | The `--opt key=value` pairs, as an object. Document the ones your adapter reads in its `description`. |
@@ -122,7 +143,9 @@ agent-afterlife serve examples/my-adapter.js examples/runs
 
 ## Add a built-in adapter
 
-1. `cli/adapters/<name>.js`, exported default as above, with a `defaultPath` where the tool keeps its logs.
+1. `cli/adapters/<name>.js`, exported default as above, with a `defaultPath` where the tool keeps its logs
+   (or `remote: true` when the argument is not a local path, as for `github`). To know which agent made a
+   commit or a PR, use `agentOf()` and `credits()` from `cli/adapters/agents.js`.
 2. Add it to `BUILT_IN` in `cli/adapters/index.js`.
 3. A synthetic fixture under `test/fixtures/<name>/` (never real transcripts: they hold code and prompts) and a
    test in `test/adapters.test.js`.

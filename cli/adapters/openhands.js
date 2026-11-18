@@ -10,7 +10,7 @@
 // Prompts: events from source "user" that are messages. Tool calls: every action event except messages, thinking and finish.
 // Edits: file-editor actions that change files (create, str_replace, insert, undo_edit) and old "edit"/"write" actions.
 // Commands: bash/terminal actions and old "run" actions.
-// Session name: metadata title, else the basename of the workspace folder, else the repository's last path part, else "OpenHands".
+// Name: the basename of the workspace folder, else "OpenHands". With --opt names=title, the metadata title first.
 //
 // Uncertain: both layouts come from source code only; no real OpenHands data was available. Field names differ between
 // versions, so each is probed in a few places and unknown events are skipped. Cost and tokens are read when a metadata file has them.
@@ -43,7 +43,7 @@ export default {
         const meta = (await readJson(`${home}/metadata.json`)) || {};
         const workspace = state.workspace?.working_dir ?? state.workspace?.path ?? meta.selected_repository;
         const title = typeof meta.title === "string" && meta.title.trim() ? meta.title.trim() : typeof state.title === "string" ? state.title.trim() : "";
-        const t = ctx.track({ name: title || (workspace ? basename(String(workspace).replace(/\/+$/, "")) : "") || "OpenHands" });
+        const t = ctx.track({ name: (ctx.options.names === "title" && title) || (workspace ? basename(String(workspace).replace(/\/+$/, "")) : "") || "OpenHands" });
         events.sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
         for (const file of events) {
           const e = await readJson(file);

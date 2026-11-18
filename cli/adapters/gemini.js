@@ -10,7 +10,7 @@
 //   checkpoint-*.json (from "/chat save"): an array of { role, parts: [{ text | functionCall | functionResponse }] } with no times;
 //           the file's modified time stands in for activity, and only tool calls are counted.
 // A project's folder name under tmp/ is either a hash or a name; "<folder>/.project_root", when present, holds the project path.
-// The session title is the recorded `summary`, else the project folder's basename.
+// Name: the project folder's basename. With --opt names=title, the recorded `summary` first.
 //
 // Uncertain: the real chats folder on this machine is empty, so nothing here was checked against real logs. The shape
 // follows the source of one recent Gemini CLI version; field names may differ in other versions, and unknown lines are skipped.
@@ -65,7 +65,7 @@ async function chat(file, fallbackName, ctx) {
       else if (typeof r.sessionId === "string") Object.assign(meta, r);
     }
   }
-  const t = ctx.track({ name: (typeof meta.summary === "string" && meta.summary.trim()) || fallbackName });
+  const t = ctx.track({ name: (ctx.options.names === "title" && typeof meta.summary === "string" && meta.summary.trim()) || fallbackName });
   if (meta.startTime) t.at(meta.startTime);
   if (meta.lastUpdated) t.at(meta.lastUpdated);
   let tokens = 0, model;

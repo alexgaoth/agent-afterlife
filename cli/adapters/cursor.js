@@ -41,7 +41,7 @@ const json = (text) => { try { return JSON.parse(text); } catch { return null; }
 
 export default {
   name: "cursor",
-  description: "Cursor chat and agent sessions (state.vscdb; needs the sqlite3 command-line tool)",
+  description: "Cursor chat and agent sessions (state.vscdb; needs the sqlite3 tool). --opt names=title",
   defaultPath,
   merit: "prs_merged*5 + prs_opened*2 + commits + edits/20 + hours/4",
   async sessions(path, ctx) {
@@ -67,7 +67,7 @@ export default {
     const sessions = [];
     for (const c of composers) {
       try {
-        const t = ctx.track({ name: (typeof c.name === "string" && c.name.trim()) || "Cursor" });
+        const t = ctx.track({ name: (ctx.options.names === "title" && typeof c.name === "string" && c.name.trim()) || "Cursor" });
         t.at(c.created); t.at(c.updated);
         let tokens = 0;
         for (const b of bubbles.get(c.id) || []) {

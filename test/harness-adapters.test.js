@@ -14,18 +14,26 @@ import { validate } from "../shared/afterlife.js";
 const fixture = (p) => new URL(`fixtures/${p}`, import.meta.url).pathname;
 const logs = [];
 
-async function load(name, path) {
+// names=title: the tests below check that titles are read; the default (project folder) has its own test.
+async function load(name, path, options = { names: "title" }) {
   const adapter = await loadAdapter(name);
-  const sessions = await runAdapter(adapter, path, { log: (m) => logs.push(m) });
+  const sessions = await runAdapter(adapter, path, { options, log: (m) => logs.push(m) });
   const doc = toDoc(sessions, { merit: adapter.merit, adapter: name, now: "2026-01-10T00:00:00Z" });
   assert.deepEqual(validate(doc), [], `${name}: document is valid`);
   assert.equal(doc.agents.length, sessions.length);
   return sessions;
 }
+test("by default an agent is named by its project folder, not by a session title made from a prompt", async () => {
+  const titles = ["Refactor parser", "Fix login", "Add search", "Old chat"];
+  for (const [n, p] of [["codex", "codex"], ["gemini", "gemini"], ["droid", "droid"], ["openhands", "openhands"]]) {
+    const names = (await load(n, fixture(p), {})).map((s) => s.name);
+    assert.ok(!names.some((x) => titles.includes(x)), `${n}: ${names}`);
+  }
+});
 const pick = (s, keys) => Object.fromEntries(keys.map((k) => [k, s.stats[k] ?? 0]));
 const day = (s) => new Date(s.start).toISOString().slice(0, 10);
 
-test("all six adapters are registered after the generic ones", async () => {
+test("all six adapters are registered", async () => {
   for (const n of ["codex", "gemini", "droid", "aider", "cursor", "openhands"]) {
     const a = await loadAdapter(n);
     assert.equal(a.name, n);
