@@ -10,7 +10,7 @@ import { join, resolve, extname, dirname, basename } from "node:path";
 import { pathToFileURL } from "node:url";
 import { createInterface } from "node:readline";
 import { track, toMs } from "../core.js";
-import { json, jsonl, csv } from "./generic.js";
+import { json, jsonl, csv, parseCsv } from "./generic.js";
 import { shellEvents } from "./shell.js";
 import claudeCode from "./claude-code.js";
 import codex from "./codex.js";
@@ -75,6 +75,7 @@ export function helpers({ since, options = {}, log = () => {} } = {}) {
   return {
     track,
     shellEvents,
+    parseCsv,
     since,
     options,
     log,
