@@ -34,30 +34,59 @@ export default {
     const graphql = ctx.graphql || ghGraphql;
     const extra = extraAgents(ctx.options.agent);
     const max = Number(ctx.options.max ?? 1000);
-    const out = [];
-    for (const full of String(path).split(/[,\s]+/).filter(Boolean)) {
+    const out = [], failed = [];
+    const repos = String(path).split(/[,\s]+/).filter(Boolean);
+    for (const full of repos) if (full.split("/").filter(Boolean).length !== 2) throw new Error(`"${full}" is not owner/repo`);
+    const results = new Array(repos.length);
+    const queue = repos.map((full, i) => [full, i]);
+    const one = async ([full, i]) => {
       const [owner, name] = full.split("/");
-      if (!owner || !name) throw new Error(`"${full}" is not owner/repo`);
-      const prs = [];
-      let cursor = null;
-      do {
-        const data = await graphql(QUERY, { owner, name, cursor });
-        const page = data?.repository?.pullRequests;
-        if (!page) throw new Error(`${full}: no such repository, or no access`);
-        let old = false;
-        for (const pr of page.nodes) {
-          if (ctx.since !== undefined && Date.parse(pr.createdAt) < ctx.since) { old = true; break; }
-          prs.push(pr);
-        }
-        cursor = !old && page.pageInfo.hasNextPage && prs.length < max ? page.pageInfo.endCursor : null;
-      } while (cursor);
-      const s = prsToSessions(prs, { repo: name, byAuthor: ctx.options.by === "author", extra, track: ctx.track });
-      ctx.log(`${full}: ${prs.length} PRs read, ${s.length} by agents`);
-      out.push(...s);
-    }
+      try {
+        const prs = [];
+        let cursor = null;
+        do {
+          const data = await retry(() => graphql(QUERY, { owner, name, cursor }), { ...ctx, log: (m) => ctx.log(`${full}: ${m}`) });
+          const page = data?.repository?.pullRequests;
+          if (!page) throw new Error("no such repository, or no access");
+          let old = false;
+          for (const pr of page.nodes) {
+            if (ctx.since !== undefined && Date.parse(pr.createdAt) < ctx.since) { old = true; break; }
+            prs.push(pr);
+          }
+          cursor = !old && page.pageInfo.hasNextPage && prs.length < max ? page.pageInfo.endCursor : null;
+        } while (cursor);
+        const s = prsToSessions(prs, { repo: name, byAuthor: ctx.options.by === "author", extra, track: ctx.track });
+        ctx.log(`${full}: ${prs.length} PRs read, ${s.length} by agents`);
+        results[i] = s;
+      } catch (e) {
+        // One repository that fails does not lose the others.
+        if (repos.length === 1) throw new Error(`${full}: ${e.message}`);
+        failed.push(full);
+        ctx.log(`${full}: skipped: ${e.message}`);
+      }
+    };
+    // Four repositories at a time; the result keeps the order they were given in.
+    await Promise.all(Array.from({ length: Math.min(4, queue.length) }, async () => { while (queue.length) await one(queue.shift()); }));
+    for (const r of results) if (r) out.push(...r);
+    if (failed.length === repos.length) throw new Error(`every repository failed (${failed.join(", ")})`);
+    if (failed.length) ctx.log(`${failed.length} of ${repos.length} repositories skipped: ${failed.join(", ")}`);
     return out;
   },
 };
+
+/** Try again after a server error, a timeout or a rate limit: 3 more times, waiting 1, 4 and 9 s (ctx.retryWaitMs to change). */
+export async function retry(fn, ctx = {}) {
+  for (let attempt = 0; ; attempt++) {
+    try { return await fn(); }
+    catch (e) {
+      const transient = /HTTP 5\d\d|HTTP 429|rate limit|ECONNRESET|ETIMEDOUT|EAI_AGAIN|socket hang up|timed? ?out/i.test(e.message);
+      if (!transient || attempt >= 3) throw e;
+      const wait = (ctx.retryWaitMs ?? 1000) * (attempt + 1) ** 2;
+      ctx.log?.(`${e.message.split("\n")[0]}; trying again in ${Math.round(wait / 1000)} s`);
+      await new Promise((r) => setTimeout(r, wait));
+    }
+  }
+}
 
 /** Pull requests (GraphQL nodes) to sessions. */
 export function prsToSessions(prs, { repo = "", byAuthor = false, extra = [], track }) {
