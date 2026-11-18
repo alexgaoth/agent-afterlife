@@ -14,7 +14,7 @@ const ROBES = [PIGMENT.azurite, PIGMENT.malachite, PIGMENT.cinnabar, PIGMENT.och
 const SKINS = [0xd9ab8c, 0xcf9a78, 0xe2c2a6, 0xc4886a];
 
 // Flat bands of light, like pigment laid inside an ink outline.
-const ramp = (() => {
+export const ramp = (() => {
   const t = new THREE.DataTexture(new Uint8Array([120, 175, 225, 255]), 4, 1, THREE.RedFormat);
   t.minFilter = t.magFilter = THREE.NearestFilter; t.needsUpdate = true;
   return t;
