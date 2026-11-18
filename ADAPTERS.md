@@ -15,6 +15,8 @@ agent-afterlife serve <source> [path]            # import and look at it at once
 | Source | Reads | Notes |
 |---|---|---|
 | `claude-code` | `~/.claude/projects/*/*.jsonl` | One transcript = one agent. Name: the session's name (`claude -n`, `/rename`), else the project folder. Counts prompts, tool calls, file edits, shell commands, commits, PRs opened and merged (failed commands do not count), test runs, cost; subagents count as their parent's work. `--opt names=project` or `names=session`. |
+| `git` | local repositories (a repo, or a folder of repos) | Commits whose author or trailer names an agent (`Co-authored-by: Claude`, `Generated with ...`, `Name (aider)`, `copilot-swe-agent[bot]`, ...). One agent's commits in one repo are one life until a gap of 3 hours. Works with any workflow that commits. `--opt by=author`, `gap=<hours>`, `all=1`, `agent=<regex>=<Name>`. |
+| `github` | `owner/repo[,owner/repo]` | Pull requests whose author, branch (`claude/...`, `codex/...`) or body footer names an agent; one life per PR, alive while open. `GITHUB_TOKEN` or the `gh` login. `--opt by=author`, `max=<n>`, `agent=<regex>=<Name>`. |
 | `json`, `jsonl`, `csv` | a file you give | Sessions, events or day rows; below. |
 
 ## No code: a file of sessions, events or day rows
@@ -102,7 +104,7 @@ agent-afterlife serve examples/my-adapter.js examples/runs
 | Helper | Does |
 |---|---|
 | `track({ name, idleMinutes = 15 })` | Collects one agent's activity. `.at(time)` marks activity, `.count(stat, n, time)` counts an event on that day, `.count(stat, n)` adds a total without a time (it goes on the last day), `.set(stat, "text")` sets a string stat, `.session(extra)` returns the session (or `null` if there was no activity). Hours are the gaps between activities up to `idleMinutes`. |
-| `files(dir, regex)` | Every file under `dir` (recursive, no `node_modules` or `.git`) whose path matches, sorted. With `--since`, files not modified since then are skipped. |
+| `files(dir, regex, { maxDepth })` | Every file under `dir` (recursive, no `node_modules` or `.git`) whose path matches, sorted. With `--since`, files not modified since then are skipped. |
 | `lines(file, filter?)` | Async iterator over the parsed lines of a JSON Lines file. Bad lines are skipped. `filter` (a string or a list) skips lines that do not contain it before parsing, which is much faster on big transcripts. |
 | `shellEvents(command)` | What a shell command did: `{ commits, prs_opened, prs_merged, tests }`. It reads each simple command, so a commit message or `git log --grep commit` does not count. For adapters that read agent transcripts. |
 | `options` | The `--opt key=value` pairs, as an object. Document the ones your adapter reads in its `description`. |
@@ -129,7 +131,9 @@ agent-afterlife serve examples/my-adapter.js examples/runs
 
 ## Add a built-in adapter
 
-1. `cli/adapters/<name>.js`, exported default as above, with a `defaultPath` where the tool keeps its logs.
+1. `cli/adapters/<name>.js`, exported default as above, with a `defaultPath` where the tool keeps its logs
+   (or `remote: true` when the argument is not a local path, as for `github`). To know which agent made a
+   commit or a PR, use `agentOf()` and `credits()` from `cli/adapters/agents.js`.
 2. Add it to `BUILT_IN` in `cli/adapters/index.js`.
 3. A synthetic fixture under `test/fixtures/<name>/` (never real transcripts: they hold code and prompts) and a
    test in `test/adapters.test.js`.

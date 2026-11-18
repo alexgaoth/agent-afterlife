@@ -48,7 +48,7 @@ export function track({ name, idleMinutes = 15, ...extra } = {}) {
       day(times[0]);
       for (let i = 1; i < times.length; i++) {
         const gap = times[i] - times[i - 1];
-        if (gap <= idleMinutes * 6e4) { const d = day(times[i]); d.hours = (d.hours || 0) + gap / 36e5; }
+        if (gap > 0 && gap <= idleMinutes * 6e4) { const d = day(times[i]); d.hours = (d.hours || 0) + gap / 36e5; }
         else day(times[i]);
       }
       for (const [ms, key, n] of counted) { const d = day(ms); d[key] = (d[key] || 0) + n; }
