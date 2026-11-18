@@ -11,7 +11,7 @@
 import { loadData, ranked, living, passersBy, epitaph, shownStats, notify, onOpenRequest } from "../shared/afterlife.js";
 
 const SCHEMA_URL = "../schema/afterlife.schema.json";
-const README_URL = "https://github.com/alexgaoth/agent-afterlife#bring-your-own-data";
+const README_URL = "https://github.com/alexgaoth/agent-afterlife#your-agents-in-five-minutes";
 const params = new URLSearchParams(location.search);
 const dataParam = params.get("data");
 const $ = (id) => document.getElementById(id);
@@ -417,7 +417,7 @@ function showErrors(errors) {
     h("p", {}, errors.length === 1 ? "The data document has a problem:" : `The data document has ${errors.length} problems:`),
     h("ul", {}, errors.map((e) => h("li", {}, e))),
     h("p", {}, "Check it against ", h("a", { href: SCHEMA_URL }, "the data schema"), ", or read ", h("a", { href: README_URL }, "how to bring your own data"), "."),
-    h("p", {}, h("a", { href: "./" }, "See the demo churchyard"))));
+    h("p", {}, h("a", { href: "./?demo" }, "See the demo churchyard"))));
   $("tally").textContent = "";
   $("lane").replaceChildren(h("a", { href: SCHEMA_URL }, "The data schema"));
 }
