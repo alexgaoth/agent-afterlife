@@ -1,0 +1,82 @@
+name: Agent Afterlife
+description: Build a walkable temple and a graveyard of your AI agents as a static site (for GitHub Pages or any host).
+branding:
+  icon: home
+  color: orange
+inputs:
+  source:
+    description: "What to show: a document (afterlife.json), a data file (.json/.jsonl/.csv), a built-in adapter (github, git, ...), or your adapter module (.js). Empty: the demo fleet."
+    required: false
+    default: ""
+  path:
+    description: "The adapter's path or target, for example owner/repo for github. Default for github: this repository."
+    required: false
+    default: ""
+  merit:
+    description: "Merit formula over each day's stats, for example 'prs_merged*5 + commits'."
+    required: false
+    default: ""
+  title:
+    description: "The fleet's name on the pages."
+    required: false
+    default: ""
+  since:
+    description: "Only agents active since then: a date (2026-01-01) or days (90d)."
+    required: false
+    default: ""
+  options:
+    description: "Adapter options, one key=value per line."
+    required: false
+    default: ""
+  anonymize:
+    description: "Replace names with made-up ones and drop urls and epitaphs."
+    required: false
+    default: "false"
+  out:
+    description: "Folder to write the site to."
+    required: false
+    default: "_site"
+  token:
+    description: "Token for the github adapter."
+    required: false
+    default: ${{ github.token }}
+outputs:
+  out:
+    description: "The folder with the built site."
+    value: ${{ inputs.out }}
+runs:
+  using: composite
+  steps:
+    - name: Build the site
+      shell: bash
+      env:
+        AA_SOURCE: ${{ inputs.source }}
+        AA_PATH: ${{ inputs.path }}
+        AA_MERIT: ${{ inputs.merit }}
+        AA_TITLE: ${{ inputs.title }}
+        AA_SINCE: ${{ inputs.since }}
+        AA_OPTIONS: ${{ inputs.options }}
+        AA_ANONYMIZE: ${{ inputs.anonymize }}
+        AA_OUT: ${{ inputs.out }}
+        AA_REPO: ${{ github.repository }}
+        GITHUB_TOKEN: ${{ inputs.token }}
+      run: |
+        set -euo pipefail
+        node --version
+        args=(build)
+        if [ -n "$AA_SOURCE" ]; then
+          args+=("$AA_SOURCE")
+          path="$AA_PATH"
+          if [ -z "$path" ] && [ "$AA_SOURCE" = "github" ]; then path="$AA_REPO"; fi
+          if [ -n "$path" ]; then args+=("$path"); fi
+        fi
+        args+=(--out "$AA_OUT")
+        [ -n "$AA_MERIT" ] && args+=(--merit "$AA_MERIT")
+        [ -n "$AA_TITLE" ] && args+=(--title "$AA_TITLE")
+        [ -n "$AA_SINCE" ] && args+=(--since "$AA_SINCE")
+        [ "$AA_ANONYMIZE" = "true" ] && args+=(--anonymize)
+        while IFS= read -r kv; do
+          kv="${kv#"${kv%%[![:space:]]*}"}"
+          [ -n "$kv" ] && args+=(--opt "$kv")
+        done <<< "$AA_OPTIONS"
+        node "$GITHUB_ACTION_PATH/bin/agent-afterlife.js" "${args[@]}"

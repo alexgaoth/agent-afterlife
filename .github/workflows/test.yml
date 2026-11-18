@@ -18,3 +18,28 @@ jobs:
           node-version: ${{ matrix.node }}
       - run: npm test
       - run: node bin/agent-afterlife.js validate test/fixtures/minimal.json
+  action:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: The action builds a site from a data file
+        uses: ./
+        with:
+          source: examples/events.csv
+          merit: "commit + pr_merged*5"
+          title: "Action test"
+          out: site-file
+      - name: The action builds a site from this repository's pull requests
+        uses: ./
+        with:
+          source: github
+          options: |
+            max=20
+          out: site-github
+      - name: Both sites have their data and pages
+        run: |
+          for d in site-file site-github; do
+            test -f $d/data.json && test -f $d/temple/index.html && test -f $d/graveyard/index.html
+            grep -q 'name="afterlife-data" content="data.json"' $d/temple/index.html
+            node bin/agent-afterlife.js validate $d/data.json
+          done
