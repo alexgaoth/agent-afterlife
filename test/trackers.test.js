@@ -77,3 +77,22 @@ test("github: PRs by agents, one life each, paged until --since", async () => {
   assert.equal(prsToSessions([pr(9)], { byAuthor: true, track })[0].name, "ada");
   await assert.rejects(github.sessions("not-a-repo", ctx), /owner\/repo/);
 });
+
+test("github: a server error is tried again; a repository that keeps failing is skipped, not the import", async () => {
+  const page = { nodes: [{ number: 1, url: "u", state: "MERGED", createdAt: "2026-01-05T09:00:00Z", mergedAt: "2026-01-05T10:00:00Z", headRefName: "claude/x",
+    body: "", author: { login: "ada" }, additions: 1, deletions: 0, changedFiles: 1, commits: { totalCount: 1 }, reviews: { totalCount: 0 }, comments: { totalCount: 0 } }],
+  pageInfo: { hasNextPage: false } };
+  const calls = {}, logs = [];
+  const ctx = { ...helpers({ log: (m) => logs.push(m) }), retryWaitMs: 1, graphql: async (q, v) => {
+    calls[v.name] = (calls[v.name] || 0) + 1;
+    if (v.name === "flaky" && calls.flaky < 3) throw new Error("gh: HTTP 502");
+    if (v.name === "down") throw new Error("gh: HTTP 503");
+    if (v.name === "gone") throw new Error("Could not resolve to a Repository");
+    return { repository: { pullRequests: page } };
+  } };
+  const s = await github.sessions("acme/flaky,acme/down,acme/gone,acme/ok", ctx);
+  assert.equal(s.length, 2);                                   // flaky (after two retries) and ok
+  assert.deepEqual([calls.flaky, calls.down, calls.gone, calls.ok], [3, 4, 1, 1]);
+  assert.ok(logs.some((m) => /2 of 4 repositories skipped/.test(m)));
+  await assert.rejects(github.sessions("acme/down", ctx), /acme\/down: gh: HTTP 503/);
+});
