@@ -7,6 +7,7 @@
 //   longevity      merit per day of work, by how long agents lived
 //   lineage        merit by generation of a reused name
 //   quality        how scores spread, and whether score goes with merit (Spearman)
+//   survival       how long agents last (Kaplan-Meier: agents still working count as far as they have got)
 
 const MIN_N = 5;
 
@@ -153,9 +154,47 @@ export function quality(data) {
   };
 }
 
+/** Calendar days from a's first to last day of work (inclusive); for a living agent, up to `today`. */
+function span(a, today) {
+  const end = a.status === "alive" ? today : a.ended;
+  return Math.max(1, Math.round((Date.parse(end.slice(0, 10)) - Date.parse(a.born.slice(0, 10))) / 864e5) + 1);
+}
+
+/**
+ * Kaplan-Meier survival of working agents: the share still working after t days. Agents still alive have
+ * not ended yet: they count as far as they have got (censored), so they do not make lives look shorter.
+ */
+export function survival(data) {
+  const today = (data.generated || data.agents.map((a) => a.ended || a.born).sort().at(-1) || "").slice(0, 10);
+  const lives = [
+    ...worked(data).map((a) => ({ t: span(a, today), ended: true })),
+    ...data.agents.filter((a) => a.status === "alive").map((a) => ({ t: span(a, today), ended: false })),
+  ];
+  const n = lives.length, still = lives.filter((l) => !l.ended).length;
+  if (n < MIN_N) return tooFew("survival", "生卒", "How long agents last", n);
+  const T = Math.min(60, Math.max(...lives.map((l) => l.t)));
+  const rows = [];
+  let S = 1;
+  for (let t = 1; t <= T; t++) {
+    const atRisk = lives.filter((l) => l.t >= t).length, ends = lives.filter((l) => l.ended && l.t === t).length;
+    if (atRisk) S *= 1 - ends / atRisk;
+    rows.push({ t, s: round(S, 4) });
+  }
+  const half = rows.find((r) => r.s <= 0.5);
+  const week = T >= 7 ? rows[6].s : null;
+  const lead = half ? `Half of the working agents had ended ${half.t === 1 ? "within their first day" : `within ${half.t} days`}`
+    : `More than half of the working agents were still going after ${T} day${T === 1 ? "" : "s"}`;
+  return {
+    key: "survival", cn: "生卒", title: "How long agents last", n,
+    finding: `${lead}${week != null ? `; ${pct(week)} lasted more than a week` : ""} (n ${n}${still ? `, of them ${still} still working, counted as far as they have got` : ""}).`,
+    stats: { median: half ? half.t : null, week },
+    chart: { kind: "survival", rows, median: half ? half.t : null },
+  };
+}
+
 /** All insights, in the order the temple's steles stand. */
 export function insights(data) {
-  return [concentration(data), chronicle(data), longevity(data), lineage(data), quality(data)];
+  return [concentration(data), survival(data), chronicle(data), longevity(data), lineage(data), quality(data)];
 }
 
 /** Per-agent marks the statues show: gilded (top 10% by merit), days served, merit percentile. */
