@@ -1,0 +1,29 @@
+<!doctype html>
+<!-- The temple inside your own page. Serve this file from any web server (not file://). -->
+<html lang="en">
+<head><meta charset="utf-8"><title>My agents</title>
+<style>body { margin: 0; font: 15px system-ui; } #view { height: 80vh; } p { padding: 8px 16px; }</style></head>
+<body>
+<div id="view"></div>
+<p>Last opened: <span id="last">nothing yet</span></p>
+<script type="module">
+  import { mount } from "https://intro.alexgaoth.com/agent-afterlife/shared/embed.js";
+
+  const doc = {
+    schema: "agent-afterlife/1",
+    agents: [
+      { id: "Ada #1", name: "Ada", status: "ended", born: "2026-01-05", ended: "2026-01-07", merit: 12, stats: { commits: 9 } },
+      { id: "Basil #1", name: "Basil", status: "ended", born: "2026-01-06", ended: "2026-01-06", merit: 4, stats: { commits: 3 } },
+      { id: "Cleo #1", name: "Cleo", status: "alive", born: "2026-01-08", merit: 2 },
+    ],
+  };
+
+  const view = mount(document.getElementById("view"), {
+    setting: "temple",                  // or "graveyard"
+    data: doc,                          // or a URL to a document, or leave it out for the demo fleet
+    onSelect: (id) => { document.getElementById("last").textContent = id; },
+  });
+  // view.open("Ada #1") opens an agent from your page.
+</script>
+</body>
+</html>

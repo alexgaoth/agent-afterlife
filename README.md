@@ -57,6 +57,25 @@ npx github:alexgaoth/agent-afterlife build my-fleet.json --out site   # a static
 
 From a clone, `node bin/agent-afterlife.js ...` does the same, and `python3 tools/serve.py my-fleet.json` still works.
 
+## Embed it
+
+Show the temple or the graveyard inside your own dashboard. The view is an iframe; your data goes to it by `postMessage` and is not uploaded anywhere.
+
+```html
+<div id="afterlife" style="height: 70vh"></div>
+<script type="module">
+  import { mount } from "https://intro.alexgaoth.com/agent-afterlife/shared/embed.js";
+  const view = mount(document.getElementById("afterlife"), {
+    setting: "temple",                        // or "graveyard"
+    data: myDocument,                         // a document, a URL to one, or nothing for the demo
+    onSelect: (id) => console.log("opened", id),
+  });
+  view.open("Marlow #3");                     // open an agent from your page
+</script>
+```
+
+Or a plain iframe: `<iframe src="https://<your site>/temple/?embed=1&data=<url>"></iframe>`. With `?embed=1` a page hides its links back to this site, and it sends `agent-afterlife:loaded` and `agent-afterlife:select` messages to its parent. A full example: [`examples/embed.html`](examples/embed.html). `embed.js` from your own `build` or Pages site works the same way.
+
 ## The temple
 
 Walk with WASD or the arrow keys, hurry with Shift, look with the mouse, read a statue with E (or a click), step out with Esc. On a phone: drag to look, hold the button to walk.
@@ -108,6 +127,7 @@ The pages check the document when they load it and list any problems instead of 
 |---|---|
 | `schema/` | The data contract. |
 | `shared/afterlife.js` | Loading, validation, ranking and the seeded demo fleet. Both settings and the CLI import it. |
+| `shared/embed.js` | `mount()`: the temple or the graveyard in someone else's page. |
 | `bin/`, `cli/` | The `agent-afterlife` command: `demo`, `import`, `serve`, `build`, `validate`, `adapters`. No dependencies. |
 | `cli/adapters/` | The importers (adapters) and the helpers they share. |
 | `examples/` | An example adapter and example files of sessions and events. |

@@ -1,7 +1,7 @@
 // The temple: load data, seat it, build the compound, walk it in first person.
 import * as THREE from "three";
 import { PointerLockControls } from "three/addons/controls/PointerLockControls.js";
-import { loadData, ranked, living, passersBy, epitaph, shownStats } from "../shared/afterlife.js";
+import { loadData, ranked, living, passersBy, epitaph, shownStats, notify, onOpenRequest } from "../shared/afterlife.js";
 import { insights, honours } from "../shared/insights.js";
 import { drawInsight } from "./insight-art.js";
 import { buildSteleForest } from "./steles.js";
@@ -192,6 +192,7 @@ const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&l
 
 // ------------------------------------------------------------------ the scroll
 function openScroll(id) {
+  notify("select", { id });
   const a = agentById.get(id);
   if (!a) return;
   controls.unlock();
@@ -311,5 +312,6 @@ renderer.setAnimationLoop(() => {
   mural.render(scene, camera);
 });
 if (params.get("cam")) { $("intro").hidden = true; }   // a set camera (for links and screenshots) skips the intro
+onOpenRequest((id) => { $("intro").hidden = true; openScroll(id); });
 if (params.get("read")) { $("intro").hidden = true; openScroll(params.get("read")); }   // ?read=<agent id> opens its scroll
 if (params.get("annals") !== null) { $("intro").hidden = true; openAnnals(params.get("annals") || undefined); }   // ?annals[=key]

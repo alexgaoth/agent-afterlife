@@ -30,7 +30,9 @@ export function serve({ data, port = 8123, page = "home", open = true, log = con
     if (!file.startsWith(ROOT) || !SITE.includes(top)) return send(res, 404, "text/plain", "Not found");
     if (existsSync(file) && statSync(file).isDirectory()) file = join(file, "index.html");
     if (!existsSync(file)) return send(res, 404, "text/plain", "Not found");
-    send(res, 200, TYPES[extname(file)] || "application/octet-stream", readFileSync(file));
+    // Site files may be loaded from other origins (shared/embed.js in someone's dashboard). /data.json never:
+    // a page on another website must not read the data this local server serves.
+    send(res, 200, TYPES[extname(file)] || "application/octet-stream", readFileSync(file), { "access-control-allow-origin": "*" });
   });
   return new Promise((resolve, reject) => {
     server.once("error", reject);
@@ -43,8 +45,8 @@ export function serve({ data, port = 8123, page = "home", open = true, log = con
   });
 }
 
-function send(res, code, type, body) {
-  res.writeHead(code, { "content-type": type, "cache-control": "no-store" });
+function send(res, code, type, body, extra = {}) {
+  res.writeHead(code, { "content-type": type, "cache-control": "no-store", ...extra });
   res.end(body);
 }
 

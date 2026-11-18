@@ -8,11 +8,56 @@
 // This file also runs in Node (the CLI imports validate() and demo()), so it touches the DOM only in loadData().
 
 export const SCHEMA = "agent-afterlife/1";
+
+// ------------------------------------------------------------------ embedding
+// ?embed=1: the page runs inside another page's <iframe> (see shared/embed.js). It hides its links back to this
+// site, can take its data from the parent by postMessage, tells the parent what the visitor opens, and opens
+// an agent when the parent asks. Messages: { type: "agent-afterlife:<ready|loaded|select|data|open>", ... }.
+const inBrowser = typeof window !== "undefined" && typeof location !== "undefined";
+export const embedded = inBrowser && new URLSearchParams(location.search).has("embed") && window.parent !== window;
+if (embedded) document.documentElement.classList.add("embed");
+
+/** Tell the parent page something (embedded pages only). */
+export function notify(type, detail = {}) {
+  if (embedded) window.parent.postMessage({ type: `agent-afterlife:${type}`, ...detail }, "*");
+}
+
+/** Call handler(id) when the parent page asks to open an agent: postMessage({ type: "agent-afterlife:open", id }). */
+export function onOpenRequest(handler) {
+  if (!embedded) return;
+  window.addEventListener("message", (e) => {
+    if (e.source === window.parent && e.data?.type === "agent-afterlife:open" && typeof e.data.id === "string") handler(e.data.id);
+  });
+}
+
+/** Wait up to `ms` for the parent to send { type: "agent-afterlife:data", doc }. */
+function fromParent(ms) {
+  return new Promise((resolve) => {
+    const done = (doc) => { window.removeEventListener("message", on); clearTimeout(timer); resolve(doc); };
+    const on = (e) => { if (e.source === window.parent && e.data?.type === "agent-afterlife:data") done(e.data.doc); };
+    const timer = setTimeout(() => done(null), ms);
+    window.addEventListener("message", on);
+    notify("ready");
+  });
+}
 const DEFAULT_MIN_MERIT = 0.1;
 
 /** Load the document named by ?data=, or the demo. Returns { data, errors, source }. */
 export async function loadData(search = location.search) {
+  const got = await load(search);
+  if (got.data) notify("loaded", { agents: got.data.agents.length, source: got.source });
+  return got;
+}
+
+async function load(search) {
   const q = new URLSearchParams(search);
+  if (embedded && !q.get("data") && !q.has("demo")) {
+    const doc = await fromParent(4000);
+    if (doc) {
+      const errors = validate(doc);
+      return { data: errors.length ? null : normalise(doc), errors, source: "parent" };
+    }
+  }
   const given = q.has("demo") ? null
     : q.get("data") || (typeof document !== "undefined" && document.querySelector('meta[name="afterlife-data"]')?.content);
   if (!given) return { data: demo(), errors: [], source: "demo" };
