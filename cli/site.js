@@ -37,7 +37,8 @@ export function serve({ data, port = 8123, page = "home", open = true, log = con
   return new Promise((resolve, reject) => {
     server.once("error", reject);
     server.listen(port, "127.0.0.1", () => {
-      const url = `http://localhost:${server.address().port}/${PAGES[page] ?? ""}${data ? "?data=data.json" : ""}`;
+      // 127.0.0.1, the address the server listens on: "localhost" can resolve to ::1 first (Node 18 does).
+      const url = `http://127.0.0.1:${server.address().port}/${PAGES[page] ?? ""}${data ? "?data=data.json" : ""}`;
       log(`Serving at ${url}  (Ctrl-C to stop)`);
       if (open) openBrowser(url);
       resolve({ server, url });
@@ -51,6 +52,7 @@ function send(res, code, type, body, extra = {}) {
 }
 
 export function openBrowser(url) {
+  if (process.env.BROWSER === "none") return;                       // the usual way to say "print the URL only"
   const cmd = process.platform === "darwin" ? ["open", [url]] : process.platform === "win32" ? ["cmd", ["/c", "start", "", url]] : ["xdg-open", [url]];
   try { spawn(cmd[0], cmd[1], { stdio: "ignore", detached: true }).on("error", () => {}).unref(); } catch { /* no browser: the URL is printed */ }
 }
