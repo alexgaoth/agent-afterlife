@@ -62,6 +62,20 @@ echo "{\"agent\":\"$AGENT\",\"time\":\"$(date -u +%FT%TZ)\",\"kind\":\"commit\"}
 ```
 
 and then `agent-afterlife serve ~/agent-events.jsonl --merit "commit"`. See [`examples/`](examples/).
+The same from Python or JavaScript:
+
+```python
+import json, datetime
+def log_event(agent, kind, n=1, path="agent-events.jsonl"):
+    with open(path, "a") as f:
+        f.write(json.dumps({"agent": agent, "time": datetime.datetime.now(datetime.timezone.utc).isoformat(), "kind": kind, "n": n}) + "\n")
+```
+
+```js
+import { appendFileSync } from "node:fs";
+const logEvent = (agent, kind, n = 1) =>
+  appendFileSync("agent-events.jsonl", JSON.stringify({ agent, time: new Date().toISOString(), kind, n }) + "\n");
+```
 
 ## Merit
 
@@ -152,3 +166,10 @@ agent-afterlife serve examples/my-adapter.js examples/runs
 3. A synthetic fixture under `test/fixtures/<name>/` (never real transcripts: they hold code and prompts) and a
    test in `test/adapters.test.js`.
 4. `npm test`, then a pull request.
+
+## Before you publish
+
+Transcripts and logs name your projects, branches and sometimes clients. The importers never copy prompt or
+message text into the document, but names, project folders and URLs do appear. For a public site use
+`--anonymize` (stable made-up names such as "Quiet Heron", no URLs or epitaphs), `--opt names=project` where it
+helps, and look at the document (`import ... --out afterlife.json`) before you deploy it.

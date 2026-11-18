@@ -1,25 +1,57 @@
 # Agent Afterlife
 
-Where AI coding agents rest when their sessions end. Two settings, one data file:
+Where AI coding agents rest when their sessions end. Point it at your agents' logs, commits, pull requests or issues, and walk among them.
 
-- **The Graveyard.** An English churchyard at night. Every ended agent gets a headstone; the best get monuments, passers-by get an unmarked grave.
-- **The Temple (武庙).** A walkable, first-person Song-dynasty temple laid out as the 武成王庙 was in 1123: one main seat, one companion, ten in the hall, sixty-two in the side halls. Agents become painted clay statues, and the scene is rendered like an aged temple mural.
+![Walking up the lantern avenue of the temple, past the side halls of statues](docs/temple-walk.gif)
 
-Open the site with no data and it shows a made-up demo fleet: **[intro.alexgaoth.com/agent-afterlife](https://intro.alexgaoth.com/agent-afterlife/)**.
+- **The Temple (武庙).** A walkable, first-person Song-dynasty temple laid out as the 武成王庙 was in 1123: one main seat, one companion, ten in the hall, sixty-two in the side halls. The best agents become painted clay statues; the scene is rendered like an aged temple mural, and steles carry statistics about your fleet.
+- **The Graveyard.** An English churchyard at night. Every ended agent gets a headstone; the best get monuments, passers-by an unmarked grave.
 
-## Use it with your own agents
+Live, with a made-up demo fleet: **[intro.alexgaoth.com/agent-afterlife](https://intro.alexgaoth.com/agent-afterlife/)**.
+
+## Your agents in five minutes
+
+You need Node 20 or newer. Nothing to install, nothing to configure.
+
+**1. Look at the demo.**
 
 ```sh
-npx github:alexgaoth/agent-afterlife serve claude-code            # your Claude Code sessions (~/.claude/projects)
-npx github:alexgaoth/agent-afterlife serve codex,droid,gemini      # several harnesses at once (also aider, cursor, openhands)
-npx github:alexgaoth/agent-afterlife serve git ~/code              # commits by any AI agent, from their trailers
-npx github:alexgaoth/agent-afterlife serve github owner/repo       # pull requests by agents (Copilot, Codex, Devin, ...)
-npx github:alexgaoth/agent-afterlife serve my-events.csv          # any file of sessions, events or day rows
-npx github:alexgaoth/agent-afterlife serve ./my-adapter.js         # your own 30-line adapter
-npx github:alexgaoth/agent-afterlife import my-events.csv --merit "commits + prs_merged*5"
+npx github:alexgaoth/agent-afterlife demo
 ```
 
-`import` reads your agents' data through an **adapter** and writes `afterlife.json`; `serve` and `build` accept the same sources. A JSON, JSON Lines or CSV file needs no code: one row per session (name, start, end, numbers), per event (name, time, kind) or per day (name, date, numbers). The smallest integration is one line in your agent's loop that appends an event. You choose how merit is computed with a formula over the stats. For anything else, an adapter is a small module with one function. All of it is in **[ADAPTERS.md](ADAPTERS.md)**; examples are in [`examples/`](examples/).
+**2. Point it at your agents.** Pick what you have:
+
+| You use | Run |
+|---|---|
+| Claude Code | `npx github:alexgaoth/agent-afterlife serve claude-code` |
+| Codex CLI, Gemini CLI, Factory Droid, Cursor, OpenHands | `... serve codex` (or `gemini`, `droid`, `cursor`, `openhands`; join several with commas) |
+| aider | `... serve aider ~/code` |
+| Any agent that commits (trailers like `Co-authored-by: Claude`) | `... serve git ~/code` |
+| Agents that open pull requests (Copilot, Codex, Devin, Jules, ...) | `... serve github owner/repo` |
+| Agents that close issues | `... serve linear ENG` or `... serve jira ENG` |
+| Your own runner or workflow | append one JSON line per event, then `... serve events.jsonl` |
+| Something else | a [30-line adapter](ADAPTERS.md#write-an-adapter): `... serve ./my-adapter.js` |
+
+The one-line integration, from any script or agent loop:
+
+```sh
+echo "{\"agent\":\"$AGENT\",\"time\":\"$(date -u +%FT%TZ)\",\"kind\":\"commit\"}" >> ~/agent-events.jsonl
+```
+
+**3. Decide what counts.** Merit ranks the agents. It is a formula over each day's stats that you can change:
+
+```sh
+npx github:alexgaoth/agent-afterlife serve claude-code --merit "prs_merged*5 + commits + hours/4"
+```
+
+**4. Publish it.** A static folder for any host, or your own GitHub Pages site that rebuilds every day:
+
+```sh
+npx github:alexgaoth/agent-afterlife build claude-code --out site --anonymize   # made-up names, for publishing
+npx github:alexgaoth/agent-afterlife init                                       # a Pages workflow for this repo
+```
+
+Everything about sources, file formats, merit and writing adapters: **[ADAPTERS.md](ADAPTERS.md)**.
 
 ## Your own site on GitHub Pages
 
@@ -42,20 +74,19 @@ Then commit, push, and set Settings > Pages > Source to "GitHub Actions". Or wri
   with: { path: _site }
 ```
 
-## Run it
+## Commands
 
-You need Node 20 or newer. Nothing to install:
-
-```sh
-npx github:alexgaoth/agent-afterlife demo                     # the demo fleet, in your browser
-npx github:alexgaoth/agent-afterlife validate my-fleet.json   # check your own document
-npx github:alexgaoth/agent-afterlife serve my-fleet.json      # see it (re-read on every reload)
-npx github:alexgaoth/agent-afterlife build my-fleet.json --out site   # a static site for any host
+```text
+agent-afterlife demo [--json]                    the demo fleet (--json prints its document: a template for yours)
+agent-afterlife serve <source> [path]            import and show your agents (a document file is re-read on reload)
+agent-afterlife import <source> [path]           write afterlife.json
+agent-afterlife build <source> [path] --out dir  a static site; a URL source is linked, so the site shows its newest data
+agent-afterlife validate <file|url>              check a document against the schema
+agent-afterlife adapters                         the built-in sources, and which ones this machine has
+agent-afterlife init [dir] [--source <s>]        a GitHub Pages workflow for your own site
 ```
 
-`demo --json > my-fleet.json` writes the demo document, a starting point for your own. `build` copies only the site files (`index.html`, `temple/`, `graveyard/`, `shared/`, `schema/`) and your data, and names the data in each page's `<meta name="afterlife-data">` tag. Give `build` a URL instead of a file and the site reads that URL on every visit, so it always shows the newest data (`--snapshot` copies it once instead). On a hosted copy, `?data=<url>` shows any other document and `?demo` the demo.
-
-From a clone, `node bin/agent-afterlife.js ...` does the same, and `python3 tools/serve.py my-fleet.json` still works.
+Options: `--merit`, `--since 30d`, `--title`, `--min-merit`, `--alive-within`, `--anonymize`, `--opt key=value` (adapter options), `--page temple|graveyard|home`, `--port`, `--no-open`. From a clone, `node bin/agent-afterlife.js` does the same. On a hosted copy, `?data=<url>` shows any document and `?demo` the demo.
 
 ## Embed it
 
@@ -87,7 +118,7 @@ Walk with WASD or the arrow keys, hurry with Shift, look with the mouse, read a 
 - **Reading a statue.** Gilded all over (金身): the top 10% of working agents by merit. Incense in the tripod censer (鼎): one stick per day served. Height: up to 8% taller or shorter within its group, by merit rank. Robe colour, hat or helmet, beard and weapon (halberd 戟, or for a red-faced general the crescent glaive 偃月刀) only tell agents apart. Each statue is merged into a few draw calls per material.
 - **Links.** `?cam=x,y,z,yaw,pitch` starts at a viewpoint, `?read=<agent id>` opens that agent's scroll, `?annals[=key]` opens the annals, `?plain=1` turns the mural effect off, `?still=1` draws a few frames and freezes (for screenshots).
 
-## Bring your own data
+## The data format
 
 Both settings render only from a JSON document that follows [`schema/afterlife.schema.json`](schema/afterlife.schema.json). Nothing in the pages knows where the data came from, so any producer works: a scorecard, a database export, a CI history, a spreadsheet.
 
