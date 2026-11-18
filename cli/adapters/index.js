@@ -3,10 +3,10 @@
 // An adapter is a plain object (see ADAPTERS.md):
 //   { name, description, defaultPath?, merit?, metrics?, sessions(path, ctx) }
 // sessions() returns an array (or async iterable) of sessions; cli/core.js turns them into a document.
-import { createReadStream, existsSync, statSync } from "node:fs";
+import { createReadStream, existsSync, statSync, readFileSync, writeFileSync, rmSync } from "node:fs";
 import { readdir } from "node:fs/promises";
 import { homedir } from "node:os";
-import { join, resolve, extname } from "node:path";
+import { join, resolve, extname, dirname, basename } from "node:path";
 import { pathToFileURL } from "node:url";
 import { createInterface } from "node:readline";
 import { track, toMs } from "../core.js";
@@ -33,13 +33,29 @@ export async function loadAdapter(spec) {
   const found = BUILT_IN.find((a) => a.name === spec);
   if (found) return found;
   if (/\.(m?js|cjs)$/.test(spec)) {
-    const mod = await import(pathToFileURL(resolve(expandHome(spec))).href);
+    const mod = await importModule(resolve(expandHome(spec)));
     const a = mod.default || mod.adapter;
     if (!a || typeof a.sessions !== "function") throw new Error(`${spec} must export default { name, sessions(path, ctx) }`);
     return { name: a.name || spec, ...a };
   }
   if (BY_EXT[extname(spec).toLowerCase()] && existsSync(expandHome(spec))) return { ...BY_EXT[extname(spec).toLowerCase()], impliedPath: spec };
   throw new Error(`no adapter "${spec}". Built in: ${BUILT_IN.map((a) => a.name).join(", ")}; or give a .js file, or a .json/.jsonl/.csv data file.`);
+}
+
+/**
+ * Import an adapter module. A plain .js file outside a "type": "module" package is CommonJS to Node 18 and 20
+ * (Node 22 detects ES syntax by itself), so an adapter written with `import`/`export` would fail there: load a
+ * copy named .mjs instead. Relative imports in the adapter then resolve from the copy's folder, so the copy
+ * sits next to the original.
+ */
+async function importModule(file) {
+  try { return await import(pathToFileURL(file).href); }
+  catch (e) {
+    if (!/Cannot use import statement outside a module|Unexpected token 'export'/.test(e.message) || !file.endsWith(".js")) throw e;
+    const copy = join(dirname(file), `.${basename(file, ".js")}.agent-afterlife.mjs`);
+    writeFileSync(copy, readFileSync(file));
+    try { return await import(pathToFileURL(copy).href); } finally { rmSync(copy, { force: true }); }
+  }
 }
 
 /** Run one adapter and return its sessions; with `since` (ms), only those active since then. */

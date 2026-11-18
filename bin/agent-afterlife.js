@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // agent-afterlife: show your own AI agents in the temple and the graveyard.
-// Run with no arguments for help. No dependencies; Node 20 or newer.
+// Run with no arguments for help. No dependencies; Node 18 or newer.
 import { parseArgs } from "node:util";
 import { readFileSync, writeFileSync, existsSync, mkdirSync, copyFileSync } from "node:fs";
 import { resolve, relative, isAbsolute, extname, join } from "node:path";
