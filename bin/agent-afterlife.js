@@ -2,8 +2,8 @@
 // agent-afterlife: show your own AI agents in the temple and the graveyard.
 // Run with no arguments for help. No dependencies; Node 20 or newer.
 import { parseArgs } from "node:util";
-import { readFileSync, writeFileSync, existsSync } from "node:fs";
-import { resolve, relative, isAbsolute, extname } from "node:path";
+import { readFileSync, writeFileSync, existsSync, mkdirSync, copyFileSync } from "node:fs";
+import { resolve, relative, isAbsolute, extname, join } from "node:path";
 import { validate, demo, ranked, living, passersBy } from "../shared/afterlife.js";
 import { serve, build, PAGES, ROOT } from "../cli/site.js";
 import { toDoc, anonymise } from "../cli/core.js";
@@ -19,6 +19,8 @@ Usage:
   agent-afterlife build <source|file|url> --out <dir>   write a static site for any host
   agent-afterlife validate <file|url>             check a document against the schema
   agent-afterlife adapters                        list the built-in sources and which ones this machine has
+  agent-afterlife init [dir] [--source <source>]  add a GitHub Pages workflow that builds your own site
+                                                  (default source: github, the repository's own agent PRs)
 
 A <source> is a built-in adapter (${BUILT_IN.map((a) => a.name).join(", ")}), several joined
 with commas, your own adapter module (./my-adapter.js), or a .json/.jsonl/.csv file of sessions, events
@@ -47,7 +49,7 @@ const { values: opt, positionals: [cmd, ...args] } = parseArgs({
     out: { type: "string", short: "o" }, page: { type: "string", default: "temple" }, port: { type: "string", default: "8123" },
     "no-open": { type: "boolean" }, snapshot: { type: "boolean" }, json: { type: "boolean" },
     merit: { type: "string" }, since: { type: "string" }, title: { type: "string" }, "min-merit": { type: "string" },
-    "alive-within": { type: "string" }, anonymize: { type: "boolean" }, anonymise: { type: "boolean" },
+    "alive-within": { type: "string" }, anonymize: { type: "boolean" }, anonymise: { type: "boolean" }, source: { type: "string" },
     opt: { type: "string", multiple: true },
     help: { type: "boolean", short: "h" }, version: { type: "boolean", short: "v" },
   },
@@ -177,6 +179,31 @@ async function main() {
         console.log(`  ${a.name.padEnd(12)} ${a.description}\n  ${"".padEnd(12)} ${state}`);
       }
       return console.log("\nYour own: agent-afterlife import ./my-adapter.js [path]   (see ADAPTERS.md)");
+    }
+    case "init": {
+      const dir = resolve(args[0] || ".");
+      const source = opt.source || "github";
+      const wf = join(dir, ".github", "workflows", "afterlife.yml");
+      if (existsSync(wf)) fail(`${wf} exists already; delete it first to write a new one.`);
+      const pathLine = source === "github" ? "# path: owner/repo        # default: this repository" : source === "git" ? "# path: .                 # this repository" : "# path: ...";
+      const tpl = readFileSync(new URL("../cli/templates/afterlife.yml", import.meta.url), "utf8")
+        .replace("__SOURCE__", source).replace("__PATH_LINE__", pathLine);
+      mkdirSync(join(dir, ".github", "workflows"), { recursive: true });
+      writeFileSync(wf, tpl);
+      const rel = relative(process.cwd(), wf);
+      const wrote = [rel.startsWith("..") ? wf : rel];
+      if (/\.(csv|jsonl?|tsv)$/.test(source) && !existsSync(join(dir, source))) {
+        mkdirSync(resolve(dir, source, ".."), { recursive: true });
+        copyFileSync(new URL("../examples/events.csv", import.meta.url), join(dir, source));
+        wrote.push(`${source} (example rows: replace them with yours)`);
+      }
+      return console.log(`Wrote ${wrote.join(" and ")}.
+
+Next:
+  1. Commit and push.
+  2. On GitHub: Settings > Pages > Build and deployment > Source: GitHub Actions.
+  3. Actions > afterlife > Run workflow (or wait for the next push). Your site: https://<owner>.github.io/<repo>/
+Edit the workflow's "with:" block to change the source, merit, title or names.`);
     }
     case "serve": {
       const src = need(args[0], "serve needs a source, a file or a URL (or run: agent-afterlife demo).");

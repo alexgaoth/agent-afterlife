@@ -21,6 +21,27 @@ npx github:alexgaoth/agent-afterlife import my-events.csv --merit "commits + prs
 
 `import` reads your agents' data through an **adapter** and writes `afterlife.json`; `serve` and `build` accept the same sources. A JSON, JSON Lines or CSV file needs no code: one row per session (name, start, end, numbers), per event (name, time, kind) or per day (name, date, numbers). The smallest integration is one line in your agent's loop that appends an event. You choose how merit is computed with a formula over the stats. For anything else, an adapter is a small module with one function. All of it is in **[ADAPTERS.md](ADAPTERS.md)**; examples are in [`examples/`](examples/).
 
+## Your own site on GitHub Pages
+
+In any repository, one command adds a workflow that builds the temple and the graveyard every day and publishes them on GitHub Pages:
+
+```sh
+npx github:alexgaoth/agent-afterlife init                          # source: this repo's PRs by agents
+npx github:alexgaoth/agent-afterlife init --source data/agents.csv  # or your own file (an example is written)
+```
+
+Then commit, push, and set Settings > Pages > Source to "GitHub Actions". Or write the workflow yourself: the action takes the same sources and options as the command.
+
+```yaml
+- uses: alexgaoth/agent-afterlife@main
+  with:
+    source: github            # or git, a data file, a document, or ./my-adapter.js
+    merit: "prs_merged*5 + commits"
+    anonymize: true
+- uses: actions/upload-pages-artifact@v3
+  with: { path: _site }
+```
+
 ## Run it
 
 You need Node 20 or newer. Nothing to install:
@@ -91,6 +112,7 @@ The pages check the document when they load it and list any problems instead of 
 | `cli/adapters/` | The importers (adapters) and the helpers they share. |
 | `examples/` | An example adapter and example files of sessions and events. |
 | `test/` | `npm test` (Node's built-in runner). |
+| `action.yml` | The GitHub Action (`uses: alexgaoth/agent-afterlife@main`); `cli/templates/` holds the workflow `init` writes. |
 | `graveyard/` | The English graveyard. |
 | `temple/` | The three.js temple. |
 | `tools/serve.py` | A local server that can serve your data file. |
