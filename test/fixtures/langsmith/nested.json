@@ -1,0 +1,34 @@
+{
+ "runs": [
+  {
+   "inputs": {},
+   "outputs": {},
+   "tags": [
+    "writer"
+   ],
+   "extra": {},
+   "child_run_ids": [],
+   "id": "n1",
+   "name": "Writer",
+   "run_type": "chain",
+   "start_time": "2026-01-05T12:00:00+00:00",
+   "end_time": "2026-01-05T12:06:00+00:00",
+   "child_runs": [
+    {
+     "inputs": {
+      "command": "git commit -m x && gh pr create --fill"
+     },
+     "outputs": {},
+     "tags": [],
+     "extra": {},
+     "child_run_ids": [],
+     "id": "n2",
+     "name": "bash",
+     "run_type": "tool",
+     "start_time": "2026-01-05T12:02:00+00:00",
+     "end_time": "2026-01-05T12:03:00+00:00"
+    }
+   ]
+  }
+ ]
+}

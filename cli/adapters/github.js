@@ -30,49 +30,55 @@ export default {
   merit: "prs_merged*5 + commits/2 + log1p(lines_added + lines_removed)/2",
   metrics: [{ key: "prs_merged", label: "PRs merged" }, { key: "commits", label: "Commits" }, { key: "lines_added", label: "Lines added" },
     { key: "reviews", label: "Reviews" }, { key: "repo", label: "Repository" }],
-  async sessions(path, ctx) {
-    const graphql = ctx.graphql || ghGraphql;
-    const extra = extraAgents(ctx.options.agent);
-    const max = Number(ctx.options.max ?? 1000);
-    const out = [], failed = [];
-    const repos = String(path).split(/[,\s]+/).filter(Boolean);
-    for (const full of repos) if (full.split("/").filter(Boolean).length !== 2) throw new Error(`"${full}" is not owner/repo`);
-    const results = new Array(repos.length);
-    const queue = repos.map((full, i) => [full, i]);
-    const one = async ([full, i]) => {
-      const [owner, name] = full.split("/");
-      try {
-        const prs = [];
-        let cursor = null;
-        do {
-          const data = await retry(() => graphql(QUERY, { owner, name, cursor }), { ...ctx, log: (m) => ctx.log(`${full}: ${m}`) });
-          const page = data?.repository?.pullRequests;
-          if (!page) throw new Error("no such repository, or no access");
-          let old = false;
-          for (const pr of page.nodes) {
-            if (ctx.since !== undefined && Date.parse(pr.createdAt) < ctx.since) { old = true; break; }
-            prs.push(pr);
-          }
-          cursor = !old && page.pageInfo.hasNextPage && prs.length < max ? page.pageInfo.endCursor : null;
-        } while (cursor);
-        const s = prsToSessions(prs, { repo: name, byAuthor: ctx.options.by === "author", extra, track: ctx.track });
-        ctx.log(`${full}: ${prs.length} PRs read, ${s.length} by agents`);
-        results[i] = s;
-      } catch (e) {
-        // One repository that fails does not lose the others.
-        if (repos.length === 1) throw new Error(`${full}: ${e.message}`);
-        failed.push(full);
-        ctx.log(`${full}: skipped: ${e.message}`);
-      }
-    };
-    // Four repositories at a time; the result keeps the order they were given in.
-    await Promise.all(Array.from({ length: Math.min(4, queue.length) }, async () => { while (queue.length) await one(queue.shift()); }));
-    for (const r of results) if (r) out.push(...r);
-    if (failed.length === repos.length) throw new Error(`every repository failed (${failed.join(", ")})`);
-    if (failed.length) ctx.log(`${failed.length} of ${repos.length} repositories skipped: ${failed.join(", ")}`);
-    return out;
-  },
+  sessions: (path, ctx) => githubSessions(path, ctx),
 };
+
+/**
+ * Read the pull requests of one or more repositories and turn them into sessions. `nameOf(pr)` (optional) decides which PRs are
+ * an agent's and what the agent is called: a name, or null to leave the PR out. This is how the copilot-agent preset reuses it.
+ */
+export async function githubSessions(path, ctx, nameOf) {
+  const graphql = ctx.graphql || ghGraphql;
+  const extra = extraAgents(ctx.options.agent);
+  const max = Number(ctx.options.max ?? 1000);
+  const out = [], failed = [];
+  const repos = String(path).split(/[,\s]+/).filter(Boolean);
+  for (const full of repos) if (full.split("/").filter(Boolean).length !== 2) throw new Error(`"${full}" is not owner/repo`);
+  const results = new Array(repos.length);
+  const queue = repos.map((full, i) => [full, i]);
+  const one = async ([full, i]) => {
+    const [owner, name] = full.split("/");
+    try {
+      const prs = [];
+      let cursor = null;
+      do {
+        const data = await retry(() => graphql(QUERY, { owner, name, cursor }), { ...ctx, log: (m) => ctx.log(`${full}: ${m}`) });
+        const page = data?.repository?.pullRequests;
+        if (!page) throw new Error("no such repository, or no access");
+        let old = false;
+        for (const pr of page.nodes) {
+          if (ctx.since !== undefined && Date.parse(pr.createdAt) < ctx.since) { old = true; break; }
+          prs.push(pr);
+        }
+        cursor = !old && page.pageInfo.hasNextPage && prs.length < max ? page.pageInfo.endCursor : null;
+      } while (cursor);
+      const s = prsToSessions(prs, { repo: name, byAuthor: ctx.options.by === "author", extra, track: ctx.track, nameOf });
+      ctx.log(`${full}: ${prs.length} PRs read, ${s.length} by agents`);
+      results[i] = s;
+    } catch (e) {
+      // One repository that fails does not lose the others.
+      if (repos.length === 1) throw new Error(`${full}: ${e.message}`);
+      failed.push(full);
+      ctx.log(`${full}: skipped: ${e.message}`);
+    }
+  };
+  // Four repositories at a time; the result keeps the order they were given in.
+  await Promise.all(Array.from({ length: Math.min(4, queue.length) }, async () => { while (queue.length) await one(queue.shift()); }));
+  for (const r of results) if (r) out.push(...r);
+  if (failed.length === repos.length) throw new Error(`every repository failed (${failed.join(", ")})`);
+  if (failed.length) ctx.log(`${failed.length} of ${repos.length} repositories skipped: ${failed.join(", ")}`);
+  return out;
+}
 
 /** Try again after a server error, a timeout or a rate limit: 3 more times, waiting 1, 4 and 9 s (ctx.retryWaitMs to change). */
 export async function retry(fn, ctx = {}) {
@@ -89,11 +95,11 @@ export async function retry(fn, ctx = {}) {
 }
 
 /** Pull requests (GraphQL nodes) to sessions. */
-export function prsToSessions(prs, { repo = "", byAuthor = false, extra = [], track }) {
+export function prsToSessions(prs, { repo = "", byAuthor = false, extra = [], track, nameOf }) {
   const out = [];
   for (const pr of prs) {
     const login = pr.author?.login || "ghost";
-    const name = byAuthor ? login : agentOf([login, pr.headRefName?.split("/")[0], ...credits(pr.body)], extra);
+    const name = nameOf ? nameOf(pr) : byAuthor ? login : agentOf([login, pr.headRefName?.split("/")[0], ...credits(pr.body)], extra);
     if (!name) continue;
     const end = pr.mergedAt || pr.closedAt || pr.updatedAt || pr.createdAt;
     const t = track({ name });

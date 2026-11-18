@@ -1,0 +1,51 @@
+[
+ {
+  "ts": 1767603600000,
+  "type": "say",
+  "say": "task",
+  "text": "-"
+ },
+ {
+  "ts": 1767603900000,
+  "type": "say",
+  "say": "api_req_started",
+  "text": "{\"request\":\"-\",\"tokensIn\":100,\"tokensOut\":50,\"cost\":0.01}"
+ },
+ {
+  "ts": 1767604200000,
+  "type": "say",
+  "say": "tool",
+  "text": "{\"tool\":\"newFileCreated\",\"path\":\"a.txt\"}"
+ },
+ {
+  "ts": 1767604500000,
+  "type": "ask",
+  "ask": "command",
+  "text": "npm test"
+ },
+ {
+  "ts": 1767604800000,
+  "type": "say",
+  "say": "command",
+  "text": "git commit -m wip"
+ },
+ {
+  "ts": 1767605100000,
+  "type": "ask",
+  "ask": "tool",
+  "text": "{\"tool\":\"readFile\",\"path\":\"a.txt\"}"
+ },
+ {
+  "ts": 1767605400000,
+  "type": "say",
+  "say": "user_feedback",
+  "text": "-"
+ },
+ {
+  "ts": 1767605400000,
+  "type": "ask",
+  "ask": "command",
+  "text": "ls",
+  "partial": true
+ }
+]

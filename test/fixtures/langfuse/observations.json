@@ -1,0 +1,30 @@
+{
+ "data": [
+  {
+   "id": "p1",
+   "traceId": "tr2",
+   "type": "AGENT",
+   "name": "Researcher",
+   "startTime": "2026-01-05T13:00:00.000Z",
+   "endTime": "2026-01-05T13:04:00.000Z",
+   "parentObservationId": null
+  },
+  {
+   "id": "p2",
+   "traceId": "tr2",
+   "type": "GENERATION",
+   "name": "chat",
+   "model": "model-b",
+   "startTime": "2026-01-05T13:01:00.000Z",
+   "endTime": "2026-01-05T13:02:00.000Z",
+   "usageDetails": {
+    "input": 10,
+    "output": 5
+   },
+   "parentObservationId": "p1"
+  }
+ ],
+ "meta": {
+  "page": 1
+ }
+}

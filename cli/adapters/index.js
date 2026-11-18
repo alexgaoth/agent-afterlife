@@ -19,13 +19,19 @@ import droid from "./droid.js";
 import aider from "./aider.js";
 import cursor from "./cursor.js";
 import openhands from "./openhands.js";
+import cline from "./cline.js";
+import continueDev from "./continue.js";
+import openaiAgents from "./openai-agents.js";
+import langsmith from "./langsmith.js";
+import langfuse from "./langfuse.js";
 import git from "./git.js";
 import github from "./github.js";
+import copilotAgent from "./copilot-agent.js";
 import linear from "./linear.js";
 import jira from "./jira.js";
 
 // Agent harnesses first, then work trackers, then plain files.
-export const BUILT_IN = [claudeCode, codex, gemini, droid, aider, cursor, openhands, git, github, linear, jira, json, jsonl, csv];
+export const BUILT_IN = [claudeCode, codex, gemini, droid, aider, cursor, openhands, cline, continueDev, openaiAgents, langsmith, langfuse, git, github, copilotAgent, linear, jira, json, jsonl, csv];
 const BY_EXT = { ".json": json, ".jsonl": jsonl, ".ndjson": jsonl, ".csv": csv, ".tsv": csv };
 
 /** An adapter by name, by file extension of the data, or from a module path ("./my-adapter.js"). */

@@ -24,10 +24,11 @@ npx github:alexgaoth/agent-afterlife demo
 | You use | Run |
 |---|---|
 | Claude Code | `npx github:alexgaoth/agent-afterlife serve claude-code` |
-| Codex CLI, Gemini CLI, Factory Droid, Cursor, OpenHands | `... serve codex` (or `gemini`, `droid`, `cursor`, `openhands`; join several with commas) |
+| Codex CLI, Gemini CLI, Factory Droid, Cursor, OpenHands, Cline, Continue | `... serve codex` (or `gemini`, `droid`, `cursor`, `openhands`, `cline`, `continue`; join several with commas) |
+| OpenAI Agents SDK, LangSmith, Langfuse (exported traces) | `... serve openai-agents traces.jsonl` (or `langsmith runs.json`, `langfuse traces.json`) |
 | aider | `... serve aider ~/code` |
 | Any agent that commits (trailers like `Co-authored-by: Claude`) | `... serve git ~/code` |
-| Agents that open pull requests (Copilot, Codex, Devin, Jules, ...) | `... serve github owner/repo` |
+| Agents that open pull requests (Copilot, Codex, Devin, Jules, ...) | `... serve github owner/repo` (Copilot's coding agent alone: `... serve copilot-agent owner/repo`) |
 | Agents that close issues | `... serve linear ENG` or `... serve jira ENG` |
 | Your own runner or workflow | append one JSON line per event, then `... serve events.jsonl` |
 | Something else | a [30-line adapter](ADAPTERS.md#write-an-adapter): `... serve ./my-adapter.js` |
