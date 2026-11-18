@@ -9,12 +9,18 @@ Open the site with no data and it shows a made-up demo fleet: **[intro.alexgaoth
 
 ## Run it
 
+You need Node 20 or newer. Nothing to install:
+
 ```sh
-python3 tools/serve.py                # the demo fleet
-python3 tools/serve.py my-fleet.json  # your own data
+npx github:alexgaoth/agent-afterlife demo                     # the demo fleet, in your browser
+npx github:alexgaoth/agent-afterlife validate my-fleet.json   # check your own document
+npx github:alexgaoth/agent-afterlife serve my-fleet.json      # see it (re-read on every reload)
+npx github:alexgaoth/agent-afterlife build my-fleet.json --out site   # a static site for any host
 ```
 
-Browsers do not run ES modules from `file://`, so any static server works; this one also maps your file to `/data.json`. On a hosted copy, add `?data=<url>` to the address.
+`demo --json > my-fleet.json` writes the demo document, a starting point for your own. `build` copies only the site files (`index.html`, `temple/`, `graveyard/`, `shared/`, `schema/`) and your data, and names the data in each page's `<meta name="afterlife-data">` tag. Give `build` a URL instead of a file and the site reads that URL on every visit, so it always shows the newest data (`--snapshot` copies it once instead). On a hosted copy, `?data=<url>` shows any other document and `?demo` the demo.
+
+From a clone, `node bin/agent-afterlife.js ...` does the same, and `python3 tools/serve.py my-fleet.json` still works.
 
 ## The temple
 
@@ -57,15 +63,18 @@ Both settings render only from a JSON document that follows [`schema/afterlife.s
 | `options.minMerit` | Below this (default 0.1), an agent is a passer-by: unmarked, never enshrined. |
 | `metrics` | Which `stats` to show, in which order, with which labels. |
 | `edicts` | Optional history of ranking changes. The temple carves the newest on its stele. |
+| `source` | Optional: which tool and importer made the document, and how merit was computed. |
 
-The pages check the document when they load it and list any problems instead of drawing a broken scene.
+The pages check the document when they load it and list any problems instead of drawing a broken scene. `agent-afterlife validate` runs the same check (`shared/afterlife.js`, every rule of the schema) from the command line or in CI.
 
 ## Layout of the repo
 
 | Path | What it is |
 |---|---|
 | `schema/` | The data contract. |
-| `shared/afterlife.js` | Loading, validation, ranking and the seeded demo fleet. Both settings import it. |
+| `shared/afterlife.js` | Loading, validation, ranking and the seeded demo fleet. Both settings and the CLI import it. |
+| `bin/`, `cli/` | The `agent-afterlife` command: `demo`, `serve`, `build`, `validate`. No dependencies. |
+| `test/` | `npm test` (Node's built-in runner). |
 | `graveyard/` | The English graveyard. |
 | `temple/` | The three.js temple. |
 | `tools/serve.py` | A local server that can serve your data file. |

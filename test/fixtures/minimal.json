@@ -1,0 +1,17 @@
+{
+  "$schema": "https://alexgaoth.github.io/agent-afterlife/schema/afterlife.schema.json",
+  "schema": "agent-afterlife/1",
+  "title": "My fleet",
+  "source": { "tool": "hand-written", "merit": "PRs merged" },
+  "metrics": [{ "key": "merged", "label": "PRs merged" }],
+  "agents": [
+    {
+      "id": "Marlow #1", "name": "Marlow", "status": "ended",
+      "born": "2026-01-05", "ended": "2026-01-08",
+      "merit": 12.4, "score": 71,
+      "stats": { "merged": 9 },
+      "series": [{ "date": "2026-01-05", "value": 68, "weight": 3.5 }]
+    },
+    { "id": "Wren #2", "name": "Wren", "status": "alive", "born": "2026-01-09", "merit": 1.2 }
+  ]
+}
