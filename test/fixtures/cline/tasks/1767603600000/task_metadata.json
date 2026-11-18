@@ -1,0 +1,12 @@
+{
+ "files_in_context": [],
+ "model_usage": [
+  {
+   "ts": 1767603600000,
+   "model_id": "model-a",
+   "model_provider_id": "p",
+   "mode": "act"
+  }
+ ],
+ "environment_history": []
+}

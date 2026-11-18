@@ -1,0 +1,60 @@
+{
+ "id": "tr1",
+ "timestamp": "2026-01-05T09:00:00.000Z",
+ "name": "support-agent",
+ "tags": [
+  "billing"
+ ],
+ "latency": 600,
+ "totalCost": 0.01,
+ "observations": [
+  {
+   "id": "o1",
+   "traceId": "tr1",
+   "type": "AGENT",
+   "name": "Support",
+   "startTime": "2026-01-05T09:00:00.000Z",
+   "endTime": "2026-01-05T09:10:00.000Z",
+   "parentObservationId": null
+  },
+  {
+   "id": "o2",
+   "traceId": "tr1",
+   "type": "GENERATION",
+   "name": "chat",
+   "model": "model-a",
+   "startTime": "2026-01-05T09:01:00.000Z",
+   "endTime": "2026-01-05T09:01:30.000Z",
+   "usage": {
+    "input": 100,
+    "output": 20,
+    "total": 120
+   },
+   "calculatedTotalCost": 0.01,
+   "parentObservationId": "o1"
+  },
+  {
+   "id": "o3",
+   "traceId": "tr1",
+   "type": "TOOL",
+   "name": "bash",
+   "input": {
+    "command": "gh pr create --fill"
+   },
+   "startTime": "2026-01-05T09:03:00.000Z",
+   "endTime": "2026-01-05T09:03:30.000Z",
+   "parentObservationId": "o1"
+  },
+  {
+   "id": "o4",
+   "traceId": "tr1",
+   "type": "TOOL",
+   "name": "edit",
+   "input": {},
+   "startTime": "2026-01-05T09:05:00.000Z",
+   "endTime": "2026-01-05T09:05:30.000Z",
+   "parentObservationId": "o1"
+  }
+ ],
+ "scores": []
+}

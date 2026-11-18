@@ -1,0 +1,15 @@
+[
+ {
+  "role": "user",
+  "content": [
+   {
+    "type": "text",
+    "text": "<task>\n-\n</task>"
+   },
+   {
+    "type": "text",
+    "text": "<environment_details>\n# Current Working Directory (/work/gadgets) Files\nb.txt\n</environment_details>"
+   }
+  ]
+ }
+]

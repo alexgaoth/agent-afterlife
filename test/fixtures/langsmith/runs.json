@@ -1,0 +1,72 @@
+[
+ {
+  "inputs": {},
+  "outputs": {},
+  "tags": [
+   "planner"
+  ],
+  "extra": {},
+  "child_run_ids": [],
+  "id": "r1",
+  "trace_id": "t1",
+  "parent_run_id": null,
+  "name": "Planner",
+  "run_type": "chain",
+  "start_time": "2026-01-05T09:00:00",
+  "end_time": "2026-01-05T09:10:00",
+  "total_tokens": 120,
+  "total_cost": "0.002"
+ },
+ {
+  "inputs": {},
+  "outputs": {},
+  "tags": [],
+  "extra": {
+   "metadata": {
+    "ls_model_name": "model-a"
+   }
+  },
+  "child_run_ids": [],
+  "id": "r2",
+  "trace_id": "t1",
+  "parent_run_id": "r1",
+  "name": "ChatModel",
+  "run_type": "llm",
+  "start_time": "2026-01-05T09:01:00",
+  "end_time": "2026-01-05T09:02:00",
+  "prompt_tokens": 100,
+  "completion_tokens": 20,
+  "total_tokens": 120,
+  "total_cost": "0.002"
+ },
+ {
+  "inputs": {
+   "command": "npm test"
+  },
+  "outputs": {},
+  "tags": [],
+  "extra": {},
+  "child_run_ids": [],
+  "id": "r3",
+  "trace_id": "t1",
+  "parent_run_id": "r1",
+  "name": "bash",
+  "run_type": "tool",
+  "start_time": "2026-01-05T09:03:00",
+  "end_time": "2026-01-05T09:03:30"
+ },
+ {
+  "inputs": {},
+  "outputs": {},
+  "tags": [],
+  "extra": {},
+  "child_run_ids": [],
+  "id": "r4",
+  "trace_id": "t1",
+  "parent_run_id": "r1",
+  "name": "edit_file",
+  "run_type": "tool",
+  "start_time": "2026-01-05T09:05:00",
+  "end_time": "2026-01-05T09:05:30"
+ }
+]

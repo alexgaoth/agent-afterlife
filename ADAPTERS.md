@@ -21,8 +21,14 @@ agent-afterlife serve <source> [path]            # import and look at it at once
 | `aider` | `.aider.chat.history.md` under a folder (default `.`) | One life per `# aider chat started at`. Prompts, applied edits, commits, commands, cost. No per-message times, so hours are near 0. |
 | `cursor` | Cursor's `state.vscdb` | Composer (chat and agent) sessions. Needs the `sqlite3` tool; reads only times, counts and tool names. |
 | `openhands` | `~/.openhands` | OpenHands conversations: new (`events/event-*.json`, `base_state.json`) and old (`events/<n>.json`, `metadata.json`) stores. |
+| `cline` | Cline's `globalStorage/saoudrizwan.claude-dev` (VS Code; macOS, Linux, Windows) or `~/.cline/data` | One task folder (`tasks/<id>/ui_messages.json`) = one life. Name: the task's workspace folder. Prompts, tool calls, edits, commands, commits/PRs/tests, tokens, cost, model. |
+| `continue` | `~/.continue/sessions` | Continue session JSON. Name: the workspace folder. Prompts, tool calls, edits, commands, commits/PRs/tests, tokens, cost. The files have no message times: a session runs from its creation to its last save. |
+| `openai-agents` | a JSON/JSONL file or folder of exported Agents SDK `trace` and `trace.span` records | One life per trace; name: the workflow name. Function spans are tool calls (edits, commands, commits by tool name), handoffs, generations, tokens, model. |
+| `langsmith` | a JSON/JSONL file or folder of LangSmith runs (`list_runs`) | One life per trace; name: the root run's name (`--opt names=tag`: its first tag). Tool runs, llm runs, tokens, cost, model. |
+| `langfuse` | a JSON/JSONL file or folder of Langfuse public API traces and observations | One life per trace; name: the trace name (`--opt names=tag`: first tag), else its agent observation. TOOL and GENERATION observations, tokens, cost, model. |
 | `git` | local repositories (a repo, or a folder of repos) | Commits whose author or trailer names an agent (`Co-authored-by: Claude`, `Generated with ...`, `Name (aider)`, `copilot-swe-agent[bot]`, ...). One agent's commits in one repo are one life until a gap of 3 hours. Works with any workflow that commits. Worktrees and clones of one repository count each commit once. `--opt by=author`, `gap=<hours>`, `all=1`, `lines=0` (no line counts: faster), `agent=<regex>=<Name>`. |
 | `github` | `owner/repo[,owner/repo]` | Pull requests whose author, branch (`claude/...`, `codex/...`) or body footer names an agent; one life per PR, alive while open. `GITHUB_TOKEN` or the `gh` login. `--opt by=author`, `max=<n>`, `agent=<regex>=<Name>`. |
+| `copilot-agent` | `owner/repo[,owner/repo]` | GitHub's Copilot coding agent: the `github` adapter kept to pull requests by `copilot-swe-agent` / `Copilot` or on `copilot/` branches, every life named "Copilot". Same auth and options as `github` (`max=<n>`). |
 | `linear` | team keys (`ENG,OPS`) or `all` | One life per started issue, named by the agent it is delegated to, else its assignee; alive while in progress. `LINEAR_API_KEY`. `--opt by=assignee`, `only=<regex>`. A Linear CSV export also works with `csv`. |
 | `jira` | a project key or JQL | One life per started issue, named by its assignee. `JIRA_URL`, `JIRA_EMAIL`, `JIRA_API_TOKEN`. `--opt only=<regex>`, `points=<field id>`. |
 | `json`, `jsonl`, `csv` | a file you give | Sessions, events or day rows; below. |
@@ -30,9 +36,9 @@ agent-afterlife serve <source> [path]            # import and look at it at once
 Every harness adapter names an agent by its **project folder**, so one project's sessions become the
 generations of one lineage, and no session title (often written from a prompt) is shown. `--opt names=title`
 uses the tool's session titles instead. Claude Code also uses names you gave on purpose (`claude -n`, `/rename`).
-`codex`, `gemini`, `aider`, `cursor` and `openhands` were written from the tools' formats and public source;
+`codex`, `gemini`, `aider`, `cursor`, `openhands`, `cline`, `continue`, `openai-agents`, `langsmith` and `langfuse` were written from the tools' formats and public source;
 if your version logs differently, please open an issue with the line types (not the content).
-`gemini`, `aider`, `cursor` and `openhands` say so when they meet files in a format they do not know (for example
+`gemini`, `aider`, `cursor`, `openhands`, `cline`, `continue`, `openai-agents`, `langsmith` and `langfuse` say so when they meet files in a format they do not know (for example
 `gemini: 3 files in an unknown format (version 7), skipped`); if every file is unknown the import stops with that message.
 Each adapter's header comment lists the formats it reads and the source they come from.
 
