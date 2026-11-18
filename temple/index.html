@@ -69,13 +69,32 @@
           color: var(--cinnabar); border: 2px solid var(--cinnabar); padding: 5px 3px; transform: rotate(3deg); }
   .close { position: absolute; top: -36px; right: -6px; background: none; border: 0; font-size: 26px; color: var(--paper); cursor: pointer; }
 
-  /* 年鉴: the annals, a horizontal handscroll (手卷), one panel per insight. */
+  /* 年鉴: the annals as a handscroll (手卷). It reads right to left, so it opens at its right end;
+     the mouse wheel moves it sideways. Silk mount above and below, aged 宣纸 between, wooden rollers. */
   #annals { width: min(1180px, 96vw); }
-  .handscroll { display: flex; align-items: stretch; }
-  .rodv { width: 16px; margin: -16px 0; border-radius: 8px; background: linear-gradient(90deg, #5a4130, #3a2a1c 60%, #2a1e14); }
-  .sheet { flex: 1; display: flex; gap: 0; overflow-x: auto; background: linear-gradient(#e6dfcd, #d6ceb8); padding: 22px 6px; scroll-snap-type: x mandatory; }
-  .panel { flex: 0 0 380px; padding: 6px 22px; border-right: 1px solid rgba(42,36,32,.18); scroll-snap-align: start; }
-  .panel:last-child { border-right: 0; }
+  .handscroll { display: flex; align-items: stretch; filter: drop-shadow(0 18px 40px rgba(20,12,6,.55)); }
+  dialog[open] .handscroll { animation: unroll-x .7s cubic-bezier(.2,.7,.2,1) both; }
+  @keyframes unroll-x { from { clip-path: inset(-30px -30px -30px 100%); } to { clip-path: inset(-30px -30px -30px -30px); } }
+  .rodv { position: relative; width: 18px; margin: -10px 0; border-radius: 9px;
+           background: linear-gradient(90deg, #6b4a32, #3a2a1c 55%, #24180f); }
+  .rodv::before, .rodv::after { content: ""; position: absolute; left: -4px; width: 26px; height: 16px; border-radius: 5px;
+                                 background: linear-gradient(#e8c87e, #9c7a3c); }
+  .rodv::before { top: -14px; } .rodv::after { bottom: -14px; }
+  .silk { flex: 1; display: flex; flex-direction: column; min-width: 0;
+            background: repeating-linear-gradient(45deg, rgba(255,255,255,.05) 0 2px, transparent 2px 6px),
+                        repeating-linear-gradient(-45deg, rgba(0,0,0,.06) 0 2px, transparent 2px 6px), #4f6a66; }
+  .silk::before, .silk::after { content: ""; height: 26px; border-bottom: 2px solid #b6914a; }
+  .silk::after { border-bottom: 0; border-top: 2px solid #b6914a; }
+  .sheet { direction: rtl; display: flex; overflow-x: auto; overscroll-behavior: contain; padding: 22px 8px;
+            scrollbar-width: thin; scrollbar-color: #8a7e68 transparent;
+            background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .32  0 0 0 0 .25  0 0 0 0 .16  0 0 0 .2 0'/></filter><filter id='f'><feTurbulence type='fractalNoise' baseFrequency='.012 .55' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .4  0 0 0 0 .33  0 0 0 0 .22  0 0 0 .16 0'/></filter><rect width='100%25' height='100%25' filter='url(%23f)'/><rect width='100%25' height='100%25' filter='url(%23g)'/></svg>"),
+                        radial-gradient(circle at 18% 70%, rgba(150,110,60,.18) 0 18px, transparent 40px),
+                        radial-gradient(circle at 63% 22%, rgba(150,110,60,.14) 0 10px, transparent 26px),
+                        radial-gradient(circle at 86% 80%, rgba(150,110,60,.12) 0 14px, transparent 30px),
+                        linear-gradient(90deg, rgba(120,90,50,.18), transparent 6%, transparent 94%, rgba(120,90,50,.18)),
+                        linear-gradient(#e9e0c8, #dacfb2); }
+  .panel { direction: ltr; flex: 0 0 380px; padding: 6px 22px; border-left: 1px solid rgba(42,36,32,.16); }
+  .panel:last-child { border-left: 0; }
   .panel h3 { margin: 0; font-weight: normal; font-size: 21px; display: flex; gap: 10px; align-items: baseline; }
   .panel h3 b { font-family: "Ma Shan Zheng", "Kaiti SC", serif; font-weight: normal; font-size: 34px; color: var(--cinnabar); }
   .panel canvas { display: block; width: 100%; height: auto; margin: 10px 0 8px; }
@@ -90,7 +109,7 @@
   #error > div { max-width: 560px; background: var(--paper); padding: 26px 30px; border-left: 4px solid var(--cinnabar); }
   #error h1 { margin: 0 0 8px; font-weight: normal; }
   [hidden] { display: none !important; }
-  @media (prefers-reduced-motion: reduce) { dialog[open] .roll { animation: none; } }
+  @media (prefers-reduced-motion: reduce) { dialog[open] .roll, dialog[open] .handscroll { animation: none; } }
   @media (max-width: 560px) { .gatecard { grid-template-columns: 1fr; justify-items: start; } .plaque { font-size: 32px; } }
   .embed #back { display: none; }
 </style>
@@ -114,7 +133,7 @@
 <button id="walk" hidden aria-label="Hold to walk">walk</button>
 <dialog id="annals" aria-label="The annals: what the fleet's numbers say">
   <button class="close" aria-label="Close" onclick="this.closest('dialog').close()">×</button>
-  <div class="handscroll"><div class="rodv"></div><div class="sheet" id="annals-body"></div><div class="rodv"></div></div>
+  <div class="handscroll"><div class="rodv"></div><div class="silk"><div class="sheet" id="annals-body"></div></div><div class="rodv"></div></div>
 </dialog>
 <dialog id="scroll" aria-label="An agent's scroll">
   <button class="close" aria-label="Close" onclick="this.closest('dialog').close()">×</button>
@@ -124,7 +143,7 @@
   <h1>This data cannot be shown</h1>
   <p>The document does not follow the <a href="../schema/afterlife.schema.json">Agent Afterlife schema</a>:</p>
   <ul id="error-list"></ul>
-  <p><a href="./">Show the demo fleet instead</a></p>
+  <p><a href="./?demo">Show the demo fleet instead</a></p>
 </div></div>
 <script>
   // Carry ?data= back to the landing page.

@@ -248,8 +248,16 @@ function openAnnals(focus) {
     drawInsight(c.getContext("2d"), fleetInsights.find((i) => i.key === c.dataset.key), 0, 0, c.width, c.height, "ink");
   }
   $("annals").showModal();
+  const sheet = $("annals-body");
+  sheet.scrollLeft = 0;                                    // right to left: start at the right end
   if (focus) $("panel-" + focus)?.scrollIntoView({ inline: "center", block: "nearest" });
 }
+// The wheel moves the handscroll sideways: down reads on, toward the left.
+$("annals-body").addEventListener("wheel", (e) => {
+  if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+  e.preventDefault();
+  $("annals-body").scrollLeft -= e.deltaY;
+}, { passive: false });
 $("annals").addEventListener("close", () => { $("intro").hidden = false; });
 $("open-annals").addEventListener("click", () => { $("intro").hidden = true; openAnnals(); });
 $("scroll").addEventListener("click", (e) => { if (e.target === $("scroll")) $("scroll").close(); });
@@ -314,7 +322,7 @@ const clock = new THREE.Clock();
 mark("scene");
 const still = params.get("still") === "1";   // ?still=1 draws a few frames and stops: for screenshots and tests
 renderer.setAnimationLoop(() => {
-  if (still && frame > 3) {
+  if (still && frame > 1) {   // two frames: the first uploads textures
     // Freeze: copy the last frame into an <img>, which any screenshot sees, then stop rendering.
     renderer.setAnimationLoop(null);
     const img = new Image(); img.src = renderer.domElement.toDataURL("image/png"); img.id = "still";
