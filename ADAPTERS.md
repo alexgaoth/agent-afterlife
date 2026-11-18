@@ -53,8 +53,9 @@ If your workflow can write a file, you need no adapter. `import` reads `.json` (
 | An event | a name and a time | `{"agent":"Ada","time":"2026-01-05T09:10:00Z","kind":"commit"}` |
 | A day | a name and a date | `name,date,merged,hours` → `Ada,2026-01-05,2,3.5` |
 
-- **Names**: `name`, `agent`, `agent_name`, `author` or `assignee`. Records with one name are one agent;
-  add `session` (or `session_id`, `run`, `thread`) to split them into several lives with that name.
+- **Names**: `name`, `agent`, `agent_name`, `author` or `assignee`. Each session row is one agent life. Event and
+  day rows with one name are one life; add `session` (or `session_id`, `run`, `thread`) to split them into several
+  lives with that name. Lives that share a name become its generations.
 - **Times**: `start`/`started_at`/`created_at`, `end`/`ended_at`/`closed_at`, `time`/`timestamp`/`ts`,
   `date`/`day`. Any ISO date, or Unix seconds or milliseconds.
 - **Numbers**: every other numeric column becomes a stat (`commits`, `prs_merged`, `cost_usd`, ...). An event's

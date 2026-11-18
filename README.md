@@ -77,6 +77,19 @@ Or start from a copy of this repository: **Use this template** on GitHub (or for
   with: { path: _site }
 ```
 
+## How big a fleet
+
+Tested with 10,000 agents (`agent-afterlife demo --agents 10000`, a made-up fleet of any size):
+
+| | 10,000 agents | 90 agents |
+|---|---|---|
+| Import 10,000 session rows (CSV) / 200,000 events (JSONL) | 0.2 s / 0.6 s | |
+| Temple: first frame, GPU / no GPU | 1.1 s / 4.2 s | 1.7 s / 3.8 s |
+| Temple: frames per second, GPU / no GPU (`low`, the default there) | 60 / 15 | 60 / 14 |
+| Graveyard: all 8,588 headstones drawn | 0.7 s | 0.5 s |
+
+The temple seats 74 and computes its statistics in milliseconds, so its cost does not grow with the fleet. The graveyard lays out only the headstones on screen.
+
 ## Commands
 
 ```text
