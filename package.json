@@ -1,14 +1,67 @@
 {
   "name": "agent-afterlife",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Where AI coding agents rest when their sessions end: a walkable 3D temple and a graveyard, from your own agents' data.",
   "type": "module",
-  "bin": { "agent-afterlife": "bin/agent-afterlife.js" },
-  "files": ["bin", "cli", "shared", "temple", "graveyard", "text", "schema", "index.html", "examples", "docs/walkthrough-cron.md", "docs/hosting.md", "ADAPTERS.md"],
-  "engines": { "node": ">=18" },
-  "scripts": { "test": "node --test", "demo": "node bin/agent-afterlife.js demo" },
-  "keywords": ["ai-agents", "claude-code", "codex", "three.js", "visualization", "agent-observability"],
-  "repository": { "type": "git", "url": "git+https://github.com/alexgaoth/agent-afterlife.git" },
+  "bin": {
+    "agent-afterlife": "bin/agent-afterlife.js"
+  },
+  "exports": {
+    ".": "./shared/afterlife.js",
+    "./core": "./cli/core.js",
+    "./adapters": "./cli/adapters/index.js",
+    "./insights": "./shared/insights.js",
+    "./embed": "./shared/embed.js",
+    "./schema.json": "./schema/afterlife.schema.json",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "bin",
+    "cli",
+    "shared",
+    "temple",
+    "graveyard",
+    "text",
+    "schema",
+    "index.html",
+    "examples",
+    "docs/walkthrough-cron.md",
+    "docs/hosting.md",
+    "ADAPTERS.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node --test",
+    "demo": "node bin/agent-afterlife.js demo",
+    "prepublishOnly": "npm test"
+  },
+  "keywords": [
+    "ai-agents",
+    "coding-agents",
+    "claude-code",
+    "codex",
+    "cursor",
+    "aider",
+    "gemini-cli",
+    "copilot",
+    "agent-observability",
+    "langsmith",
+    "langfuse",
+    "three.js",
+    "visualization",
+    "github-pages",
+    "temple",
+    "graveyard"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexgaoth/agent-afterlife.git"
+  },
   "homepage": "https://intro.alexgaoth.com/agent-afterlife/",
-  "license": "MIT"
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alexgaoth/agent-afterlife/issues"
+  }
 }

@@ -2,7 +2,7 @@
 
 Where AI coding agents rest when their sessions end. Point it at your agents' logs, commits, pull requests or issues, and walk among them.
 
-![Walking up the lantern avenue of the temple, past the side halls of statues](docs/temple-walk.gif)
+![Walking up the lantern avenue of the temple, past the side halls of statues](https://raw.githubusercontent.com/alexgaoth/agent-afterlife/main/docs/temple-walk.gif)
 
 - **The Temple (武庙).** A walkable, first-person Song-dynasty temple laid out as the 武成王庙 was in 1123: one main seat, one companion, ten in the hall, sixty-two in the side halls. The best agents become painted clay statues; the scene is rendered like an aged temple mural, and steles carry statistics about your fleet.
 - **The Graveyard.** An English churchyard at night. Every ended agent gets a headstone; the best get monuments, passers-by an unmarked grave.
