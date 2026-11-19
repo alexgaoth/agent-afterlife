@@ -1,0 +1,43 @@
+# This repository's own site, intro.alexgaoth.com/agent-afterlife/: its owner's fleet, read live from the
+# published `data` branch (the pages fetch it on every visit, so a new day's data needs no rebuild).
+# Copies of this repository (forks, "Use this template") skip both jobs and keep the demo fleet; to publish
+# your own site, run `npx agent-afterlife init` (docs/hosting.md).
+name: pages
+on:
+  push:
+    branches: [main]
+  pull_request:          # build only, as a check
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    if: github.repository == 'alexgaoth/agent-afterlife'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Build the site, linked to the published data
+        run: node bin/agent-afterlife.js build "$DATA" --out _site
+        env:
+          DATA: https://raw.githubusercontent.com/alexgaoth/agent-afterlife/data/afterlife.json
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+  deploy:
+    if: github.repository == 'alexgaoth/agent-afterlife' && github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -66,7 +66,7 @@ export function build({ out, doc, url }) {
   for (const f of SITE) cpSync(join(ROOT, f), join(out, f), { recursive: true });
   const src = doc ? "data.json" : url;
   if (doc) writeFileSync(join(out, "data.json"), JSON.stringify(doc));
-  for (const page of ["temple", "graveyard", "text"]) {
+  for (const page of ["temple", "graveyard", "text", "."]) {
     const html = join(out, page, "index.html");
     if (existsSync(html)) writeFileSync(html, setDataMeta(readFileSync(html, "utf8"), src));
   }

@@ -66,10 +66,12 @@
 <script type="module">
   // Pass ?data= through to the setting the visitor picks.
   const q = location.search;
-  if (new URLSearchParams(q).get("data")) {
-    for (const id of ["to-graveyard", "to-temple"]) document.getElementById(id).href += q;
-    document.getElementById("foot").textContent = "Showing your fleet.";
-  }
+  const p = new URLSearchParams(q);
+  if (p.get("data") || p.has("demo")) for (const id of ["to-graveyard", "to-temple"]) document.getElementById(id).href += q;
+  // A site built with its own data (agent-afterlife build) names it in this tag; the settings read the same tag.
+  const own = document.querySelector('meta[name="afterlife-data"]');
+  if (p.get("data")) document.getElementById("foot").textContent = "Showing your fleet.";
+  else if (own && !p.has("demo")) document.getElementById("foot").innerHTML = 'Showing this site\'s own fleet, read from its published data. <a href="?demo">See the demo fleet</a>, or <a href="https://github.com/alexgaoth/agent-afterlife#your-agents-in-five-minutes">show your own agents</a>.';
 </script>
 </body>
 </html>
