@@ -6,7 +6,7 @@ pages:
   variables:
     GIT_DEPTH: 0              # the git source reads the whole history
   script:
-    - npx -y github:alexgaoth/agent-afterlife build __SOURCE__ --out public
+    - npx -y agent-afterlife build __SOURCE__ --out public
     # options: --merit "prs_merged*5 + commits"  --title "My agents"  --anonymize
   artifacts:
     paths:

@@ -11,19 +11,19 @@ Live, with a made-up demo fleet: **[intro.alexgaoth.com/agent-afterlife](https:/
 
 ## Your agents in five minutes
 
-You need Node 18 or newer (22 or 24 recommended). Nothing to install, nothing to configure.
+You need Node 18 or newer (22 or 24 recommended). Nothing to install, nothing to configure: `npx` fetches it from npm (or install it with `npm i -g agent-afterlife`). The newest unreleased code: `npx github:alexgaoth/agent-afterlife`.
 
 **1. Look at the demo.**
 
 ```sh
-npx github:alexgaoth/agent-afterlife demo
+npx agent-afterlife demo
 ```
 
 **2. Point it at your agents.** Pick what you have:
 
 | You use | Run |
 |---|---|
-| Claude Code | `npx github:alexgaoth/agent-afterlife serve claude-code` |
+| Claude Code | `npx agent-afterlife serve claude-code` |
 | Codex CLI, Gemini CLI, Factory Droid, Cursor, OpenHands, Cline, Continue | `... serve codex` (or `gemini`, `droid`, `cursor`, `openhands`, `cline`, `continue`; join several with commas) |
 | OpenAI Agents SDK, LangSmith, Langfuse (exported traces) | `... serve openai-agents traces.jsonl` (or `langsmith runs.json`, `langfuse traces.json`) |
 | aider | `... serve aider ~/code` |
@@ -42,14 +42,14 @@ echo "{\"agent\":\"$AGENT\",\"time\":\"$(date -u +%FT%TZ)\",\"kind\":\"commit\"}
 **3. Decide what counts.** Merit ranks the agents. It is a formula over each day's stats that you can change:
 
 ```sh
-npx github:alexgaoth/agent-afterlife serve claude-code --merit "prs_merged*5 + commits + hours/4"
+npx agent-afterlife serve claude-code --merit "prs_merged*5 + commits + hours/4"
 ```
 
 **4. Publish it.** A static folder for any host, or your own GitHub Pages site that rebuilds every day:
 
 ```sh
-npx github:alexgaoth/agent-afterlife build claude-code --out site --anonymize   # made-up names, for publishing
-npx github:alexgaoth/agent-afterlife init                                       # a Pages workflow for this repo
+npx agent-afterlife build claude-code --out site --anonymize   # made-up names, for publishing
+npx agent-afterlife init                                       # a Pages workflow for this repo
 ```
 
 Everything about sources, file formats, merit and writing adapters: **[ADAPTERS.md](ADAPTERS.md)**. A worked example, from a cron job's CSV to a 28-line adapter: [docs/walkthrough-cron.md](docs/walkthrough-cron.md).
@@ -59,8 +59,8 @@ Everything about sources, file formats, merit and writing adapters: **[ADAPTERS.
 In any repository, one command adds a workflow that builds the temple and the graveyard every day and publishes them on GitHub Pages:
 
 ```sh
-npx github:alexgaoth/agent-afterlife init                          # source: this repo's PRs by agents
-npx github:alexgaoth/agent-afterlife init --source data/agents.csv  # or your own file (an example is written)
+npx agent-afterlife init                          # source: this repo's PRs by agents
+npx agent-afterlife init --source data/agents.csv  # or your own file (an example is written)
 ```
 
 Then commit, push, and set Settings > Pages > Source to "GitHub Actions". Or write the workflow yourself: the action takes the same sources and options as the command.

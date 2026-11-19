@@ -4,6 +4,7 @@
 #
 #   test/quickstart.sh                                   the published repository (github:alexgaoth/agent-afterlife)
 #   test/quickstart.sh github:alexgaoth/agent-afterlife#<sha>   a given commit (CI uses the pull request's)
+#   test/quickstart.sh agent-afterlife                    the published npm package
 #
 # BROWSER=none keeps `serve` and `demo` from opening a browser; nothing else differs from the README.
 set -uo pipefail
