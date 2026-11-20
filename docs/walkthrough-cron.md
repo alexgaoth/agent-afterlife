@@ -27,7 +27,7 @@ The CSV already has what the importer needs: a name (`agent`), a start and an en
 stat. Say what counts, and look:
 
 ```sh
-npx github:alexgaoth/agent-afterlife serve examples/cron/runs.csv --merit "prs_merged*5"
+npx agent-afterlife serve examples/cron/runs.csv --merit "prs_merged*5"
 ```
 
 Each row is one agent life. Rows with one `agent` value are generations of one name: `triage #1`, `triage #2`.
@@ -75,8 +75,8 @@ export default {
 Check what it makes before you look at it:
 
 ```sh
-npx github:alexgaoth/agent-afterlife import examples/cron/cron-adapter.js examples/cron --out -   # the document
-npx github:alexgaoth/agent-afterlife serve examples/cron/cron-adapter.js examples/cron              # the temple
+npx agent-afterlife import examples/cron/cron-adapter.js examples/cron --out -   # the document
+npx agent-afterlife serve examples/cron/cron-adapter.js examples/cron              # the temple
 ```
 
 ## Step 3: publish every night
@@ -84,7 +84,7 @@ npx github:alexgaoth/agent-afterlife serve examples/cron/cron-adapter.js example
 The cron machine can build the static site after each run and serve it with any web server:
 
 ```sh
-30 2 * * *  npx -y github:alexgaoth/agent-afterlife build /srv/agents/cron-adapter.js /srv/agents --out /var/www/afterlife
+30 2 * * *  npx -y agent-afterlife build /srv/agents/cron-adapter.js /srv/agents --out /var/www/afterlife
 ```
 
 Or keep the adapter and the data in a repository and let GitHub Pages do it, with the action:

@@ -34,7 +34,7 @@ test("init --ci gitlab and netlify write their host's file with the build comman
   assert.match(g, /- public/);
   assert.equal(cli("init", join(dir, "n"), "--ci", "netlify", "--source", "data/agents.csv").status, 0);
   const n = readFileSync(join(dir, "n", "netlify.toml"), "utf8");
-  assert.match(n, /command = "npx -y github:alexgaoth\/agent-afterlife build data\/agents.csv --out site"/);
+  assert.match(n, /command = "npx -y agent-afterlife build data\/agents.csv --out site"/);
   assert.match(n, /publish = "site"/);
   assert.ok(existsSync(join(dir, "n", "data", "agents.csv")));
   for (const f of [g, n]) assert.doesNotMatch(f, /__\w+__/);
