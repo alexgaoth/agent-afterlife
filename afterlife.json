@@ -1,7 +1,7 @@
 {
  "schema": "agent-afterlife/1",
  "title": "Alex's fleet",
- "generated": "2026-11-19T13:04:08+00:00",
+ "generated": "2026-11-20T13:03:12+00:00",
  "metrics": [
   {
    "key": "merged",
@@ -336,13 +336,13 @@
    "name": "Unnamed",
    "status": "alive",
    "born": "2026-11-03",
-   "merit": 67.28,
+   "merit": 70.22,
    "score": 53,
    "stats": {
-    "merged": 94,
+    "merged": 96,
     "opened": 8,
-    "issues": 2,
-    "hours": 127.5
+    "issues": 3,
+    "hours": 133.5
    },
    "series": [
     {
@@ -424,6 +424,11 @@
      "date": "2026-11-18",
      "value": 63,
      "weight": 16.75
+    },
+    {
+     "date": "2026-11-19",
+     "value": 49,
+     "weight": 6.0
     }
    ],
    "generation": 1422
@@ -2859,13 +2864,13 @@
    "name": "Kat Manalac",
    "status": "alive",
    "born": "2026-10-05",
-   "merit": 4.08,
-   "score": 66,
+   "merit": 4.18,
+   "score": 67,
    "stats": {
-    "merged": 34,
-    "opened": 0,
+    "merged": 36,
+    "opened": 1,
     "issues": 0,
-    "hours": 6.1
+    "hours": 6.3
    },
    "series": [
     {
@@ -2917,6 +2922,11 @@
      "date": "2026-11-18",
      "value": 88,
      "weight": 0.98
+    },
+    {
+     "date": "2026-11-19",
+     "value": 79,
+     "weight": 0.13
     }
    ],
    "generation": 1
@@ -3994,7 +4004,7 @@
   {
    "id": "Unnamed #1212",
    "name": "Unnamed",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-10-23",
    "merit": 0.59,
    "score": 55,
@@ -4011,12 +4021,13 @@
      "weight": 1.08
     }
    ],
+   "ended": "2026-10-23",
    "generation": 1212
   },
   {
    "id": "Unnamed #1220",
    "name": "Unnamed",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-10-26",
    "merit": 0.42,
    "score": 56,
@@ -4033,6 +4044,7 @@
      "weight": 0.75
     }
    ],
+   "ended": "2026-10-26",
    "generation": 1220
   },
   {
@@ -5379,13 +5391,13 @@
    "name": "Unnamed",
    "status": "alive",
    "born": "2026-10-29",
-   "merit": 6.98,
-   "score": 63,
+   "merit": 7.31,
+   "score": 62,
    "stats": {
     "merged": 20,
     "opened": 2,
     "issues": 0,
-    "hours": 11.2
+    "hours": 11.7
    },
    "series": [
     {
@@ -5422,6 +5434,11 @@
      "date": "2026-11-17",
      "value": 38,
      "weight": 0.23
+    },
+    {
+     "date": "2026-11-19",
+     "value": 57,
+     "weight": 0.58
     }
    ],
    "generation": 1245
@@ -5653,15 +5670,15 @@
   {
    "id": "Unnamed #44",
    "name": "Unnamed",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-10-12",
-   "merit": 6.75,
+   "merit": 7.21,
    "score": 75,
    "stats": {
-    "merged": 53,
-    "opened": 2,
+    "merged": 58,
+    "opened": 3,
     "issues": 0,
-    "hours": 9.0
+    "hours": 9.6
    },
    "series": [
     {
@@ -5688,8 +5705,14 @@
      "date": "2026-11-17",
      "value": 58,
      "weight": 0.05
+    },
+    {
+     "date": "2026-11-19",
+     "value": 82,
+     "weight": 0.55
     }
    ],
+   "ended": "2026-11-19",
    "generation": 44
   },
   {
@@ -6118,15 +6141,15 @@
   {
    "id": "Unnamed #41",
    "name": "Unnamed",
-   "status": "alive",
+   "status": "ended",
    "born": "2026-10-10",
-   "merit": 13.48,
+   "merit": 13.62,
    "score": 68,
    "stats": {
-    "merged": 17,
+    "merged": 18,
     "opened": 13,
     "issues": 0,
-    "hours": 19.8
+    "hours": 20.1
    },
    "series": [
     {
@@ -6193,8 +6216,14 @@
      "date": "2026-11-17",
      "value": 58,
      "weight": 1.58
+    },
+    {
+     "date": "2026-11-19",
+     "value": 46,
+     "weight": 0.3
     }
    ],
+   "ended": "2026-11-19",
    "generation": 41
   },
   {
@@ -6447,6 +6476,28 @@
    ],
    "ended": "2026-11-06",
    "generation": 1
+  },
+  {
+   "id": "Sameer Gandhi #2",
+   "name": "Sameer Gandhi",
+   "status": "alive",
+   "born": "2026-11-19",
+   "merit": 0.1,
+   "score": 58,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.2
+   },
+   "series": [
+    {
+     "date": "2026-11-19",
+     "value": 58,
+     "weight": 0.17
+    }
+   ],
+   "generation": 2
   },
   {
    "id": "Samir Kaul #1",
@@ -42954,6 +43005,29 @@
    ],
    "ended": "2026-11-18",
    "generation": 2439
+  },
+  {
+   "id": "Unnamed #2440",
+   "name": "Unnamed",
+   "status": "ended",
+   "born": "2026-11-19",
+   "merit": 0.04,
+   "score": 37,
+   "stats": {
+    "merged": 0,
+    "opened": 0,
+    "issues": 0,
+    "hours": 0.1
+   },
+   "series": [
+    {
+     "date": "2026-11-19",
+     "value": 37,
+     "weight": 0.1
+    }
+   ],
+   "ended": "2026-11-19",
+   "generation": 2440
   },
   {
    "id": "Unnamed #259",
