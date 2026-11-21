@@ -8,8 +8,8 @@ import { fileURLToPath } from "node:url";
 
 export const ROOT = fileURLToPath(new URL("..", import.meta.url));
 /** What a site needs. Everything else in the repo (cli/, test/, ...) stays out of a build. */
-export const SITE = ["index.html", "graveyard", "temple", "text", "shared", "schema"];
-export const PAGES = { home: "", temple: "temple/", graveyard: "graveyard/", text: "text/" };
+export const SITE = ["index.html", "graveyard", "temple", "shared", "schema"];
+export const PAGES = { home: "", temple: "temple/", graveyard: "graveyard/" };
 const TYPES = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8",
   ".json": "application/json; charset=utf-8", ".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg",
   ".gif": "image/gif", ".webp": "image/webp", ".ico": "image/x-icon", ".woff2": "font/woff2" };
@@ -66,7 +66,7 @@ export function build({ out, doc, url }) {
   for (const f of SITE) cpSync(join(ROOT, f), join(out, f), { recursive: true });
   const src = doc ? "data.json" : url;
   if (doc) writeFileSync(join(out, "data.json"), JSON.stringify(doc));
-  for (const page of ["temple", "graveyard", "text", "."]) {
+  for (const page of ["temple", "graveyard", "."]) {
     const html = join(out, page, "index.html");
     if (existsSync(html)) writeFileSync(html, setDataMeta(readFileSync(html, "utf8"), src));
   }

@@ -424,7 +424,6 @@ function showErrors(errors) {
 
 async function main() {
   for (const a of document.querySelectorAll("[data-home]")) a.href = keepData("../");
-  for (const a of document.querySelectorAll("[data-keep]")) a.href = keepData(a.getAttribute("href"));
   const { data, errors, source } = await loadData();
   if (!data) return showErrors(errors);
   DATA = data;

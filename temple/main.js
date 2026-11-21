@@ -45,10 +45,10 @@ const renderer = new THREE.WebGLRenderer({ antialias: false, powerPreference: "h
 // (no GPU: SwiftShader, llvmpipe), where a full-size frame takes seconds. ?quality=high forces full size.
 const quality = params.get("quality") || (softwareGL(renderer) ? "low" : "high");
 renderer.setPixelRatio(quality === "low" ? 0.6 : Math.min(devicePixelRatio, 1.5));
-// The scene is one image to assistive technology; the text version (linked first on the page) has the same content.
+// The scene is one image to assistive technology, with a label that says how to walk it by keyboard.
 Object.assign(renderer.domElement, { tabIndex: 0 });
 renderer.domElement.setAttribute("role", "img");
-renderer.domElement.setAttribute("aria-label", "A walkable temple of AI agents. Arrow keys walk and turn, [ and ] go from statue to statue, E reads one. The text version has the same content.");
+renderer.domElement.setAttribute("aria-label", "A walkable temple of AI agents. Arrow keys walk and turn, [ and ] go from statue to statue, E reads one.");
 function softwareGL(r) {
   try {
     const gl = r.getContext(), ext = gl.getExtension("WEBGL_debug_renderer_info");
