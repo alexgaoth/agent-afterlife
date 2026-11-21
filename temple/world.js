@@ -123,6 +123,8 @@ export function hipRoof(W, D, L, H, lift, tex) {
 }
 
 /** A hall: columns, walls on three sides, painted beams, brackets, roof. Open on the +z side (local). */
+function beamPainted() { return new THREE.MeshToonMaterial({ map: bandPainting(), gradientMap: paint(0).gradientMap }); }
+
 function hall(parent, { w, d, colH, floor, bays, roofH, overhang, ceiling, door = 0 }) {
   const g = new THREE.Group();
   const tiles = roofTiles(), beam = new THREE.MeshToonMaterial({ map: bandPainting(), gradientMap: paint(0).gradientMap });
@@ -170,7 +172,8 @@ export function buildWorld(scene) {
     cap.rotation.y = m.rotation.y;
     solid(x0 - 0.4, x1 + 0.4, z0 - 0.4, z1 + 0.4);
   };
-  wall(-W, N, W, N); wall(-W, N, -W, S); wall(W, N, W, S); wall(-W, S, -2, S); wall(2, S, W, S);
+  // The west wall has a doorway at z -20, north of the west side hall, into the side court of the 祠堂.
+  wall(-W, N, W, N); wall(-W, N, -W, -22); wall(-W, -18, -W, S); wall(W, N, W, S); wall(-W, S, -2, S); wall(2, S, W, S);
 
   // Main hall (正殿) on its platform, with the front terrace (月台) and steps.
   const P = 1.2;
@@ -202,6 +205,34 @@ export function buildWorld(scene) {
   const gate = new THREE.Group(); gate.position.z = S; gate.rotation.y = Math.PI; scene.add(gate);
   hall(gate, { w: 12, d: 5, colH: 4.2, floor: 0, bays: 3, roofH: 3.4, overhang: 1.8, ceiling: false, door: 4 });
   for (const sx of [-1, 1]) solid(sx * 2, sx * 6.4, S - 0.4, S + 0.4);
+
+  // 跨院 and 祠堂: a side court west of the main court, through the doorway in the west wall, with the ancestral
+  // hall facing east. Its tablet panels (one per lineage) are filled in by temple/ancestral.js from the data.
+  const CX0 = -46, CX1 = -W, CZ0 = -34, CZ1 = -6;
+  wall(CX0, CZ0, CX1, CZ0); wall(CX0, CZ1, CX1, CZ1); wall(CX0, CZ0, CX0, CZ1);
+  const doorway = new THREE.Group(); doorway.position.set(-W, 0, -20); doorway.rotation.y = Math.PI / 2; scene.add(doorway);
+  for (const sx of [-1, 1]) box(doorway, [0.4, 3.4, 0.9], [sx * 2.1, 1.7, 0], PIGMENT.cinnabar);
+  box(doorway, [4.8, 0.4, 1.0], [0, 3.5, 0], 0, beamPainted());
+  const doorRoof = hipRoof(5.6, 2.2, 3.4, 1.0, 0.5, roofTiles()); doorRoof.position.y = 3.7; doorway.add(doorRoof);
+  const AH = { x: -39, z: -20, w: 12, d: 8, floor: 0.6, colH: 4 };
+  box(scene, [AH.d + 1.2, AH.floor, AH.w + 1.2], [AH.x, AH.floor / 2, AH.z], TERRACE);
+  const ancestral = new THREE.Group(); ancestral.position.set(AH.x, 0, AH.z); ancestral.rotation.y = Math.PI / 2; scene.add(ancestral);
+  hall(ancestral, { w: AH.w, d: AH.d, colH: AH.colH, floor: AH.floor, bays: 5, roofH: 3.2, overhang: 1.6, ceiling: true });
+  box(ancestral, [5, 0.9, 1.1], [0, AH.floor + 0.45, -AH.d / 2 + 1.4], PIGMENT.lacquer);           // altar table (供桌)
+  const altarBowl = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.2, 0.25, 12), paint(0x6a5530));
+  altarBowl.position.set(0, AH.floor + 1.03, -AH.d / 2 + 1.4); ancestral.add(altarBowl);
+  solid(AH.x - AH.d / 2 - 0.45, AH.x - AH.d / 2 + 0.25, AH.z - AH.w / 2, AH.z + AH.w / 2);         // back wall
+  solid(AH.x - AH.d / 2, AH.x + AH.d / 2, AH.z - AH.w / 2 - 0.35, AH.z - AH.w / 2 + 0.15);         // side walls
+  solid(AH.x - AH.d / 2, AH.x + AH.d / 2, AH.z + AH.w / 2 - 0.15, AH.z + AH.w / 2 + 0.35);
+  solid(AH.x - AH.d / 2 + 0.8, AH.x - AH.d / 2 + 2.0, AH.z - 2.5, AH.z + 2.5);                    // altar table
+  // Tablet panels: five on the back wall, three on each side wall, all facing into the hall.
+  const back = AH.x - AH.d / 2 + 0.2, panelY = AH.floor + 0.55;
+  const panels = [
+    ...[-2, -1, 0, 1, 2].map((k) => ({ x: back, z: AH.z + k * 2.25, ry: Math.PI / 2 })),
+    ...[0, 1, 2].map((k) => ({ x: AH.x - AH.d / 2 + 1.6 + k * 2.15, z: AH.z - AH.w / 2 + 0.2, ry: 0 })),
+    ...[0, 1, 2].map((k) => ({ x: AH.x - AH.d / 2 + 1.6 + k * 2.15, z: AH.z + AH.w / 2 - 0.2, ry: Math.PI })),
+  ].map((p) => ({ ...p, y: panelY, w: 1.95, h: 3.0 }));
+  const ancestralHall = { ...AH, panels, front: { x: AH.x + AH.d / 2 + 0.3, z: AH.z, y: AH.floor + AH.colH - 0.75 } };
 
   // The path (甬道), incense burner, stele and pines.
   box(scene, [4, 0.08, 56], [0, 0.04, 11], 0xa8a291);
@@ -254,9 +285,12 @@ export function buildWorld(scene) {
     if (Math.abs(x) <= 8 && z > -26 && z <= -20) return P;
     if (Math.abs(x) <= 2.6 && z > -20 && z <= -17) return P * (1 - (z + 20) / 3);
     if (Math.abs(x) >= 16 && Math.abs(x) <= 23 && Math.abs(z - wingZ) <= wingLen / 2) return 0.5;
+    if (x >= -43.6 && x <= -34.4 && z >= -26.6 && z <= -13.4) return 0.6;                    // the 祠堂 platform
     return 0;
   }
-  return { seats, colliders, floorAt, stele: { group: stele, slab }, bounds: { W, N, S } };
+  // Where a visitor may stand: the main court and the side court (walls keep them apart except at the doorway).
+  const inBounds = (x, z) => (Math.abs(x) <= W - 0.6 && z >= N + 0.6 && z <= 60) || (x >= -45.4 && x <= -W && z >= -33.4 && z <= -6.6);
+  return { seats, colliders, floorAt, inBounds, ancestralHall, stele: { group: stele, slab }, bounds: { W, N, S } };
 }
 
 /** Layered 青绿山水 ranges on paper: steep rounded peaks, azurite summits, malachite slopes, ochre feet,

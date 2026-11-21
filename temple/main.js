@@ -13,6 +13,7 @@ import { drawInsight } from "./insight-art.js";
 import { buildSteleForest } from "./steles.js";
 import { buildAvenue } from "./avenue.js";
 import { buildPlaques } from "./plaques.js";
+import { buildAncestralHall } from "./ancestral.js";
 import { buildPilgrims } from "./pilgrims.js";
 import { seat, ZONES, GROUP_CN, cnNumber, cnDate, generationCn, nameOnTablet } from "./seating.js";
 import { statue, emptySeat, PIGMENT, paint } from "./statue.js";
@@ -96,6 +97,10 @@ const fleetRecords = records(data);
 const recordByKey = new Map(fleetRecords.map((r) => [r.key, r]));
 pickable.push(...buildPlaques(scene, fleetRecords).meshes);
 
+// 祠堂: the lineages, in the side court through the doorway in the west wall.
+const ancestral = buildAncestralHall(scene, data, world.ancestralHall);
+pickable.push(...ancestral.meshes);
+
 // 碑林: one stele per insight along the path. Look at one and press E for its page in the annals.
 const steleFaces = buildSteleForest(scene, insights(data), world.colliders);
 pickable.push(...steleFaces);
@@ -174,7 +179,7 @@ renderer.domElement.addEventListener("click", () => {
 });
 
 function blocked(x, z) {
-  if (Math.abs(x) > world.bounds.W - 0.6 || z < world.bounds.N + 0.6 || z > 60) return true;
+  if (!world.inBounds(x, z)) return true;
   return world.colliders.some(([x0, x1, z0, z1]) => x > x0 - RADIUS && x < x1 + RADIUS && z > z0 - RADIUS && z < z1 + RADIUS);
 }
 const dir = new THREE.Vector3(), side = new THREE.Vector3();
@@ -221,6 +226,7 @@ function lookAround() {
   ray.setFromCamera({ x: 0, y: 0 }, camera);
   const hit = ray.intersectObjects(pickable, false).find((h) => h.distance <= 9);   // only what is within reach
   const id = !hit ? null : hit.object === avenue.fires ? "day:" + hit.instanceId
+    : hit.object.userData.lineage ? ancestral.agentAt(hit)
     : hit.object.userData.ids ? hit.object.userData.ids[hit.instanceId] : hit.object.userData.agentId || null;
   if (id === looking) return;
   looking = id;
@@ -228,6 +234,11 @@ function lookAround() {
     const d = avenue.days[+id.slice(4)];
     $("label").hidden = false;
     $("label").innerHTML = `<b>${cnDate(d.date)}</b><span>${d.date}: ${d.merit} merit, ${d.active} agents at work${d.ended ? `, ${d.ended} ended` : ""}.</span><kbd>E</kbd>`;
+    return;
+  }
+  if (id === "plaque:ancestral") {
+    $("label").hidden = false;
+    $("label").innerHTML = `<b>世德祠</b><span>The ancestral hall: every name carried by more than one agent, a tablet for each generation, oldest first.</span>`;
     return;
   }
   if (id === "plaque:name") {
