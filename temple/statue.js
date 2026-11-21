@@ -3,6 +3,7 @@
 // martial ones in helmet and shoulder armour. Colours are the mural mineral pigments.
 // Every choice comes from a hash of the agent id, so an agent always looks the same.
 import * as THREE from "three";
+import { cjk } from "./fonts.js";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { generationCn, nameOnTablet } from "./seating.js";
 
@@ -261,7 +262,7 @@ export function tabletMaterial(agent) {
   const name = nameOnTablet(agent);
   let y = 22;
   if (/^[㐀-鿿]+$/.test(name)) {
-    x.font = '28px "Ma Shan Zheng", "Kaiti SC", serif';
+    x.font = cjk(28);
     for (const ch of name) { x.fillText(ch, 48, y + 10); y += 30; }
   } else {
     // A Latin name runs down the tablet, turned on its side, as in vertical Chinese text.
@@ -270,7 +271,7 @@ export function tabletMaterial(agent) {
     x.translate(48, y + w / 2); x.rotate(Math.PI / 2); x.fillText(name, 0, 0, 120); x.restore();
     y += w + 10;
   }
-  x.font = '26px "Ma Shan Zheng", "Kaiti SC", serif';
+  x.font = cjk(26);
   for (const ch of generationCn(agent)) { if (y > 225) break; x.fillText(ch, 48, y + 12); y += 28; }
   const tex = new THREE.CanvasTexture(c);
   tex.colorSpace = THREE.SRGBColorSpace;

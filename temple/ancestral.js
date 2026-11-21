@@ -3,6 +3,7 @@
 // first). A panel is one canvas, so a lineage costs one draw call; gaze finds the tablet from where the look
 // lands on the panel (its uv).
 import * as THREE from "three";
+import { cjk, CJK } from "./fonts.js";
 import { cnNumber } from "./seating.js";
 import { board } from "./plaques.js";
 
@@ -32,9 +33,9 @@ function panelTexture(lin, cells) {
   g.fillStyle = "#b8913f"; g.fillRect(0, 0, W, H * HEAD);
   g.fillStyle = "#1c140e"; g.fillRect(W * 0.03, H * 0.012, W * 0.94, H * HEAD - H * 0.024);
   g.fillStyle = "#f2d68c"; g.textAlign = "center"; g.textBaseline = "middle";
-  g.font = `${Math.round(H * 0.05)}px "IM Fell English", Georgia, serif`;
+  g.font = `${Math.round(H * 0.05)}px "IM Fell English", ${CJK}`;   // a name may be Chinese
   g.fillText(lin.name, W / 2, H * 0.06, W * 0.9);
-  g.font = `${Math.round(H * 0.036)}px "Ma Shan Zheng", "Kaiti SC", serif`;
+  g.font = cjk(Math.round(H * 0.036));
   g.fillText(`${lin.agents.length} 代 · 世系`, W / 2, H * 0.125);
   const cw = W / COLS, ch = (H * (1 - HEAD)) / ROWS;
   cells.forEach((a, i) => {
@@ -52,7 +53,7 @@ function panelTexture(lin, cells) {
     g.lineTo(tx + tw, ty + th - ch * 0.08); g.lineTo(tx, ty + th - ch * 0.08); g.closePath(); g.fill();
     g.strokeStyle = "#c9a45c"; g.lineWidth = 2; g.stroke();
     g.fillStyle = "#f2d68c";
-    g.font = `${Math.round(Math.min(tw * 0.34, ch * 0.2))}px "Ma Shan Zheng", "Kaiti SC", serif`;
+    g.font = cjk(Math.round(Math.min(tw * 0.34, ch * 0.2)));
     const label = ordinal(a.generation || i + 1);
     [...label].slice(0, 5).forEach((chr, k, arr) => g.fillText(chr, tx + tw / 2, ty + th * 0.22 + k * (th * 0.56) / Math.max(arr.length, 3)));
     g.font = `${Math.round(ch * 0.1)}px Georgia, serif`; g.fillStyle = "rgba(242,214,140,.8)";

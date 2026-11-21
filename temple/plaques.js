@@ -2,6 +2,7 @@
 // carry the fleet's records, one each, in order of importance from the middle out. A plaque says the record in
 // four characters; looking at it shows who holds it, since when, and who held it before.
 import * as THREE from "three";
+import { cjk } from "./fonts.js";
 
 const HALL_FRONT_Z = -27.5 + 0.42;                 // just in front of the main hall's front columns
 const BAY = 25 / 7;                                // the main hall: 25 m wide, 7 bays
@@ -19,12 +20,13 @@ export function board(text, { w, h, name }) {
   // Characters read right to left, as old plaques do.
   const chars = [...text].reverse();
   const cell = (W * 0.84) / chars.length;
-  g.font = `${Math.round(Math.min(cell * 0.92, H * 0.68))}px "Ma Shan Zheng", "Kaiti SC", "STKaiti", serif`;
+  g.font = cjk(Math.round(Math.min(cell * 0.92, H * 0.68)));
   g.textAlign = "center"; g.textBaseline = "middle";
   chars.forEach((ch, i) => {
     const x = W * 0.08 + cell * (i + 0.5), y = H * 0.52;
     g.fillStyle = "rgba(0,0,0,.45)"; g.fillText(ch, x + H * 0.012, y + H * 0.012);
     g.fillStyle = "#f2d68c"; g.fillText(ch, x, y);
+    g.strokeStyle = "#f2d68c"; g.lineWidth = H * 0.012; g.strokeText(ch, x, y);   // carved weight, one typeface
   });
   const tex = new THREE.CanvasTexture(c);
   tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 4;

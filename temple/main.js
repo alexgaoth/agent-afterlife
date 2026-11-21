@@ -19,6 +19,7 @@ import { buildPilgrims } from "./pilgrims.js";
 import { buildSpeech } from "./speech.js";
 import { buildSound } from "./sound.js";
 import { buildSky, weatherFor } from "./sky.js";
+import { cjk, loadCjk } from "./fonts.js";
 import { seat, ZONES, GROUP_CN, cnNumber, cnDate, generationCn, nameOnTablet } from "./seating.js";
 import { statue, emptySeat, PIGMENT, paint } from "./statue.js";
 import { meaning, shipping } from "./meaning.js";
@@ -37,7 +38,8 @@ if (!data) {
   $("error-list").innerHTML = errors.map((e) => `<li>${e.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]))}</li>`).join("");
   throw new Error("invalid data");
 }
-await Promise.all(['28px "Ma Shan Zheng"', '24px "IM Fell English"'].map((f) => document.fonts.load(f).catch(() => {})));
+// One Chinese typeface: load the glyphs for every character the code writes and for the fleet's names first.
+await Promise.all([loadCjk(data.agents.map((a) => a.name).join("")), document.fonts.load('24px "IM Fell English"').catch(() => {})]);
 mark("fonts");
 progress("Raising the halls");
 await painted();
@@ -419,7 +421,7 @@ function carveStele({ slab }, edict, enshrined) {
   x.fillStyle = "#6f6d64"; x.fillRect(0, 0, 300, 680);
   x.strokeStyle = "#57554d"; x.lineWidth = 6; x.strokeRect(14, 14, 272, 652);
   x.fillStyle = "#2a2622"; x.textAlign = "center";
-  x.font = '64px "Ma Shan Zheng", "Kaiti SC", serif'; x.fillText("诏", 150, 96);
+  x.font = cjk(64); x.fillText("诏", 150, 96);
   const KIND = { founded: "初建", enshrined: "入祀", promoted: "升", demoted: "降", removed: "黜" };
   const who = (id) => { const a = agentById.get(id); return a ? `${nameOnTablet(a)}${generationCn(a)}` : id; };
   const lines = !edict ? [`初建武庙`, `入祀${cnNumber(enshrined)}位`] : [
@@ -428,7 +430,7 @@ function carveStele({ slab }, edict, enshrined) {
       : `${KIND[i.kind]} ${who(i.agent)}${i.from ? ` 自${GROUP_CN[i.from]}` : ""}${i.to ? ` ${i.kind === "removed" ? "出" : "入"}${GROUP_CN[i.to]}` : ""}`),
   ];
   // Columns right to left; Chinese characters upright, Latin words turned on their side.
-  x.font = '30px "Ma Shan Zheng", "Kaiti SC", serif';
+  x.font = cjk(30);
   lines.forEach((line, col) => {
     const cx = 236 - col * 52;
     let y = 150;

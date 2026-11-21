@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Temple · 武庙 · Agent Afterlife</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css" rel="stylesheet">
 <script type="importmap">
   { "imports": {
       "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
@@ -14,7 +15,7 @@
 <style>
   :root { --ink: #2a2420; --paper: #e3d9c2; --paper-2: #d4c7a8; --cinnabar: #a8382a; --gold: #c39a45; --lacquer: #1d1916; }
   * { box-sizing: border-box; }
-  html, body { margin: 0; height: 100%; overflow: hidden; background: #d8ccae; color: var(--ink); font-family: "IM Fell English", Georgia, serif; }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #d8ccae; color: var(--ink); font-family: "IM Fell English", "LXGW WenKai", Georgia, serif; }
   canvas { display: block; }
   button { font: inherit; }
   :focus-visible { outline: 2px solid var(--cinnabar); outline-offset: 3px; }
@@ -24,7 +25,7 @@
   .gatecard { display: grid; grid-template-columns: auto 1fr; gap: 28px; align-items: center; max-width: 560px; padding: 30px 34px;
               background: linear-gradient(var(--paper), var(--paper-2)); border-top: 12px solid #5e3720; border-bottom: 12px solid #5e3720;
               box-shadow: 0 20px 60px rgba(30,20,10,.45); }
-  .plaque { writing-mode: vertical-rl; font-family: "Ma Shan Zheng", "Kaiti SC", serif; font-size: 44px; letter-spacing: .2em; color: var(--gold);
+  .plaque { writing-mode: vertical-rl; font-family: "LXGW WenKai", "Kaiti SC", "STKaiti", serif; font-size: 44px; letter-spacing: .2em; color: var(--gold);
             background: var(--lacquer); padding: 18px 10px; border: 2px solid var(--gold); outline: 2px solid var(--lacquer); }
   .gatecard h1 { margin: 0; font-weight: normal; font-size: 34px; line-height: 1.1; }
   .gatecard p { margin: 10px 0 16px; font-size: 17px; max-width: 34ch; }
@@ -41,7 +42,7 @@
   #crosshair { position: fixed; left: 50%; top: 50%; width: 6px; height: 6px; margin: -3px; border-radius: 50%; background: var(--ink); opacity: .55; pointer-events: none; }
   #label { position: fixed; left: 50%; bottom: 7vh; transform: translateX(-50%); display: flex; gap: 12px; align-items: baseline;
            padding: 8px 16px; background: rgba(227,217,194,.92); border-left: 4px solid var(--cinnabar); pointer-events: none; }
-  #label b { font-family: "Ma Shan Zheng", "Kaiti SC", serif; font-weight: normal; font-size: 24px; }
+  #label b { font-family: "LXGW WenKai", "Kaiti SC", "STKaiti", serif; font-weight: normal; font-size: 24px; }
   #label span { font-size: 15px; color: #4a4238; }
   #label kbd { font: inherit; font-size: 13px; border: 1px solid #8a7e68; padding: 0 6px; }
   #walk { position: fixed; right: 22px; bottom: 22px; width: 64px; height: 64px; border-radius: 50%; border: 0; background: rgba(42,36,32,.6); color: var(--paper); }
@@ -56,7 +57,7 @@
   .rod::before { left: -10px; } .rod::after { right: -10px; }
   .mount { background: #3b4744; padding: 24px 22px 28px; }
   #scroll-body { position: relative; background: linear-gradient(#e6dfcd, #d6ceb8); padding: 24px 26px 20px; }
-  #scroll-body h2 { margin: 0; font-family: "Ma Shan Zheng", "Kaiti SC", serif; font-weight: normal; font-size: 32px; }
+  #scroll-body h2 { margin: 0; font-family: "LXGW WenKai", "Kaiti SC", "STKaiti", serif; font-weight: normal; font-size: 32px; }
   #scroll-body .seat { margin: 4px 0 0; color: #5d564a; font-size: 15px; }
   #scroll-body .epitaph { font-style: italic; font-size: 18px; margin: 14px 0 16px; }
   #scroll-body dl { display: grid; grid-template-columns: repeat(4, auto); justify-content: space-between; margin: 0 0 10px; }
@@ -69,7 +70,7 @@
   #scroll-body svg polyline { fill: none; stroke: var(--ink); stroke-width: 2; }
   #scroll-body svg circle { fill: var(--ink); stroke: #ddd6c3; stroke-width: 2; }
   #scroll-body .foot { font-size: 13px; color: #6d6556; margin: 6px 0 0; }
-  .seal { position: absolute; right: 20px; top: 22px; writing-mode: vertical-rl; font-family: "Ma Shan Zheng", "Kaiti SC", serif; font-size: 17px;
+  .seal { position: absolute; right: 20px; top: 22px; writing-mode: vertical-rl; font-family: "LXGW WenKai", "Kaiti SC", "STKaiti", serif; font-size: 17px;
           color: var(--cinnabar); border: 2px solid var(--cinnabar); padding: 5px 3px; transform: rotate(3deg); }
   .close { position: absolute; top: -64px; right: -8px; width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(201,164,92,.6);
            background: rgba(30,20,12,.82); font: 24px/1 Georgia, serif; color: #f3ead6; cursor: pointer; }
@@ -102,11 +103,11 @@
   .panel { direction: ltr; flex: 0 0 380px; padding: 6px 22px; border-left: 1px solid rgba(42,36,32,.16); }
   .panel:last-child { border-left: 0; }
   .panel h3 { margin: 0; font-weight: normal; font-size: 21px; display: flex; gap: 10px; align-items: baseline; }
-  .panel h3 b { font-family: "Ma Shan Zheng", "Kaiti SC", serif; font-weight: normal; font-size: 34px; color: var(--cinnabar); }
+  .panel h3 b { font-family: "LXGW WenKai", "Kaiti SC", "STKaiti", serif; font-weight: normal; font-size: 34px; color: var(--cinnabar); }
   .panel canvas { display: block; width: 100%; height: auto; margin: 10px 0 8px; }
   .panel p { margin: 0; font-size: 15px; line-height: 1.45; }
   #panel-reading p { margin-bottom: 10px; }
-  #panel-reading p b { font-family: "Ma Shan Zheng", "Kaiti SC", serif; font-weight: normal; font-size: 22px; color: var(--cinnabar); margin-right: 8px; }
+  #panel-reading p b { font-family: "LXGW WenKai", "Kaiti SC", "STKaiti", serif; font-weight: normal; font-size: 22px; color: var(--cinnabar); margin-right: 8px; }
   .panel .n { font-size: 13px; color: #6d6556; margin-top: 6px; }
   .panel.focus h3 b { text-decoration: underline; text-underline-offset: 6px; }
   .linkish { background: none; border: 0; padding: 0; color: var(--ink); text-decoration: underline; cursor: pointer; font-size: inherit; }
@@ -120,7 +121,7 @@
   .embed #back { display: none; }
   .swatch { display: inline-block; width: .8em; height: .8em; margin: 0 .25em 0 .6em; border: 1px solid rgba(42,36,32,.5); vertical-align: -.05em; }
   #timeline { position: fixed; top: 12px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; align-items: center;
-              padding: 6px 12px; background: rgba(30,20,12,.62); color: #f3ead6; border: 1px solid rgba(201,164,92,.5); font: 15px "IM Fell English", Georgia, serif; }
+              padding: 6px 12px; background: rgba(30,20,12,.62); color: #f3ead6; border: 1px solid rgba(201,164,92,.5); font: 15px "IM Fell English", "LXGW WenKai", Georgia, serif; }
   #timeline input { width: min(46vw, 420px); accent-color: #c9a45c; }
   #timeline button { background: none; border: 1px solid rgba(201,164,92,.6); color: #f3ead6; width: 30px; height: 26px; cursor: pointer; }
   #tl-label { min-width: 15em; white-space: nowrap; }
