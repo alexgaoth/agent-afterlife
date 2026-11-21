@@ -27,7 +27,7 @@ jobs:
       - name: Build the site, linked to the published data
         run: node bin/agent-afterlife.js build "$DATA" --out _site
         env:
-          DATA: https://raw.githubusercontent.com/alexgaoth/agent-afterlife/data/afterlife.json
+          DATA: https://raw.githubusercontent.com/alexgaoth/agent-afterlife/data/afterlife-zh.json   # every agent named after a Chinese general
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site

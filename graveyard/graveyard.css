@@ -12,7 +12,7 @@
   --paper: #e3ddcd;
   --carve: rgba(16, 20, 19, .9);
   --amber: #e3a857;
-  --serif: "IM Fell English", Georgia, serif;
+  --serif: "IM Fell English", Georgia, "LXGW WenKai", serif;   /* Chinese names in the temple's typeface */
 }
 
 * { box-sizing: border-box; }

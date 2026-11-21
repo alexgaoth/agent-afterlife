@@ -62,7 +62,7 @@ export function buildSound(camera, scene, { isNight = () => { const h = new Date
     return muted;
   }
 
-  return { start, strike, walking, toggle, get muted() { return muted; } };
+  return { start, strike, walking, toggle, get muted() { return muted; }, get listener() { return listener; } };
 }
 
 function safeGet(k) { try { return localStorage.getItem(k); } catch { return null; } }
