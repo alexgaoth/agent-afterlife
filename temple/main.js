@@ -404,7 +404,42 @@ scene.updateMatrixWorld(true);   // so the first gaze check (before any frame is
 mark("scene");
 progress("Lighting the lanterns");
 const still = params.get("still") === "1";   // ?still=1 draws a few frames and stops: for screenshots and tests
-renderer.setAnimationLoop(() => {
+
+/** Everything that moves with time, then the frame: pilgrims, their speech, the painted scene, the bubbles on top. */
+function drawAt(t, gaze = false) {
+  pilgrims?.update(t);
+  speech?.update(t, camera);
+  if (gaze) lookAround();
+  mural.render(scene, camera);
+  if (speech?.overlay.children.length) {           // the speech bubbles, crisp, on top of the painted scene
+    renderer.autoClear = false; renderer.render(speech.overlay, camera); renderer.autoClear = true;
+  }
+}
+
+// ?record=1: no loop and no page furniture; a recorder steps time itself (tools/record-tour.mjs). It sets the
+// camera, calls render(t) once per video frame and captures the canvas, so a video is smooth however slow the
+// machine is, and the same every time.
+if (params.get("record") === "1") {
+  $("intro").hidden = true; $("hud").hidden = true;
+  let labels = false;
+  const toRad = THREE.MathUtils.degToRad;
+  window.afterlife = {
+    camera, eye: EYE, floorAt: world.floorAt,
+    /** Stand at x, z (on the floor there, plus `rise` metres), facing yaw/pitch in degrees (yaw 0 = toward the main hall). */
+    pose(x, z, yaw = 0, pitch = 0, rise = 0) {
+      camera.position.set(x, world.floorAt(x, z) + EYE + rise, z);
+      camera.rotation.set(toRad(pitch), toRad(yaw), 0);
+    },
+    lookAt(x, y, z) { camera.lookAt(x, y, z); },
+    render(t) { drawAt(t, labels); },
+    labels(on) { labels = !!on; if (!on) $("label").hidden = true; },
+    openAnnals(key) { openAnnals(key); },
+    closeAnnals() { if ($("annals").open) $("annals").close(); },
+    scrollAnnals(px) { $("annals-body").scrollLeft -= px; },
+    ready: true,
+  };
+  mark("first-frame");
+} else renderer.setAnimationLoop(() => {
   if (still && frame > 1) {   // two frames: the first uploads textures
     // Freeze: copy the last frame into an <img>, which any screenshot sees, then stop rendering.
     renderer.setAnimationLoop(null);
@@ -415,13 +450,7 @@ renderer.setAnimationLoop(() => {
   }
   const dt = Math.min(0.05, clock.getDelta());
   if (exploring()) walk(dt);
-  pilgrims?.update(still ? (Number(params.get("t")) || 0) : clock.elapsedTime);   // ?still=1: the same positions on every load
-  speech?.update(still ? (Number(params.get("t")) || 0) : clock.elapsedTime, camera);
-  if (frame++ % 6 === 0) lookAround();
-  mural.render(scene, camera);
-  if (speech?.overlay.children.length) {           // the speech bubbles, crisp, on top of the painted scene
-    renderer.autoClear = false; renderer.render(speech.overlay, camera); renderer.autoClear = true;
-  }
+  drawAt(still ? (Number(params.get("t")) || 0) : clock.elapsedTime, frame++ % 6 === 0);   // ?still=1: the same moment on every load
   if (frame === 1) {
     mark("first-frame");
     const enter = $("enter"); enter.disabled = false; enter.textContent = "Enter the temple";
