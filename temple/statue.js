@@ -130,8 +130,12 @@ function mergeByMaterial(root) {
 export function statue(agent, tier, honour = {}) {
   const r = hash(agent.id);
   const seated = tier === "main";
-  const martial = tier !== "main" && r() < 0.42;
-  const painted = pick(r, ROBES);
+  // A general or a strategist, by the data when it says (temple/meaning.js); otherwise by chance, as decoration.
+  const chance = tier !== "main" && r() < 0.42;      // drawn exactly as before, so faces and beards stay the same
+  const martial = tier !== "main" && (honour.role ? honour.role === "general" : chance);
+  const strategist = tier !== "main" && honour.role === "strategist";
+  const randomRobe = pick(r, ROBES);
+  const painted = honour.robe ?? randomRobe;
   // 金身: honoured statues are gilded all over, robe included, as such statues were in temples.
   const robe = honour.gilded ? GILT : painted;
   const redFace = r() < 0.06;                            // now and then a red face, as painted generals have
@@ -183,7 +187,9 @@ export function statue(agent, tier, honour = {}) {
   }
   mesh(new THREE.BoxGeometry(0.07, 0.3, 0.02), PIGMENT.chalk, fig, [0, handY + 0.05, handZ + 0.06], [-0.2, 0, 0]); // 笏, held at the chest
 
-  if (martial && r() < 0.7) polearm(fig, redFace ? "glaive" : "halberd", 0.46);
+  const armed = chance && r() < 0.7;                 // the same draw as before
+  if (martial && (honour.role === "general" || armed)) polearm(fig, redFace ? "glaive" : "halberd", 0.46);
+  if (strategist) featherFan(fig, shoulderY, seated);
   if (martial) {
     for (const s of [-1, 1]) mesh(new THREE.BoxGeometry(0.22, 0.06, 0.3), PIGMENT.gold, fig, [s * 0.3, shoulderY, 0], [0, 0, s * -0.45]);
     mesh(new THREE.BoxGeometry(0.46, 0.34, 0.06), PIGMENT.ochre, fig, [0, shoulderY - 0.24, 0.21]);  // breastplate
@@ -227,6 +233,16 @@ export function statue(agent, tier, honour = {}) {
 }
 
 /** An empty seat: its pedestal, and nothing on it. */
+/** 羽扇: a white feather fan held up in the right hand, the strategist's mark (as 诸葛亮 is shown). */
+function featherFan(fig, shoulderY, seated) {
+  const z = seated ? 0.3 : 0.38, y = shoulderY - 0.12, x = 0.2;
+  mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.2, 6), PIGMENT.lacquer, fig, [x, y - 0.1, z], [0.25, 0, -0.2]);   // handle
+  const fan = new THREE.Mesh(new THREE.CircleGeometry(0.16, 16), paint(PIGMENT.chalk));
+  fan.position.set(x + 0.02, y + 0.08, z + 0.02); fan.rotation.set(-0.2, 0.15, -0.2); fan.scale.set(0.75, 1, 1);
+  fan.castShadow = true; fig.add(fan);
+  for (let k = -2; k <= 2; k++) mesh(new THREE.BoxGeometry(0.006, 0.26, 0.004), PIGMENT.stone, fig, [x + 0.02 + k * 0.035, y + 0.06, z + 0.03], [-0.2, 0.15, -0.2 + k * 0.12]);   // quills
+}
+
 export function emptySeat(tier) {
   const g = pedestal(tier === "wings" ? 0.86 : 1.0, 0.7);
   g.scale.setScalar(tier === "wings" ? 0.86 : 1);
