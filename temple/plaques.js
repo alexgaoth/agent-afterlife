@@ -7,7 +7,7 @@ const HALL_FRONT_Z = -27.5 + 0.42;                 // just in front of the main 
 const BAY = 25 / 7;                                // the main hall: 25 m wide, 7 bays
 const ORDER = [-1, 1, -2, 2, -3, 3];               // bays from the middle out, east first as in the seating
 
-function board(text, { w, h, name }) {
+export function board(text, { w, h, name }) {
   const c = document.createElement("canvas");
   c.width = 1024; c.height = Math.round((1024 * h) / w);
   const g = c.getContext("2d"), W = c.width, H = c.height;
