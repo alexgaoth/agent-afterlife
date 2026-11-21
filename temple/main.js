@@ -16,6 +16,7 @@ import { buildPlaques } from "./plaques.js";
 import { buildPilgrims } from "./pilgrims.js";
 import { seat, ZONES, GROUP_CN, cnNumber, cnDate, generationCn, nameOnTablet } from "./seating.js";
 import { statue, emptySeat, PIGMENT, paint } from "./statue.js";
+import { meaning, shipping } from "./meaning.js";
 import { buildWorld } from "./world.js";
 import { Mural } from "./mural.js";
 
@@ -72,9 +73,11 @@ const { seats, outside, placement } = seat(order);
 const agentById = new Map(data.agents.map((a) => [a.id, a]));
 const pickable = [];
 const honour = honours(data);
+// What the dress says: general or strategist, robe colour by tool (temple/meaning.js).
+const dress = meaning(seats.filter((x) => x.agent && x.zone !== "main").map((x) => x.agent));
 for (const s of seats) {
   const at = world.seats[s.zone][s.no - 1];
-  const g = s.agent ? statue(s.agent, TIER[s.zone], honour.get(s.agent.id)) : emptySeat(TIER[s.zone]);
+  const g = s.agent ? statue(s.agent, TIER[s.zone], { ...honour.get(s.agent.id), ...(dress.byId.get(s.agent.id) || {}) }) : emptySeat(TIER[s.zone]);
   g.position.set(at.x, at.y, at.z); g.rotation.y = at.r;
   scene.add(g);
   if (s.agent) g.traverse((o) => o.isMesh && pickable.push(o));
@@ -271,6 +274,9 @@ function openScroll(id) {
     <span class="seal" aria-hidden="true">${seal}</span>
     <h2>${esc(nameOnTablet(a))} ${generationCn(a)}</h2>
     <p class="seat">${esc(a.id)}. ${esc(where(a))}</p>
+    ${(() => { const d = dress.byId.get(a.id); if (!d) return "";
+      const bits = [d.role ? `Shown as a ${d.role}${d.role === "general" ? " (armour and a polearm): it shipped more per hour than most" : " (cap and feather fan): its work was more planning and reviewing"}` : "", d.tool ? `robe: ${esc(d.tool)}` : ""].filter(Boolean);
+      return bits.length ? `<p class="dress">${bits.join("; ")}.</p>` : ""; })()}
     <p class="epitaph">${esc(epitaph(a, data.metrics))}</p>
     <dl>${stats.map((s) => `<div><dt>${esc(s.label)}</dt><dd>${esc(s.value)}</dd></div>`).join("")}</dl>
     ${sparkline(a.series)}
@@ -300,7 +306,9 @@ function openAnnals(focus) {
       <p><b>香</b> Incense in the tripod censer: one stick for each day the agent served, up to twelve.</p>
       <p><b>高</b> Height: within its group, a statue stands up to 8% taller or shorter by its merit rank.</p>
       <p><b>位</b> Seat: merit rank picks the group, the day it began picks the seat, as in the 1123 record.</p>
-      <p class="n">Robe colour, hat or helmet, beard and weapon only tell agents apart; they carry no data.</p>
+      ${dress.roles ? `<p><b>甲</b> Armour, helmet and a halberd: a general, who shipped more per hour of work than the median enshrined agent (PRs merged, commits, issues closed). <b>扇</b> Scholar's cap, robe and a feather fan: a strategist, whose work was more planning and reviewing.</p>` : ""}
+      ${dress.colourKey ? `<p><b>色</b> Robe colour: the agent's ${dress.colourKey}. ${dress.legend.map((l) => `<span class="swatch" style="background:#${l.colour.toString(16).padStart(6, "0")}"></span>${esc(l.value)}`).join(" ")}</p>` : ""}
+      <p class="n">${dress.roles ? "" : "Armour or robe, "}${dress.colourKey ? "" : "robe colour, "}face, beard and the shape of hat or helmet only tell agents apart; they carry no data.</p>
     </section>`;
   for (const c of $("annals-body").querySelectorAll("canvas")) {
     drawInsight(c.getContext("2d"), fleetInsights.find((i) => i.key === c.dataset.key), 0, 0, c.width, c.height, "ink");
