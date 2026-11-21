@@ -1,6 +1,7 @@
 // 碑林: a forest of steles. Each insight about the fleet (shared/insights.js) is carved on its own
 // stele, under a small pavilion (碑亭), in pairs along the path, the way temples kept their records.
 import * as THREE from "three";
+import { cjk } from "./fonts.js";
 import { paint, PIGMENT } from "./statue.js";
 import { box, hipRoof, roofTiles } from "./world.js";
 import { drawInsight } from "./insight-art.js";
@@ -20,7 +21,7 @@ function carving(ins) {
   x.fillStyle = "#6f6d64"; x.fillRect(0, 0, 360, 800);
   x.strokeStyle = "#57554d"; x.lineWidth = 7; x.strokeRect(16, 16, 328, 768);
   x.fillStyle = "#2a2622"; x.textAlign = "center";
-  x.font = '96px "Ma Shan Zheng", "Kaiti SC", serif';                       // the title, carved large
+  x.font = cjk(96);                       // the title, carved large
   [...(ins.cn + "碑")].forEach((ch, i) => x.fillText(ch, 180, 130 + i * 98));
   drawInsight(x, ins, 34, 460, 292, 230, "stone");                           // the chart
   x.fillStyle = "#2a2622"; x.font = '24px "IM Fell English", Georgia, serif';

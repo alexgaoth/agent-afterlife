@@ -1,9 +1,11 @@
 // 香客之言: what the pilgrims say as they look on the enshrined. Light classical Chinese (浅白文言), a little of it
 // in the voice of agents that are still working. A pilgrim speaks when it slows almost to a stop, about the
 // honoured statue nearest to it (or the stele, or the lantern path); at most a few speak at once, and only near
-// the visitor. The bubble is a sprite: it faces the visitor from any side and keeps its size on screen.
+// the visitor. The bubble is a sprite: it faces the visitor from any side and has a fixed size in the world, so a
+// bubble further away looks smaller.
 // What is said and when depends only on the time, so a recording of the temple comes out the same each time.
 import * as THREE from "three";
+import { cjk } from "./fonts.js";
 
 const SAY = {
   gilded: ["{n}金身在此，功冠群伦。", "观{n}之金身，可知其功。", "金身者，百中之一也。{n}当之无愧。", "{n}之功，吾辈望尘莫及。"],
@@ -48,11 +50,11 @@ export function buildSpeech(scene, statues, walkers, { all = false, world = null
     roundRect(g, 3, 3, w - 6, h - 6, 22); g.fill(); g.stroke();
     g.beginPath(); g.moveTo(w / 2 - 16, h - 5); g.lineTo(w / 2, h + 28); g.lineTo(w / 2 + 14, h - 5); g.closePath();   // the tail
     g.fill(); g.stroke(); g.fillRect(w / 2 - 14, h - 9, 27, 6);
-    g.fillStyle = "#1f1b17"; g.font = `${fs}px "Ma Shan Zheng", "Kaiti SC", "STKaiti", serif`; g.textBaseline = "middle"; g.textAlign = "center";
+    g.fillStyle = "#1f1b17"; g.font = cjk(fs); g.textBaseline = "middle"; g.textAlign = "center";
     lines.forEach((l, i) => g.fillText(l, w / 2, pad + lh * (i + 0.5)));
     const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace;
-    const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, sizeAttenuation: false, transparent: true, depthWrite: false }));
-    const height = c.height * 0.00118;              // a constant share of the screen (~26 px characters at 720p), whatever the distance
+    const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, depthWrite: false }));
+    const height = c.height * 0.0019;               // a fixed size in the world (a line is about a quarter metre tall): smaller further away
     sprite.scale.set(height * (c.width / c.height), height, 1);
     sprite.center.set(0.5, 0);                      // the tail's tip sits on the anchor point
     sprite.renderOrder = 10;
