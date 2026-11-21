@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { survival, insights, trend, rhythm } from "../shared/insights.js";
+import { survival, insights, trend, rhythm, records, holderOn } from "../shared/insights.js";
 import { demo } from "../shared/afterlife.js";
 
 const agent = (born, ended, alive = false) => ({ id: `${born}-${ended}-${Math.random()}`, name: "x", status: alive ? "alive" : "ended", born, ...(alive ? {} : { ended }), merit: 1 });
@@ -51,4 +51,23 @@ test("rhythm: weekday shares add up and name the busiest day", () => {
   assert.equal(r.stats.top, "Tue");
   assert.equal(r.chart.rows.reduce((s, x) => s + x.median, 0), 100);
   assert.match(r.finding, /Most merit lands on Tuesdays \(97%\); the weekend carries 3%/);
+});
+
+test("records: holder, history of who broke it and when, and the holder on a given day", () => {
+  const a = (id, born, ended, merit, stats = {}, extra = {}) => ({ id, name: id.split(" ")[0], status: "ended", born, ended, merit, stats, ...extra });
+  const d = { options: { minMerit: 0.1 }, metrics: [{ key: "merged", label: "PRs merged" }], agents: [
+    a("Ada #1", "2026-01-01", "2026-01-03", 5, { merged: 2, hours: 4 }, { score: 70 }),
+    a("Bo #1", "2026-01-02", "2026-01-08", 9, { merged: 1, hours: 9 }, { score: 60 }),
+    a("Ada #2", "2026-01-09", "2026-01-10", 7, { merged: 5, hours: 3 }, { score: 70 }),     // ties a score: keeps the earlier holder
+    { id: "Cy #1", name: "Cy", status: "alive", born: "2026-01-01", merit: 99, stats: { merged: 50 } },  // alive: no records yet
+  ] };
+  const r = Object.fromEntries(records(d).map((x) => [x.key, x]));
+  assert.deepEqual(r.life.history.map((e) => [e.id, e.value, e.date]), [["Ada #1", 3, "2026-01-03"], ["Bo #1", 7, "2026-01-08"]]);
+  assert.equal(r.metric.title, "Most PRs merged");
+  assert.equal(r.metric.holder.id, "Ada #2");
+  assert.equal(r.score.holder.id, "Ada #1");
+  assert.equal(r.lineage.holder.name, "Ada");
+  assert.equal(r.lineage.holder.value, 2);
+  assert.equal(holderOn(r.life, "2026-01-05").id, "Ada #1");
+  assert.equal(holderOn(r.life, "2025-12-31"), null);
 });

@@ -10,6 +10,8 @@
 //   survival       how long agents last (Kaplan-Meier: agents still working count as far as they have got)
 //   trend          whether agents started later earn more merit a day (Spearman over start dates)
 //   rhythm         which weekdays carry the merit
+//
+// records() is apart: the fleet's records and who held each one when, for the temple's plaques (匾额).
 
 const MIN_N = 5;
 
@@ -237,6 +239,45 @@ export function rhythm(data) {
     stats: { top: top.label, weekend },
     chart: { kind: "bars", unit: "% of merit", rows: out },
   };
+}
+
+/**
+ * The fleet's records, each with its holder now and every earlier holder (when a record was broken, and by whom),
+ * for the plaques over the main hall. Ended agents only: a record is set when a life is complete (a best day,
+ * when that day is over). Ties keep the earlier holder.
+ *   [{ key, cn, title, unit, holder: { id, name, value, date }, history: [{ id, name, value, date }, ...oldest first] }]
+ */
+export function records(data) {
+  const ended = data.agents.filter((a) => a.status === "ended" && a.ended);
+  const span = (a) => Math.max(1, Math.round((Date.parse(a.ended.slice(0, 10)) - Date.parse(a.born.slice(0, 10))) / 864e5) + 1);
+  const hours = (a) => typeof a.stats?.hours === "number" ? a.stats.hours : (a.series || []).reduce((t, s) => t + (s.weight || 0), 0);
+  const first = data.metrics?.find((m) => ended.some((a) => typeof a.stats?.[m.key] === "number"));
+  const lineage = new Map();
+  const kinds = [
+    { key: "life", cn: "寿考第一", title: "Longest life", unit: " days", each: (a) => [{ value: span(a), date: a.ended }] },
+    { key: "day", cn: "一日之功", title: "Best single day", unit: " merit", each: (a) => (a.series || []).map((s) => ({ value: round((s.value / 100) * (s.weight ?? 1), 2), date: s.date })) },
+    { key: "hours", cn: "夙夜匪懈", title: "Most hours worked", unit: " h", each: (a) => [{ value: round(hours(a), 1), date: a.ended }] },
+    first && { key: "metric", cn: "战功第一", title: `Most ${/^.[a-z]/.test(first.label) ? first.label[0].toLowerCase() + first.label.slice(1) : first.label}`, unit: "", each: (a) => [{ value: typeof a.stats?.[first.key] === "number" ? a.stats[first.key] : 0, date: a.ended }] },
+    { key: "score", cn: "技冠群伦", title: "Best score", unit: " of 100", each: (a) => (typeof a.score === "number" && a.merit >= (data.options?.minMerit ?? 0.1) ? [{ value: a.score, date: a.ended }] : []) },
+    { key: "lineage", cn: "世泽绵长", title: "Most generations of one name", unit: " generations",
+      each: (a) => { if (a.name === "Unnamed") return []; const g = (lineage.get(a.name) || 0) + 1; lineage.set(a.name, g); return [{ value: g, date: a.ended, label: a.name }]; } },
+  ].filter(Boolean);
+  const byEnd = [...ended].sort((a, b) => a.ended.localeCompare(b.ended) || a.id.localeCompare(b.id));
+  return kinds.map((k) => {
+    const events = [];
+    for (const a of byEnd) for (const e of k.each(a)) events.push({ id: a.id, name: e.label || a.name, value: e.value, date: e.date.slice(0, 10) });
+    events.sort((x, y) => x.date.localeCompare(y.date));
+    const history = [];
+    for (const e of events) if (e.value > 0 && (!history.length || e.value > history.at(-1).value)) history.push(e);
+    return history.length ? { key: k.key, cn: k.cn, title: k.title, unit: k.unit, holder: history.at(-1), history } : null;
+  }).filter(Boolean);
+}
+
+/** The holder of a record on a given day (YYYY-MM-DD), from its history; null before it was first set. */
+export function holderOn(record, day) {
+  let h = null;
+  for (const e of record.history) if (e.date <= day) h = e; else break;
+  return h;
 }
 
 /** All insights, in the order the temple's steles stand. */
