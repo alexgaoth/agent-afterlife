@@ -32,11 +32,12 @@ export function buildAvenue(scene, rows, colliders) {
   };
   const m = new THREE.Matrix4(), q = new THREE.Quaternion(), s = new THREE.Vector3(1, 1, 1), p = new THREE.Vector3();
 
+  const all = [];                                   // every instanced mesh of the lanterns, for the timeline
   for (const part of parts) {
     const im = new THREE.InstancedMesh(part.geo, paint(part.color), n);
     q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), part.rotY || 0);
     for (let i = 0; i < n; i++) { const at = place(i); im.setMatrixAt(i, m.compose(p.set(at.x, part.y, at.z), q, s)); }
-    im.castShadow = im.receiveShadow = true; scene.add(im);
+    im.castShadow = im.receiveShadow = true; scene.add(im); all.push(im);
   }
   const postMesh = new THREE.InstancedMesh(posts, paint(PIGMENT.stone), n * 4);
   q.identity();
@@ -45,7 +46,7 @@ export function buildAvenue(scene, rows, colliders) {
     [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([a, b], k) => postMesh.setMatrixAt(i * 4 + k, m.compose(p.set(at.x + a * 0.17, 1.44, at.z + b * 0.17), q, s)));
     colliders.push([at.x - 0.4, at.x + 0.4, at.z - 0.4, at.z + 0.4]);
   }
-  scene.add(postMesh);
+  scene.add(postMesh); all.push(postMesh);
 
   // The fire: dark when the fleet did nothing that day, amber at the busiest day.
   const fires = new THREE.InstancedMesh(core, new THREE.MeshBasicMaterial({ color: 0xffffff }), n);
@@ -58,5 +59,17 @@ export function buildAvenue(scene, rows, colliders) {
   fires.instanceColor.needsUpdate = true;
   fires.userData.days = days;
   scene.add(fires);
-  return { fires, days };
+  // The timeline: lanterns for days that have not come yet are not there.
+  all.push(fires);
+  const meshes = all;
+  const saved = meshes.map((im) => Array.from({ length: im.count }, (_, i) => { const mm = new THREE.Matrix4(); im.getMatrixAt(i, mm); return mm; }));
+  const zero = new THREE.Matrix4().makeScale(0, 0, 0);
+  function showUntil(day) {
+    meshes.forEach((im, k) => {
+      const per = im.count / n;                     // the posts have four instances per lantern
+      for (let i = 0; i < im.count; i++) im.setMatrixAt(i, days[Math.floor(i / per)].date <= day ? saved[k][i] : zero);
+      im.instanceMatrix.needsUpdate = true;
+    });
+  }
+  return { fires, days, showUntil };
 }
