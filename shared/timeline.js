@@ -28,3 +28,13 @@ export function asOf(data, day) {
   }
   return { ...data, agents, edicts: (data.edicts || []).filter((e) => e.date.slice(0, 10) <= day), generated: `${day}T23:59:59Z` };
 }
+
+/**
+ * The temple's weather for a day: its merit against the fleet's usual day (the median of days with work).
+ * clear at 1.2x or more, a thin mist from 0.8x, overcast from 0.35x, rain below that (or no work at all).
+ */
+export function weatherFor(merit, usual) {
+  if (!(usual > 0)) return "clear";
+  const r = merit / usual;
+  return r >= 1.2 ? "clear" : r >= 0.8 ? "mist" : r >= 0.35 ? "overcast" : "rain";
+}

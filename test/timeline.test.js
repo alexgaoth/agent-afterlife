@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { days, asOf } from "../shared/timeline.js";
+import { days, asOf, weatherFor } from "../shared/timeline.js";
 import { demo, validate, ranked } from "../shared/afterlife.js";
 
 const a = (id, born, ended, merit, series) => ({ id, name: id, status: ended ? "ended" : "alive", born, ...(ended ? { ended } : {}), merit, series });
@@ -26,4 +26,9 @@ test("asOf the last day is the fleet itself; every day of the demo is a valid do
   const last = asOf(d, all.at(-1));
   assert.deepEqual(ranked({ ...last, options: d.options }).map((x) => x.id), ranked(d).map((x) => x.id));
   for (const day of all) assert.deepEqual(validate(asOf(d, day)), [], day);
+});
+
+test("weatherFor: clear, mist, overcast, rain by a day's merit against the usual day", () => {
+  assert.deepEqual([12, 10, 8, 4, 3, 0].map((m) => weatherFor(m, 10)), ["clear", "mist", "mist", "overcast", "rain", "rain"]);
+  assert.equal(weatherFor(5, 0), "clear");
 });

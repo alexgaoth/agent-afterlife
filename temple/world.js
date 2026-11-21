@@ -255,8 +255,9 @@ export function buildWorld(scene) {
   const sky = new THREE.Mesh(new THREE.CylinderGeometry(150, 150, 160, 64, 1, true), new THREE.MeshBasicMaterial({ map: mountains(), side: THREE.BackSide, fog: false }));
   sky.position.y = 40; scene.add(sky);
 
-  // Lights: a late, warm afternoon; lamps inside the halls.
-  scene.add(new THREE.HemisphereLight(0xf2e4c4, 0x8a7a62, 2.4));
+  // Lights: a late, warm afternoon; lamps inside the halls. temple/sky.js moves them with the hour and the weather.
+  const lampLights = [];
+  const hemi = new THREE.HemisphereLight(0xf2e4c4, 0x8a7a62, 2.4); scene.add(hemi);
   const sun = new THREE.DirectionalLight(0xffe2b0, 1.8);
   sun.position.set(-30, 80, 18); sun.castShadow = true;
   sun.shadow.mapSize.set(2048, 2048);
@@ -266,7 +267,7 @@ export function buildWorld(scene) {
   const lamps = [[0, 6, -35, 40], [-7, 5, -31, 18], [7, 5, -31, 18]];
   for (const sx of [-1, 1]) for (let z = -12; z <= 26; z += 12) lamps.push([sx * 20, 3.4, z, 10]);
   for (const [x, y, z, i] of lamps) {
-    const l = new THREE.PointLight(0xffb866, i, 18, 1.6); l.position.set(x, y, z); scene.add(l);
+    const l = new THREE.PointLight(0xffb866, i, 18, 1.6); l.position.set(x, y, z); scene.add(l); l.userData.base = i; lampLights.push(l);
   }
 
   // Where each seat stands, and which way it faces (rotation about y; 0 faces south, toward the gate).
@@ -290,7 +291,7 @@ export function buildWorld(scene) {
   }
   // Where a visitor may stand: the main court and the side court (walls keep them apart except at the doorway).
   const inBounds = (x, z) => (Math.abs(x) <= W - 0.6 && z >= N + 0.6 && z <= 60) || (x >= -45.4 && x <= -W && z >= -33.4 && z <= -6.6);
-  return { seats, colliders, floorAt, inBounds, ancestralHall, stele: { group: stele, slab }, bounds: { W, N, S } };
+  return { seats, colliders, floorAt, inBounds, ancestralHall, stele: { group: stele, slab }, bounds: { W, N, S }, lights: { hemi, sun, lamps: lampLights, sky } };
 }
 
 /** Layered 青绿山水 ranges on paper: steep rounded peaks, azurite summits, malachite slopes, ochre feet,
