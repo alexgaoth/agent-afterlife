@@ -16,6 +16,7 @@ import { buildPlaques } from "./plaques.js";
 import { buildAncestralHall } from "./ancestral.js";
 import { buildPilgrims } from "./pilgrims.js";
 import { buildSpeech } from "./speech.js";
+import { buildSound } from "./sound.js";
 import { seat, ZONES, GROUP_CN, cnNumber, cnDate, generationCn, nameOnTablet } from "./seating.js";
 import { statue, emptySeat, PIGMENT, paint } from "./statue.js";
 import { meaning, shipping } from "./meaning.js";
@@ -131,6 +132,10 @@ camera.position.set(start[0], world.floorAt(start[0], start[2]) + EYE + start[1]
 camera.rotation.order = "YXZ";
 camera.rotation.set(THREE.MathUtils.degToRad(start[4] || 0), THREE.MathUtils.degToRad(start[3] || 0), 0);
 
+// 声: real recordings (temple/sounds); they start with the first click on "Enter the temple". M mutes.
+const sound = buildSound(camera, scene);
+const soundState = () => { const h = $("sound-state"); if (h) h.textContent = sound.muted ? "sound off" : "sound on"; };
+
 // Keyboard mode: walking without pointer lock, for keyboard users and where the lock is refused (some iframes,
 // some browsers). It starts by itself when the lock fails, or with ?keys=1; Esc leaves it.
 let keyboardMode = false;
@@ -148,11 +153,13 @@ addEventListener("keydown", (e) => {
   keys.add(e.code);
   if ((e.code === "KeyE" || (e.code === "Enter" && keyboardMode)) && looking && exploring()) act(looking);
   if (e.code === "KeyY" && !$("annals").open) openAnnals();
+  if (e.code === "KeyM") { sound.toggle(); soundState(); }
   if ((e.code === "BracketRight" || e.code === "BracketLeft") && exploring()) { e.preventDefault(); stepToStatue(e.code === "BracketRight" ? 1 : -1); }
   if (e.code === "Escape" && keyboardMode && !$("scroll").open && !$("annals").open) setKeyboardMode(false);
 });
 addEventListener("keyup", (e) => keys.delete(e.code));
 $("enter").addEventListener("click", () => {
+  sound.start(); soundState();
   if (params.get("keys") === "1" || !renderer.domElement.requestPointerLock) return setKeyboardMode(true);
   controls.lock();
 });
@@ -193,6 +200,7 @@ function walk(dt) {
   const s = (keys.has("KeyD") ? 1 : 0) - (keys.has("KeyA") ? 1 : 0);
   const turn = (keys.has("ArrowLeft") ? 1 : 0) - (keys.has("ArrowRight") ? 1 : 0);   // arrows turn, so no mouse is needed
   if (turn) camera.rotation.y += turn * 1.9 * dt;
+  sound.walking(!!(f || s), keys.has("ShiftLeft") || keys.has("ShiftRight"));
   if (!f && !s) return;
   camera.getWorldDirection(dir); dir.y = 0; dir.normalize();
   side.crossVectors(dir, camera.up).normalize();
@@ -323,6 +331,7 @@ function openAnnals(focus) {
       <p><b>位</b> Seat: merit rank picks the group, the day it began picks the seat, as in the 1123 record.</p>
       ${dress.roles ? `<p><b>甲</b> Armour, helmet and a halberd: a general, who shipped more per hour of work than the median enshrined agent (PRs merged, commits, issues closed). <b>扇</b> Scholar's cap, robe and a feather fan: a strategist, whose work was more planning and reviewing.</p>` : ""}
       ${dress.colourKey ? `<p><b>色</b> Robe colour: the agent's ${dress.colourKey}. ${dress.legend.map((l) => `<span class="swatch" style="background:#${l.colour.toString(16).padStart(6, "0")}"></span>${esc(l.value)}`).join(" ")}</p>` : ""}
+      <p class="n">Sound: real recordings, a temple bell (Zōjō-ji, Tokyo, the surviving form of the Song bronze bell), a great drum (Suzhou), birds (the Temple of Heaven, Beijing), eave bells (a mountain temple in Korea), wind in pines, footsteps on stone, night insects. <a href="https://github.com/alexgaoth/agent-afterlife/blob/main/temple/sounds/CREDITS.md" target="_blank" rel="noopener">Credits and licences</a>. M turns it off.</p>
       <p class="n">${dress.roles ? "" : "Armour or robe, "}${dress.colourKey ? "" : "robe colour, "}face, beard and the shape of hat or helmet only tell agents apart; they carry no data.</p>
     </section>`;
   for (const c of $("annals-body").querySelectorAll("canvas")) {
@@ -449,7 +458,7 @@ if (params.get("record") === "1") {
     return;
   }
   const dt = Math.min(0.05, clock.getDelta());
-  if (exploring()) walk(dt);
+  if (exploring()) walk(dt); else sound.walking(false);
   drawAt(still ? (Number(params.get("t")) || 0) : clock.elapsedTime, frame++ % 6 === 0);   // ?still=1: the same moment on every load
   if (frame === 1) {
     mark("first-frame");
