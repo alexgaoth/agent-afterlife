@@ -55,6 +55,8 @@ export function buildPilgrims(scene, alive, { floorAt = () => 0, max = 60 } = {}
     m.userData.ids = ids;
     scene.add(m);
   }
+  // Where each pilgrim is and how fast it walks now, for the speech bubbles.
+  const state = walkers.map((w, i) => ({ id: ids[i], position: new THREE.Vector3(), pace: 1, scale: w.scale }));
   const p = new THREE.Vector3(), tan = new THREE.Vector3(), q = new THREE.Quaternion(), s = new THREE.Vector3(), up = new THREE.Vector3(0, 1, 0), m4 = new THREE.Matrix4();
   function update(t) {
     walkers.forEach((w, i) => {
@@ -68,12 +70,13 @@ export function buildPilgrims(scene, alive, { floorAt = () => 0, max = 60 } = {}
       q.setFromAxisAngle(up, Math.atan2(tan.x, tan.z));
       m4.compose(p, q, s.setScalar(w.scale));
       robes.setMatrixAt(i, m4); tops.setMatrixAt(i, m4);
+      state[i].position.copy(p); state[i].pace = pace;
     });
     robes.instanceMatrix.needsUpdate = tops.instanceMatrix.needsUpdate = true;
   }
   update(0);
   if (robes.instanceColor) robes.instanceColor.needsUpdate = true;
-  return { meshes: [robes, tops], ids, update };
+  return { meshes: [robes, tops], ids, update, walkers: () => state };
 }
 
 function hash(s) { let h = 2166136261; for (const c of String(s)) h = Math.imul(h ^ c.codePointAt(0), 16777619) >>> 0; return h; }

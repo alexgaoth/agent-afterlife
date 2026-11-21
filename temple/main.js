@@ -15,6 +15,7 @@ import { buildAvenue } from "./avenue.js";
 import { buildPlaques } from "./plaques.js";
 import { buildAncestralHall } from "./ancestral.js";
 import { buildPilgrims } from "./pilgrims.js";
+import { buildSpeech } from "./speech.js";
 import { seat, ZONES, GROUP_CN, cnNumber, cnDate, generationCn, nameOnTablet } from "./seating.js";
 import { statue, emptySeat, PIGMENT, paint } from "./statue.js";
 import { meaning, shipping } from "./meaning.js";
@@ -83,6 +84,8 @@ for (const s of seats) {
   scene.add(g);
   if (s.agent) g.traverse((o) => o.isMesh && pickable.push(o));
 }
+const statueSpots = seats.filter((x) => x.agent && x.zone !== "main").map((x) => ({ agent: x.agent, at: world.seats[x.zone][x.no - 1],
+  gilded: !!honour.get(x.agent.id)?.gilded, role: dress.byId.get(x.agent.id)?.role }));
 const seatedByRank = seats.filter((x) => x.agent)
   .map((x) => ({ at: world.seats[x.zone][x.no - 1], zone: x.zone, agent: x.agent, rank: placement.get(x.agent.id).rank }))
   .sort((a, b) => a.rank - b.rank);
@@ -91,6 +94,7 @@ const seatedByRank = seats.filter((x) => x.agent)
 const alive = living(data);
 const pilgrims = buildPilgrims(scene, alive, { floorAt: world.floorAt });
 if (pilgrims) pickable.push(...pilgrims.meshes);
+const speech = pilgrims ? buildSpeech(scene, statueSpots, pilgrims.walkers, { all: params.get("speak") === "all", world: scene, skip: pilgrims.meshes }) : null;   // ?speak=all: every pilgrim near you speaks (screenshots)
 
 // 匾额: the temple's name over the middle bay of the main hall, the fleet's records over the bays beside it.
 const fleetRecords = records(data);
@@ -411,9 +415,13 @@ renderer.setAnimationLoop(() => {
   }
   const dt = Math.min(0.05, clock.getDelta());
   if (exploring()) walk(dt);
-  pilgrims?.update(still ? 0 : clock.elapsedTime);   // ?still=1: the same positions on every load
+  pilgrims?.update(still ? (Number(params.get("t")) || 0) : clock.elapsedTime);   // ?still=1: the same positions on every load
+  speech?.update(still ? (Number(params.get("t")) || 0) : clock.elapsedTime, camera);
   if (frame++ % 6 === 0) lookAround();
   mural.render(scene, camera);
+  if (speech?.overlay.children.length) {           // the speech bubbles, crisp, on top of the painted scene
+    renderer.autoClear = false; renderer.render(speech.overlay, camera); renderer.autoClear = true;
+  }
   if (frame === 1) {
     mark("first-frame");
     const enter = $("enter"); enter.disabled = false; enter.textContent = "Enter the temple";
