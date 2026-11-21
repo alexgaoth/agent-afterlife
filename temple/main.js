@@ -18,6 +18,7 @@ import { buildAncestralHall } from "./ancestral.js";
 import { buildPilgrims } from "./pilgrims.js";
 import { buildSpeech } from "./speech.js";
 import { buildSound } from "./sound.js";
+import { buildVoices } from "./voices.js";
 import { buildSky, weatherFor } from "./sky.js";
 import { cjk, loadCjk } from "./fonts.js";
 import { seat, ZONES, GROUP_CN, cnNumber, cnDate, generationCn, nameOnTablet } from "./seating.js";
@@ -82,7 +83,8 @@ const allDays = days(data), lastDay = allDays.at(-1) || "";
 let viewDay = lastDay;
 let replay = null;                                 // the timeline's replay timer, when it plays
 let order = [], seats = [], outside = [], placement = new Map(), honour = new Map(), dress = { byId: new Map(), legend: [] };
-let statueSpots = [], seatedByRank = [], alive = [], pilgrims = null, speech = null;
+let statueSpots = [], seatedByRank = [], alive = [], pilgrims = null, speech = null, voices = null;
+const voiceLog = [];                               // record mode: what was said aloud (kept across days)
 const staticPickable = [];                         // plaques, steles, lanterns, tablets: they do not change with the day
 let statuePickable = [], pickable = [];
 const statueCache = new Map(), placed = [];        // statues already built (by agent and look), and those in the scene now
@@ -120,7 +122,9 @@ function seatFleet(view) {
   if (pilgrims) for (const m of pilgrims.meshes) { scene.remove(m); m.geometry.dispose(); }
   alive = living(view);
   pilgrims = buildPilgrims(scene, alive, { floorAt: world.floorAt });
-  speech = pilgrims ? buildSpeech(scene, statueSpots, pilgrims.walkers, { all: params.get("speak") === "all", world: scene, skip: pilgrims.meshes }) : null;   // ?speak=all: every pilgrim near you speaks (screenshots)
+  // ?speak=all: every pilgrim near you speaks (screenshots). ?bubbles=1: bubbles even with sound on.
+  speech = pilgrims ? buildSpeech(scene, statueSpots, pilgrims.walkers, { all: params.get("speak") === "all", world: scene, skip: pilgrims.meshes,
+    voices: () => voices, record: params.get("record") === "1", bubbles: params.get("bubbles") === "1", log: voiceLog }) : null;
   pickable = [...staticPickable, ...statuePickable, ...(pilgrims ? pilgrims.meshes : [])];
 }
 
@@ -181,6 +185,7 @@ camera.rotation.set(THREE.MathUtils.degToRad(start[4] || 0), THREE.MathUtils.deg
 
 // 声: real recordings (temple/sounds); they start with the first click on "Enter the temple". M mutes.
 const sound = buildSound(camera, scene, { isNight: () => sky.isNight() });
+voices = buildVoices(sound);                       // the pilgrims speak aloud once sound is on (temple/voices.js)
 const soundState = () => { const h = $("sound-state"); if (h) h.textContent = sound.muted ? "sound off" : "sound on"; };
 
 // Keyboard mode: walking without pointer lock, for keyboard users and where the lock is refused (some iframes,
@@ -381,7 +386,7 @@ function openAnnals(focus) {
       ${dress.roles ? `<p><b>甲</b> Armour, helmet and a halberd: a general, who shipped more per hour of work than the median enshrined agent (PRs merged, commits, issues closed). <b>扇</b> Scholar's cap, robe and a feather fan: a strategist, whose work was more planning and reviewing.</p>` : ""}
       ${dress.colourKey ? `<p><b>色</b> Robe colour: the agent's ${dress.colourKey}. ${dress.legend.map((l) => `<span class="swatch" style="background:#${l.colour.toString(16).padStart(6, "0")}"></span>${esc(l.value)}`).join(" ")}</p>` : ""}
       <p><b>天</b> The sky follows the hour where you are: day, dusk, night. The weather follows the fleet's work on the day shown, against its usual day: clear (晴) above it, a thin mist (薄雾) around it, overcast (阴) below it, rain (雨) when little was done.</p>
-      <p class="n">Sound: real recordings, a temple bell (Zōjō-ji, Tokyo, the surviving form of the Song bronze bell), a great drum (Suzhou), birds (the Temple of Heaven, Beijing), eave bells (a mountain temple in Korea), wind in pines, footsteps on stone, night insects. <a href="https://github.com/alexgaoth/agent-afterlife/blob/main/temple/sounds/CREDITS.md" target="_blank" rel="noopener">Credits and licences</a>. M turns it off.</p>
+      <p class="n">Sound: real recordings, a temple bell (Zōjō-ji, Tokyo, the surviving form of the Song bronze bell), a great drum (Suzhou), birds (the Temple of Heaven, Beijing), eave bells (a mountain temple in Korea), wind in pines, footsteps on stone, night insects. <a href="https://github.com/alexgaoth/agent-afterlife/blob/main/temple/sounds/CREDITS.md" target="_blank" rel="noopener">Credits and licences</a>. The pilgrims speak in synthetic voices (CosyVoice 3); with sound off they speak in bubbles. M turns it off.</p>
       <p class="n">${dress.roles ? "" : "Armour or robe, "}${dress.colourKey ? "" : "robe colour, "}face, beard and the shape of hat or helmet only tell agents apart; they carry no data.</p>
     </section>`;
   for (const c of $("annals-body").querySelectorAll("canvas")) {
@@ -530,8 +535,11 @@ if (params.get("record") === "1") {
     setTime(hour) { sky.set({ hour }); },
     setWeather(w) { sky.set({ weather: w || weatherOn(viewDay) }); },
     days: allDays,
-    ready: true,
+    /** What the pilgrims said aloud so far: [{ t, id, voice, at: {x,y,z}, text, clips: [{ src, at, dur }] }]; src is under temple/voices/. */
+    voiceLog: () => voiceLog,
+    ready: false,
   };
+  voices.ready.then(() => { window.afterlife.ready = true; });   // the pack (or its absence) is known before the first frame
   mark("first-frame");
 } else renderer.setAnimationLoop(() => {
   if (still && frame > 1) {   // two frames: the first uploads textures
