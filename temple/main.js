@@ -18,6 +18,7 @@ import { buildAncestralHall } from "./ancestral.js";
 import { buildPilgrims } from "./pilgrims.js";
 import { buildSpeech } from "./speech.js";
 import { buildSound } from "./sound.js";
+import { buildSky, weatherFor } from "./sky.js";
 import { seat, ZONES, GROUP_CN, cnNumber, cnDate, generationCn, nameOnTablet } from "./seating.js";
 import { statue, emptySeat, PIGMENT, paint } from "./statue.js";
 import { meaning, shipping } from "./meaning.js";
@@ -145,6 +146,15 @@ function act(id) {
   else openScroll(id);
 }
 
+// 天: the hour where the visitor is sets the sky; the fleet's work on the day shown sets the weather (temple/sky.js).
+const sky = buildSky(scene, world.lights, { fires: avenue.fires });
+const meritByDay = new Map((insights(data).find((i) => i.key === "chronicle").chart?.rows || []).map((r) => [r.date, r.merit]));
+const usualDay = (() => { const m = [...meritByDay.values()].filter((x) => x > 0).sort((a, b) => a - b); return m.length ? m[Math.floor(m.length / 2)] : 0; })();
+const hourNow = () => { const t = params.get("time"); if (t) { const [h, mm = 0] = t.split(":").map(Number); return h + mm / 60; } const d = new Date(); return d.getHours() + d.getMinutes() / 60; };
+const weatherOn = (day) => params.get("weather") || weatherFor(meritByDay.get(day) || 0, usualDay);
+sky.set({ hour: hourNow() });
+if (!params.get("time") && params.get("record") !== "1") setInterval(() => sky.set({ hour: hourNow() }), 60000);   // follow the clock
+
 /** Show the temple as of `day`: seats, statues, pilgrims, lanterns, the edict stele, the count, the timeline. */
 function showDay(day) {
   viewDay = allDays.includes(day) ? day : lastDay;
@@ -153,6 +163,7 @@ function showDay(day) {
   avenue.showUntil?.(viewDay);
   // The stele carries the newest edict of that day, in columns, right to left.
   carveStele(world.stele, view.edicts.at(-1), order.length - outside.length);
+  sky.set({ weather: weatherOn(viewDay) });
   if ($("count")) $("count").textContent = countLine(view);
   syncTimeline();
 }
@@ -167,7 +178,7 @@ camera.rotation.order = "YXZ";
 camera.rotation.set(THREE.MathUtils.degToRad(start[4] || 0), THREE.MathUtils.degToRad(start[3] || 0), 0);
 
 // 声: real recordings (temple/sounds); they start with the first click on "Enter the temple". M mutes.
-const sound = buildSound(camera, scene);
+const sound = buildSound(camera, scene, { isNight: () => sky.isNight() });
 const soundState = () => { const h = $("sound-state"); if (h) h.textContent = sound.muted ? "sound off" : "sound on"; };
 
 // Keyboard mode: walking without pointer lock, for keyboard users and where the lock is refused (some iframes,
@@ -367,6 +378,7 @@ function openAnnals(focus) {
       <p><b>位</b> Seat: merit rank picks the group, the day it began picks the seat, as in the 1123 record.</p>
       ${dress.roles ? `<p><b>甲</b> Armour, helmet and a halberd: a general, who shipped more per hour of work than the median enshrined agent (PRs merged, commits, issues closed). <b>扇</b> Scholar's cap, robe and a feather fan: a strategist, whose work was more planning and reviewing.</p>` : ""}
       ${dress.colourKey ? `<p><b>色</b> Robe colour: the agent's ${dress.colourKey}. ${dress.legend.map((l) => `<span class="swatch" style="background:#${l.colour.toString(16).padStart(6, "0")}"></span>${esc(l.value)}`).join(" ")}</p>` : ""}
+      <p><b>天</b> The sky follows the hour where you are: day, dusk, night. The weather follows the fleet's work on the day shown, against its usual day: clear (晴) above it, a thin mist (薄雾) around it, overcast (阴) below it, rain (雨) when little was done.</p>
       <p class="n">Sound: real recordings, a temple bell (Zōjō-ji, Tokyo, the surviving form of the Song bronze bell), a great drum (Suzhou), birds (the Temple of Heaven, Beijing), eave bells (a mountain temple in Korea), wind in pines, footsteps on stone, night insects. <a href="https://github.com/alexgaoth/agent-afterlife/blob/main/temple/sounds/CREDITS.md" target="_blank" rel="noopener">Credits and licences</a>. M turns it off.</p>
       <p class="n">${dress.roles ? "" : "Armour or robe, "}${dress.colourKey ? "" : "robe colour, "}face, beard and the shape of hat or helmet only tell agents apart; they carry no data.</p>
     </section>`;
@@ -438,7 +450,7 @@ function carveStele({ slab }, edict, enshrined) {
 
 // ------------------------------------------------------------------ frame loop
 function countLine(view) {
-  return `${order.length - outside.length} enshrined, ${alive.length} still working, ${passersBy({ ...view, options: data.options }).length} passers-by${viewDay !== lastDay ? ` · as of ${viewDay}` : ""}`;
+  return `${order.length - outside.length} enshrined, ${alive.length} still working, ${passersBy({ ...view, options: data.options }).length} passers-by${viewDay !== lastDay ? ` · as of ${viewDay}` : ""} · ${sky.weather.cn} ${sky.weather.en}`;
 }
 
 // ------------------------------------------------------------------ the timeline
@@ -484,6 +496,7 @@ const still = params.get("still") === "1";   // ?still=1 draws a few frames and 
 function drawAt(t, gaze = false) {
   pilgrims?.update(t);
   speech?.update(t, camera);
+  sky.update(t, camera);
   if (gaze) lookAround();
   mural.render(scene, camera);
   if (speech?.overlay.children.length) {           // the speech bubbles, crisp, on top of the painted scene
@@ -512,6 +525,8 @@ if (params.get("record") === "1") {
     closeAnnals() { if ($("annals").open) $("annals").close(); },
     scrollAnnals(px) { $("annals-body").scrollLeft -= px; },
     setDay(day) { showDay(day); },
+    setTime(hour) { sky.set({ hour }); },
+    setWeather(w) { sky.set({ weather: w || weatherOn(viewDay) }); },
     days: allDays,
     ready: true,
   };
