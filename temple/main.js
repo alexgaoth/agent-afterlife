@@ -493,13 +493,13 @@ progress("Lighting the lanterns");
 const still = params.get("still") === "1";   // ?still=1 draws a few frames and stops: for screenshots and tests
 
 /** Everything that moves with time, then the frame: pilgrims, their speech, the painted scene, the bubbles on top. */
-function drawAt(t, gaze = false) {
+function drawAt(t, gaze = false, showSpeech = true) {
   pilgrims?.update(t);
-  speech?.update(t, camera);
+  if (showSpeech) speech?.update(t, camera);
   sky.update(t, camera);
   if (gaze) lookAround();
   mural.render(scene, camera);
-  if (speech?.overlay.children.length) {           // the speech bubbles, crisp, on top of the painted scene
+  if (showSpeech && speech?.overlay.children.length) {   // the speech bubbles, crisp, on top of the painted scene
     renderer.autoClear = false; renderer.render(speech.overlay, camera); renderer.autoClear = true;
   }
 }
@@ -519,7 +519,7 @@ if (params.get("record") === "1") {
       camera.rotation.set(toRad(pitch), toRad(yaw), 0);
     },
     lookAt(x, y, z) { camera.lookAt(x, y, z); },
-    render(t) { drawAt(t, labels); },
+    render(t, { speech = true } = {}) { drawAt(t, labels, speech); },
     labels(on) { labels = !!on; if (!on) $("label").hidden = true; },
     openAnnals(key) { openAnnals(key); },
     closeAnnals() { if ($("annals").open) $("annals").close(); },
