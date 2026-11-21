@@ -143,6 +143,18 @@ Walk with WASD or the arrow keys, hurry with Shift, look with the mouse, read a 
 - **Reading a statue.** Gilded all over (金身): the top 10% of working agents by merit. Incense in the tripod censer (鼎): one stick per day served. Height: up to 8% taller or shorter within its group, by merit rank. A general (armour, helmet, a halberd 戟 or, for a red-faced general, the crescent glaive 偃月刀) shipped more per hour of work than the median enshrined agent (PRs merged, commits, issues closed); a strategist (scholar's cap, robe, a feather fan 羽扇, as 诸葛亮 is shown) worked more by planning and reviewing. Robe colour follows the agent's tool or model when the data has one. Face and beard only tell agents apart. Each statue is merged into a few draw calls per material.
 - **Links.** `?cam=x,y,z,yaw,pitch` starts at a viewpoint, `?read=<agent id>` opens that agent's scroll, `?annals[=key]` opens the annals, `?plain=1` turns the mural effect off, `?quality=low` draws fewer pixels and no shadows (the default when the browser has no GPU; `?quality=high` forces full quality), `?still=1` draws a few frames and freezes (for screenshots; `&t=<seconds>` picks the moment, `&speak=all` lets every pilgrim near you speak).
 
+## Record a tour
+
+From a repository checkout, install Chrome and FFmpeg. Use Node 22 or later (or Node 20 with `--experimental-websocket`).
+
+```sh
+node tools/record-tour.mjs --out /tmp/temple-tour.mp4
+```
+
+This records the published fleet at 1920×1080 and 30 fps, with no interface or added captions. Pass `--data <URL or JSON file>` to use another fleet, `--seconds N` to change the duration, or `--frames <dir>` to save eight PNGs. Use `--preview --frames <dir>` instead of `--out` to check the route without encoding. Set `CHROME_PATH` if Chrome is not in its default location.
+
+The recorder mixes temple sound files if they are present (this requires `ffprobe`, included with FFmpeg). With no sound files, it produces a silent video. Include the [sound credits](temple/sounds/CREDITS.md) when sharing a tour with sound.
+
 ## The data format
 
 Both settings render only from a JSON document that follows [`schema/afterlife.schema.json`](schema/afterlife.schema.json). Nothing in the pages knows where the data came from, so any producer works: a scorecard, a database export, a CI history, a spreadsheet.
