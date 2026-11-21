@@ -8,10 +8,11 @@ const mark = (name) => performance.mark(`afterlife:${name}`);
 // The enter button says what is happening until the first frame is drawn, then it opens the temple.
 const progress = (text) => { const b = document.getElementById("enter"); if (b && b.disabled) b.textContent = text; };
 const painted = () => new Promise((r) => setTimeout(r, 30));   // let the page show the new text (a timer also runs in a background tab)
-import { insights, honours } from "../shared/insights.js";
+import { insights, honours, records } from "../shared/insights.js";
 import { drawInsight } from "./insight-art.js";
 import { buildSteleForest } from "./steles.js";
 import { buildAvenue } from "./avenue.js";
+import { buildPlaques } from "./plaques.js";
 import { buildPilgrims } from "./pilgrims.js";
 import { seat, ZONES, GROUP_CN, cnNumber, cnDate, generationCn, nameOnTablet } from "./seating.js";
 import { statue, emptySeat, PIGMENT, paint } from "./statue.js";
@@ -87,6 +88,11 @@ const alive = living(data);
 const pilgrims = buildPilgrims(scene, alive, { floorAt: world.floorAt });
 if (pilgrims) pickable.push(...pilgrims.meshes);
 
+// 匾额: the temple's name over the middle bay of the main hall, the fleet's records over the bays beside it.
+const fleetRecords = records(data);
+const recordByKey = new Map(fleetRecords.map((r) => [r.key, r]));
+pickable.push(...buildPlaques(scene, fleetRecords).meshes);
+
 // 碑林: one stele per insight along the path. Look at one and press E for its page in the annals.
 const steleFaces = buildSteleForest(scene, insights(data), world.colliders);
 pickable.push(...steleFaces);
@@ -97,6 +103,7 @@ if (avenue.fires) pickable.push(avenue.fires);
 /** What looking at something and pressing E (or clicking) does. */
 function act(id) {
   if (id.startsWith("insight:")) openAnnals(id.slice(8));
+  else if (id.startsWith("record:") || id === "plaque:name") openAnnals("records");
   else if (id.startsWith("day:")) openAnnals("chronicle");
   else openScroll(id);
 }
@@ -220,6 +227,17 @@ function lookAround() {
     $("label").innerHTML = `<b>${cnDate(d.date)}</b><span>${d.date}: ${d.merit} merit, ${d.active} agents at work${d.ended ? `, ${d.ended} ended` : ""}.</span><kbd>E</kbd>`;
     return;
   }
+  if (id === "plaque:name") {
+    $("label").hidden = false;
+    $("label").innerHTML = `<b>武成王庙</b><span>The temple of the King of Martial Accomplishment. The plaques beside it hold the fleet's records.</span><kbd>E</kbd>`;
+    return;
+  }
+  if (id && id.startsWith("record:")) {
+    const r = recordByKey.get(id.slice(7)), h = r.holder, before = r.history.at(-2);
+    $("label").hidden = false;
+    $("label").innerHTML = `<b>${r.cn}</b><span>${esc(r.title)}: ${esc(r.key === "lineage" ? h.name : h.id)}, ${h.value}${esc(r.unit)}, since ${h.date}.${before ? ` Before: ${esc(r.key === "lineage" ? before.name : before.id)}, ${before.value}${esc(r.unit)}.` : ""}</span><kbd>E</kbd>`;
+    return;
+  }
   if (id && id.startsWith("insight:")) {
     const ins = insights(data).find((i) => "insight:" + i.key === id);
     $("label").hidden = false;
@@ -271,6 +289,11 @@ function openAnnals(focus) {
       <canvas width="680" height="360" data-key="${ins.key}"></canvas>
       <p>${esc(ins.finding)}</p>
     </section>`).join("") + `
+    <section class="panel${focus === "records" ? " focus" : ""}" id="panel-records">
+      <h3><b>匾额</b>The fleet's records</h3>
+      ${fleetRecords.map((r) => `<p><b>${r.cn}</b> ${esc(r.title)}: ${esc(r.key === "lineage" ? r.holder.name : r.holder.id)}, ${r.holder.value}${esc(r.unit)}, since ${r.holder.date}.${r.history.length > 1 ? ` Held before by ${r.history.slice(0, -1).reverse().slice(0, 3).map((e) => `${esc(r.key === "lineage" ? e.name : e.id)} (${e.value})`).join(", ")}${r.history.length > 4 ? ", …" : ""}.` : ""}</p>`).join("")}
+      <p class="n">Each plaque over the main hall holds one record. A record is set when a life ends; a better one takes the plaque.</p>
+    </section>
     <section class="panel" id="panel-reading">
       <h3><b>读法</b>How to read the statues</h3>
       <p><b>金身</b> Gilded all over: the top 10% of working agents by merit (${[...honour.values()].filter((h) => h.gilded).length} here).</p>
@@ -354,6 +377,7 @@ function resize() {
 }
 addEventListener("resize", resize); resize();
 const clock = new THREE.Clock();
+scene.updateMatrixWorld(true);   // so the first gaze check (before any frame is drawn) sees objects where they stand
 mark("scene");
 progress("Lighting the lanterns");
 const still = params.get("still") === "1";   // ?still=1 draws a few frames and stops: for screenshots and tests
