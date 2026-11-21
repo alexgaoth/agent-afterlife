@@ -1,7 +1,7 @@
 // The text version: the same document as the temple and the graveyard, as plain, navigable HTML for screen readers,
 // keyboards, and browsers without WebGL. Headings for each part, a real table for the enshrined, the same findings.
 import { loadData, ranked, living, passersBy, shownStats } from "../shared/afterlife.js";
-import { insights } from "../shared/insights.js";
+import { insights, records } from "../shared/insights.js";
 import { seat, ZONES } from "../temple/seating.js";
 
 const $ = (id) => document.getElementById(id);
@@ -45,6 +45,8 @@ if (!data) {
   $("body").innerHTML = `
     <h2 id="numbers">What the numbers say</h2>
     ${found.map((i) => `<h3><span lang="zh">${esc(i.cn)}</span> ${esc(i.title)}</h3><p>${esc(i.finding)}</p>`).join("")}
+    <h2 id="records">Records (<span lang="zh">匾额</span>)</h2>
+    <ul>${records(data).map((r) => `<li><span lang="zh">${esc(r.cn)}</span> ${esc(r.title)}: ${esc(r.key === "lineage" ? r.holder.name : r.holder.id)}, ${esc(r.holder.value)}${esc(r.unit)}, since ${esc(r.holder.date)}${r.history.length > 1 ? `; it changed hands ${r.history.length - 1} time${r.history.length === 2 ? "" : "s"}` : ""}.</li>`).join("")}</ul>
     <h2 id="enshrined">The enshrined and the ranked (${R.length})</h2>
     <div id="table">${table(R, SHOW)}</div>
     ${R.length > SHOW ? `<p><button type="button" id="all">Show all ${R.length} rows</button></p>` : ""}
