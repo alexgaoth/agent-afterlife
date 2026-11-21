@@ -119,6 +119,11 @@
   @media (max-width: 560px) { .gatecard { grid-template-columns: 1fr; justify-items: start; } .plaque { font-size: 32px; } }
   .embed #back { display: none; }
   .swatch { display: inline-block; width: .8em; height: .8em; margin: 0 .25em 0 .6em; border: 1px solid rgba(42,36,32,.5); vertical-align: -.05em; }
+  #timeline { position: fixed; top: 12px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; align-items: center;
+              padding: 6px 12px; background: rgba(30,20,12,.62); color: #f3ead6; border: 1px solid rgba(201,164,92,.5); font: 15px "IM Fell English", Georgia, serif; }
+  #timeline input { width: min(46vw, 420px); accent-color: #c9a45c; }
+  #timeline button { background: none; border: 1px solid rgba(201,164,92,.6); color: #f3ead6; width: 30px; height: 26px; cursor: pointer; }
+  #tl-label { min-width: 15em; white-space: nowrap; }
 </style>
 </head>
 <body>
@@ -129,11 +134,12 @@
       <h1>The Temple</h1>
       <p>The best agents are enshrined as the Song court seated its generals in 1123. Walk in and look at a statue to read its name.</p>
       <button id="enter" type="button" disabled aria-live="polite">Reading the records…</button><a id="back" href="../">Agent Afterlife</a>
-      <p class="keys">WASD or arrows to walk (arrows turn), Shift to hurry, mouse to look, <kbd>[</kbd> <kbd>]</kbd> from statue to statue, E to read a statue or stele, Y for the annals, M for sound, Esc to step out. No mouse? Add <code>?keys=1</code> to walk with the keyboard only.</p>
+      <p class="keys">WASD or arrows to walk (arrows turn), Shift to hurry, mouse to look, <kbd>[</kbd> <kbd>]</kbd> from statue to statue, E to read a statue or stele, Y for the annals, M for sound, <kbd>,</kbd> <kbd>.</kbd> and P for the timeline, Esc to step out. No mouse? Add <code>?keys=1</code> to walk with the keyboard only.</p>
       <p class="keys"><button id="open-annals" type="button" class="linkish">Read the annals (年鉴)</button>: what the fleet's numbers say.</p>
     </div>
   </div>
 </div>
+<div id="timeline" hidden><button id="tl-play" type="button" aria-label="Replay the fleet day by day">▶</button><input id="tl-day" type="range" min="0" max="0" step="1" aria-label="The day the temple shows"><span id="tl-label"></span></div>
 <div id="hud" hidden><span id="count"></span> · <kbd>Y</kbd> annals · <kbd>M</kbd> <span id="sound-state">sound on</span></div>
 <div id="crosshair" aria-hidden="true"></div>
 <div id="label" hidden role="status"></div>

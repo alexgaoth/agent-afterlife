@@ -8,7 +8,8 @@ const mark = (name) => performance.mark(`afterlife:${name}`);
 // The enter button says what is happening until the first frame is drawn, then it opens the temple.
 const progress = (text) => { const b = document.getElementById("enter"); if (b && b.disabled) b.textContent = text; };
 const painted = () => new Promise((r) => setTimeout(r, 30));   // let the page show the new text (a timer also runs in a background tab)
-import { insights, honours, records } from "../shared/insights.js";
+import { insights, honours, records, holderOn } from "../shared/insights.js";
+import { days, asOf } from "../shared/timeline.js";
 import { drawInsight } from "./insight-art.js";
 import { buildSteleForest } from "./steles.js";
 import { buildAvenue } from "./avenue.js";
@@ -70,49 +71,72 @@ const world = buildWorld(scene);
 const mural = new Mural(renderer);
 if (params.get("plain") === "1") mural.enabled = false;
 
-// ------------------------------------------------------------------ the seated
-const order = ranked(data);
-const { seats, outside, placement } = seat(order);
+// ------------------------------------------------------------------ the seated, as of a day (the timeline)
+// The temple shows the fleet as it stood on one day: by default the last, which is the fleet as it is. The
+// timeline (top of the screen; , and . step a day, P replays) re-seats it for any earlier day.
 const agentById = new Map(data.agents.map((a) => [a.id, a]));
-const pickable = [];
-const honour = honours(data);
-// What the dress says: general or strategist, robe colour by tool (temple/meaning.js).
-const dress = meaning(seats.filter((x) => x.agent && x.zone !== "main").map((x) => x.agent));
-for (const s of seats) {
-  const at = world.seats[s.zone][s.no - 1];
-  const g = s.agent ? statue(s.agent, TIER[s.zone], { ...honour.get(s.agent.id), ...(dress.byId.get(s.agent.id) || {}) }) : emptySeat(TIER[s.zone]);
-  g.position.set(at.x, at.y, at.z); g.rotation.y = at.r;
-  scene.add(g);
-  if (s.agent) g.traverse((o) => o.isMesh && pickable.push(o));
-}
-const statueSpots = seats.filter((x) => x.agent && x.zone !== "main").map((x) => ({ agent: x.agent, at: world.seats[x.zone][x.no - 1],
-  gilded: !!honour.get(x.agent.id)?.gilded, role: dress.byId.get(x.agent.id)?.role }));
-const seatedByRank = seats.filter((x) => x.agent)
-  .map((x) => ({ at: world.seats[x.zone][x.no - 1], zone: x.zone, agent: x.agent, rank: placement.get(x.agent.id).rank }))
-  .sort((a, b) => a.rank - b.rank);
+const allDays = days(data), lastDay = allDays.at(-1) || "";
+let viewDay = lastDay;
+let replay = null;                                 // the timeline's replay timer, when it plays
+let order = [], seats = [], outside = [], placement = new Map(), honour = new Map(), dress = { byId: new Map(), legend: [] };
+let statueSpots = [], seatedByRank = [], alive = [], pilgrims = null, speech = null;
+const staticPickable = [];                         // plaques, steles, lanterns, tablets: they do not change with the day
+let statuePickable = [], pickable = [];
+const statueCache = new Map(), placed = [];        // statues already built (by agent and look), and those in the scene now
 
-// Living agents walk the courtyard as pilgrims (香客). They take a seat when their session ends.
-const alive = living(data);
-const pilgrims = buildPilgrims(scene, alive, { floorAt: world.floorAt });
-if (pilgrims) pickable.push(...pilgrims.meshes);
-const speech = pilgrims ? buildSpeech(scene, statueSpots, pilgrims.walkers, { all: params.get("speak") === "all", world: scene, skip: pilgrims.meshes }) : null;   // ?speak=all: every pilgrim near you speaks (screenshots)
+function seatFleet(view) {
+  order = ranked(view);
+  ({ seats, outside, placement } = seat(order));
+  honour = honours(view);
+  // What the dress says: general or strategist, robe colour by tool (temple/meaning.js).
+  dress = meaning(seats.filter((x) => x.agent && x.zone !== "main").map((x) => x.agent));
+  for (const g of placed) scene.remove(g);
+  placed.length = 0; statuePickable = [];
+  for (const s of seats) {
+    const at = world.seats[s.zone][s.no - 1];
+    let key, g;
+    if (s.agent) {
+      const h = honour.get(s.agent.id) || {}, d = dress.byId.get(s.agent.id) || {};
+      key = `${s.agent.id}|${s.zone}|${h.gilded ? 1 : 0}|${Math.min(12, h.days || 1)}|${Math.round((h.percentile ?? 0.5) * 8)}|${d.role}|${d.robe}`;
+      g = statueCache.get(key) || statue(s.agent, TIER[s.zone], { ...h, ...d });
+    } else {
+      key = `empty|${s.zone}|${s.no}`;
+      g = statueCache.get(key) || emptySeat(TIER[s.zone]);
+    }
+    statueCache.set(key, g);
+    g.position.set(at.x, at.y, at.z); g.rotation.y = at.r;
+    scene.add(g); placed.push(g);
+    if (s.agent) g.traverse((o) => o.isMesh && statuePickable.push(o));
+  }
+  statueSpots = seats.filter((x) => x.agent && x.zone !== "main").map((x) => ({ agent: x.agent, at: world.seats[x.zone][x.no - 1],
+    gilded: !!honour.get(x.agent.id)?.gilded, role: dress.byId.get(x.agent.id)?.role }));
+  seatedByRank = seats.filter((x) => x.agent)
+    .map((x) => ({ at: world.seats[x.zone][x.no - 1], zone: x.zone, agent: x.agent, rank: placement.get(x.agent.id).rank }))
+    .sort((a, b) => a.rank - b.rank);
+  // Living agents walk the courtyard as pilgrims (香客). They take a seat when their session ends.
+  if (pilgrims) for (const m of pilgrims.meshes) { scene.remove(m); m.geometry.dispose(); }
+  alive = living(view);
+  pilgrims = buildPilgrims(scene, alive, { floorAt: world.floorAt });
+  speech = pilgrims ? buildSpeech(scene, statueSpots, pilgrims.walkers, { all: params.get("speak") === "all", world: scene, skip: pilgrims.meshes }) : null;   // ?speak=all: every pilgrim near you speaks (screenshots)
+  pickable = [...staticPickable, ...statuePickable, ...(pilgrims ? pilgrims.meshes : [])];
+}
 
 // 匾额: the temple's name over the middle bay of the main hall, the fleet's records over the bays beside it.
 const fleetRecords = records(data);
 const recordByKey = new Map(fleetRecords.map((r) => [r.key, r]));
-pickable.push(...buildPlaques(scene, fleetRecords).meshes);
+staticPickable.push(...buildPlaques(scene, fleetRecords).meshes);
 
 // 祠堂: the lineages, in the side court through the doorway in the west wall.
 const ancestral = buildAncestralHall(scene, data, world.ancestralHall);
-pickable.push(...ancestral.meshes);
+staticPickable.push(...ancestral.meshes);
 
 // 碑林: one stele per insight along the path. Look at one and press E for its page in the annals.
 const steleFaces = buildSteleForest(scene, insights(data), world.colliders);
-pickable.push(...steleFaces);
+staticPickable.push(...steleFaces);
 
 // 灯道: one stone lantern per work day along the path, gate (oldest) to hall (newest), lit by that day's merit.
 const avenue = buildAvenue(scene, insights(data).find((i) => i.key === "chronicle").chart?.rows || [], world.colliders);
-if (avenue.fires) pickable.push(avenue.fires);
+if (avenue.fires) staticPickable.push(avenue.fires);
 /** What looking at something and pressing E (or clicking) does. */
 function act(id) {
   if (id.startsWith("insight:")) openAnnals(id.slice(8));
@@ -121,8 +145,18 @@ function act(id) {
   else openScroll(id);
 }
 
-// The stele carries the newest edict, in columns, right to left.
-carveStele(world.stele, data.edicts.at(-1), order.length - outside.length);
+/** Show the temple as of `day`: seats, statues, pilgrims, lanterns, the edict stele, the count, the timeline. */
+function showDay(day) {
+  viewDay = allDays.includes(day) ? day : lastDay;
+  const view = viewDay === lastDay ? data : { ...asOf(data, viewDay), options: data.options };
+  seatFleet(view);
+  avenue.showUntil?.(viewDay);
+  // The stele carries the newest edict of that day, in columns, right to left.
+  carveStele(world.stele, view.edicts.at(-1), order.length - outside.length);
+  if ($("count")) $("count").textContent = countLine(view);
+  syncTimeline();
+}
+showDay(params.get("day") || lastDay);
 
 // ------------------------------------------------------------------ walking
 const controls = new PointerLockControls(camera, renderer.domElement);
@@ -259,7 +293,9 @@ function lookAround() {
     return;
   }
   if (id && id.startsWith("record:")) {
-    const r = recordByKey.get(id.slice(7)), h = r.holder, before = r.history.at(-2);
+    const r = recordByKey.get(id.slice(7));
+    const h = viewDay === lastDay ? r.holder : holderOn(r, viewDay), before = h && r.history[r.history.indexOf(h) - 1];
+    if (!h) { $("label").hidden = false; $("label").innerHTML = `<b>${r.cn}</b><span>${esc(r.title)}: not yet set on ${viewDay}.</span>`; return; }
     $("label").hidden = false;
     $("label").innerHTML = `<b>${r.cn}</b><span>${esc(r.title)}: ${esc(r.key === "lineage" ? h.name : h.id)}, ${h.value}${esc(r.unit)}, since ${h.date}.${before ? ` Before: ${esc(r.key === "lineage" ? before.name : before.id)}, ${before.value}${esc(r.unit)}.` : ""}</span><kbd>E</kbd>`;
     return;
@@ -401,7 +437,37 @@ function carveStele({ slab }, edict, enshrined) {
 }
 
 // ------------------------------------------------------------------ frame loop
-$("count").textContent = `${order.length - outside.length} enshrined, ${alive.length} still working, ${passersBy(data).length} passers-by`;
+function countLine(view) {
+  return `${order.length - outside.length} enshrined, ${alive.length} still working, ${passersBy({ ...view, options: data.options }).length} passers-by${viewDay !== lastDay ? ` · as of ${viewDay}` : ""}`;
+}
+
+// ------------------------------------------------------------------ the timeline
+// A slider over every day of the fleet (usable when the mouse is free), and keys while walking: , and . step a
+// day, P replays from the first day (one day each 0.6 s). The last day is the fleet as it is.
+function syncTimeline() {
+  const r = $("tl-day"), i = allDays.indexOf(viewDay);
+  if (!r) return;
+  r.max = String(Math.max(0, allDays.length - 1)); r.value = String(i);
+  $("tl-label").textContent = `${cnDate(viewDay)} · ${viewDay}${viewDay === lastDay ? " · today" : ""}`;
+  $("tl-play").textContent = replay ? "❚❚" : "▶";
+}
+function stepDay(k) { const i = allDays.indexOf(viewDay); showDay(allDays[Math.max(0, Math.min(allDays.length - 1, i + k))]); }
+function toggleReplay() {
+  if (replay) { clearInterval(replay); replay = null; syncTimeline(); return; }
+  if (viewDay === lastDay) showDay(allDays[0]);
+  replay = setInterval(() => { if (viewDay === lastDay) toggleReplay(); else stepDay(1); }, 600);
+  syncTimeline();
+}
+$("tl-day")?.addEventListener("input", (e) => showDay(allDays[Number(e.target.value)]));
+$("tl-play")?.addEventListener("click", toggleReplay);
+if (params.get("record") !== "1" && allDays.length > 1) $("timeline").hidden = false;
+addEventListener("keydown", (e) => {
+  if (e.target.closest?.("dialog, input, textarea") && e.target.id !== "tl-day") return;
+  if (e.code === "Comma") stepDay(-1);
+  else if (e.code === "Period") stepDay(1);
+  else if (e.code === "KeyP") toggleReplay();
+});
+syncTimeline();
 function resize() {
   renderer.setSize(innerWidth, innerHeight);
   camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
@@ -445,6 +511,8 @@ if (params.get("record") === "1") {
     openAnnals(key) { openAnnals(key); },
     closeAnnals() { if ($("annals").open) $("annals").close(); },
     scrollAnnals(px) { $("annals-body").scrollLeft -= px; },
+    setDay(day) { showDay(day); },
+    days: allDays,
     ready: true,
   };
   mark("first-frame");
