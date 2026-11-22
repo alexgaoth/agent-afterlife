@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { makeTour } from "../tools/record-tour.mjs";
 import { duckIntervals, planVoices, spatialVoice } from "../tools/record-voices.mjs";
-import { INSPECTION_SECONDS, inspectionPose } from "../tools/tour-inspections.mjs";
+import { INSPECTION_SECONDS, heldTilt, inspectionPose } from "../tools/tour-inspections.mjs";
 
 const near = (actual, expected) => assert.ok(Math.abs(actual - expected) < 1e-8, `${actual} != ${expected}`);
 const duration = 178.8;
@@ -40,7 +40,7 @@ test("dusk and the fade hold the closing view after the original walk", () => {
   assert.equal(tour.samples.size, 14);
 });
 
-test("four distinct inspections have time to rise, read, sidestep, and sink", () => {
+test("four distinct inspections have time to rise, be turned in the hands and read, and sink", () => {
   const tour = makeTour(duration, Array(53));
   assert.deepEqual(tour.inspections.map((s) => s.kind), ["stele", "general", "pilgrim", "main"]);
   for (const shot of tour.inspections) {
@@ -57,10 +57,12 @@ test("four distinct inspections have time to rise, read, sidestep, and sink", ()
   const frame = { x: 0, z: 0, yaw: 0, pitch: 0 }, target = { aim: [0, 1.6, -5] };
   const aimed = inspectionPose(frame, .75, target, 1.6);
   near(aimed.pitch, 0);
-  const reading = inspectionPose(frame, 4.4, target, 1.6);
-  near(reading.x, -.5);
-  near(reading.pitch, -11);
-  assert.ok(reading.yaw < aimed.yaw);
+  const reading = inspectionPose(frame, 4.4, target, 1.6);     // held up before you: the camera stays put
+  assert.deepEqual([reading.x, reading.z], [frame.x, frame.z]);
+  near(reading.pitch, aimed.pitch);
+  assert.equal(heldTilt(.5), null);                            // not yet held
+  assert.ok(Math.abs(heldTilt(2.6)[0]) > 8);                    // turned in the hands while read
+  assert.equal(heldTilt(INSPECTION_SECONDS), null);
   assert.deepEqual(inspectionPose(frame, INSPECTION_SECONDS, target, 1.6), frame);
 });
 

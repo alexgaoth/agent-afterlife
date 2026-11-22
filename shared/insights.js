@@ -53,7 +53,9 @@ const ended = (data) => data.agents.filter((a) => a.status === "ended");
 // Statistics cover agents that did real work; passers-by (merit under options.minMerit) are counted apart,
 // or a crowd of one-off sessions would decide every median.
 const worked = (data) => ended(data).filter((a) => a.merit >= (data.options?.minMerit ?? 0.1));
-const tooFew = (key, cn, title, n) => ({ key, cn, title, n, finding: `Too few agents to tell yet (${n}).`, chart: null });
+const TITLE_CN = { concentration: "功归何人", chronicle: "逐日年表", longevity: "寿长是否功多", lineage: "名号是否带福",
+  quality: "活干得好不好", survival: "能撑多久", trend: "是否越来越好", rhythm: "哪几日最出力" };
+const tooFew = (key, cn, title, n) => ({ key, cn, title, titleCn: TITLE_CN[key], n, finding: `Too few agents to tell yet (${n}).`, findingCn: `样本尚少，难下定论（${n}）。`, chart: null });
 
 export function concentration(data) {
   const merits = worked(data).map((a) => a.merit).sort((a, b) => b - a);
@@ -70,7 +72,9 @@ export function concentration(data) {
   asc.forEach((m, i) => { cum += m; lorenz.push([(i + 1) / n, cum / total]); gini += (2 * (i + 1) - n - 1) * m; });
   gini /= n * total;
   return {
-    key: "concentration", cn: "功德", title: "Who carried the work", n,
+    key: "concentration", cn: "功德", title: "Who carried the work", titleCn: TITLE_CN.concentration, n,
+    findingCn: `真正干活的${n}个智能体里，前十分之一（${top}个）挣得全部功德的${pct(topShare)}；一半功德出自${half}个。基尼系数${round(gini, 2)}。` +
+      (passers ? `另有${passers}个过客，几乎什么也没干。` : ""),
     finding: `Of the ${n} agents that did real work, the top 10% (${top}) earned ${pct(topShare)} of all merit; half of it came from ${half} agents. Gini ${round(gini, 2)}.` +
       (passers ? ` Another ${passers} sessions were passers-by and did almost nothing.` : ""),
     stats: { topShare, half, gini, passers },
@@ -94,7 +98,8 @@ export function chronicle(data) {
   const early = avg(rows.slice(0, third)), late = avg(rows.slice(-third));
   const trend = late > early * 1.15 ? "rising" : late < early * 0.85 ? "falling" : "steady";
   return {
-    key: "chronicle", cn: "年表", title: "The fleet day by day", n: rows.length,
+    key: "chronicle", cn: "年表", title: "The fleet day by day", titleCn: TITLE_CN.chronicle, n: rows.length,
+    findingCn: `最忙的一日是${best.date}：${best.active}个智能体挣得${round(best.merit)}功德。产出${{ rising: "渐增", falling: "渐减", steady: "平稳" }[trend]}：后三分之一的日子日均${round(late)}，前三分之一为${round(early)}。`,
     finding: `Busiest day ${best.date}: ${round(best.merit)} merit from ${best.active} agents. Output is ${trend}: the last third of days averaged ${round(late)} a day against ${round(early)} in the first.`,
     stats: { best, trend, early, late },
     chart: { kind: "days", rows: rows.map((r) => ({ ...r, merit: round(r.merit, 2) })) },
@@ -113,7 +118,9 @@ export function longevity(data) {
   if (short.n < 3 || long.n < 3) return { ...tooFew("longevity", "寿", "Does a longer life pay", n), chart: { kind: "bars", rows } };
   const ratio = short.median ? long.median / short.median : null;
   return {
-    key: "longevity", cn: "寿", title: "Does a longer life pay", n,
+    key: "longevity", cn: "寿", title: "Does a longer life pay", titleCn: TITLE_CN.longevity, n,
+    findingCn: ratio == null ? `任事三日以上者，日均功德中位数为${long.median}（样本${long.n}）。`
+      : `任事三日以上者，日均功德${ratio > 0.85 && ratio < 1.15 ? "与只任一日者相当" : `是只任一日者的${round(ratio)}倍`}（中位数${long.median}对${short.median}；样本${long.n}与${short.n}）。因果可能相反：好的智能体才被留得久。`,
     finding: ratio == null ? `Agents that served 3 days or more earned a median ${long.median} merit a day (n ${long.n}).`
       : `Agents that served 3 days or more earned ${ratio > 0.85 && ratio < 1.15 ? "about the same merit per day as" : `${round(ratio)}× the merit per day of`} one-day agents (median ${long.median} against ${short.median}; n ${long.n} and ${short.n}). Cause may run either way: good agents are the ones kept alive.`,
     stats: { ratio },
@@ -134,7 +141,8 @@ export function lineage(data) {
   if (first.n < 3 || later.length < 3) return { ...tooFew("lineage", "世系", "Do names carry luck", n), chart: { kind: "bars", rows } };
   const mLater = round(median(later), 2);
   return {
-    key: "lineage", cn: "世系", title: "Do names carry luck", n,
+    key: "lineage", cn: "世系", title: "Do names carry luck", titleCn: TITLE_CN.lineage, n,
+    findingCn: `首代持名者功德中位数为${first.median}；沿用旧名者为${mLater}（样本${first.n}与${later.length}）。名号只是标签，差距不大时，当作偶然看。`,
     finding: `First bearers of a name earned a median ${first.median} merit; agents reusing a name earned ${mLater} (n ${first.n} and ${later.length}). A name is a label, so read this as chance unless the gap is large.`,
     stats: { first: first.median, later: mLater },
     chart: { kind: "bars", unit: "median merit", rows },
@@ -151,7 +159,8 @@ export function quality(data) {
   const mid = median(scored.map((a) => a.score));
   const strength = Math.abs(rho) >= 0.5 ? "strongly" : Math.abs(rho) >= 0.3 ? "moderately" : "barely";
   return {
-    key: "quality", cn: "品", title: "How good was the work", n,
+    key: "quality", cn: "品", title: "How good was the work", titleCn: TITLE_CN.quality, n,
+    findingCn: `评分中位数为${round(mid)}。评分与功德${{ strongly: "密切相关", moderately: "有些相关", barely: "几乎无关" }[strength]}（斯皮尔曼ρ ${round(rho, 2)}，样本${n}）：${Math.abs(rho) >= 0.3 ? "干得好与干得多，往往并行" : "干多干少，说明不了干得好坏"}。`,
     finding: `The median agent scored ${round(mid)}. Score and merit are ${strength} related (Spearman ρ ${round(rho, 2)}, n ${n}): ${Math.abs(rho) >= 0.3 ? "better work and more work tend to go together" : "how much an agent did says little about how well"}.`,
     stats: { rho, median: mid },
     chart: { kind: "histogram", rows: bins },
@@ -189,7 +198,8 @@ export function survival(data) {
   const lead = half ? `Half of the working agents had ended ${half.t === 1 ? "within their first day" : `within ${half.t} days`}`
     : `More than half of the working agents were still going after ${T} day${T === 1 ? "" : "s"}`;
   return {
-    key: "survival", cn: "生卒", title: "How long agents last", n,
+    key: "survival", cn: "生卒", title: "How long agents last", titleCn: TITLE_CN.survival, n,
+    findingCn: `${half ? (half.t === 1 ? "半数干活的智能体首日即止" : `半数干活的智能体${half.t}日内即止`) : `过半干活的智能体${T}日后仍在`}${week != null ? `；${pct(week)}撑过一周` : ""}（样本${n}${still ? `，其中${still}个尚在任事，按已过日数计` : ""}）。`,
     finding: `${lead}${week != null ? `; ${pct(week)} lasted more than a week` : ""} (n ${n}${still ? `, of them ${still} still working, counted as far as they have got` : ""}).`,
     stats: { median: half ? half.t : null, week },
     chart: { kind: "survival", rows, median: half ? half.t : null },
@@ -214,7 +224,8 @@ export function trend(data) {
   const lead = Math.abs(rho) < 0.1 ? "No clear trend: agents started later earn about the same merit a day as earlier ones"
     : `Agents started later earn ${Math.abs(rho) < 0.3 ? "slightly " : ""}${rho > 0 ? "more" : "less"} merit a day: the median went from ${first} in the first ${k === 3 ? "third" : `of ${k} groups`} to ${last} in the last`;
   return {
-    key: "trend", cn: "进退", title: "Is the fleet getting better", n,
+    key: "trend", cn: "进退", title: "Is the fleet getting better", titleCn: TITLE_CN.trend, n,
+    findingCn: `${Math.abs(rho) < 0.1 ? "并无明显趋势：后来者与先来者日均功德相当" : `后来者日均功德${Math.abs(rho) < 0.3 ? "略" : ""}${rho > 0 ? "高" : "低"}：中位数由首组的${first}变为末组的${last}`}（斯皮尔曼ρ ${round(rho, 2)}，样本${n}）。各组人数相同，按开始日期分。`,
     finding: `${lead} (Spearman ρ ${round(rho, 2)}, n ${n}). Groups are equal in size, by start date.`,
     stats: { rho, first, last },
     chart: { kind: "bars", unit: "median merit a day", rows },
@@ -234,7 +245,8 @@ export function rhythm(data) {
   const top = out.reduce((b, r) => (r.median > b.median ? r : b), out[0]);
   const weekend = out[5].median + out[6].median;
   return {
-    key: "rhythm", cn: "七曜", title: "Which days carry the work", n: rows.length,
+    key: "rhythm", cn: "七曜", title: "Which days carry the work", titleCn: TITLE_CN.rhythm, n: rows.length,
+    findingCn: `功德多落在${({ Mon: "周一", Tue: "周二", Wed: "周三", Thu: "周四", Fri: "周五", Sat: "周六", Sun: "周日" })[top.label]}（${top.median}%）；周末占${weekend}%，共${rows.length}日。日期按记录者自己的日历。`,
     finding: `Most merit lands on ${top.label === "Sat" || top.label === "Sun" ? "a weekend day, " : ""}${({ Mon: "Mondays", Tue: "Tuesdays", Wed: "Wednesdays", Thu: "Thursdays", Fri: "Fridays", Sat: "Saturdays", Sun: "Sundays" })[top.label]} (${top.median}%); the weekend carries ${weekend}%, over ${rows.length} days. Dates are the producer's own calendar days.`,
     stats: { top: top.label, weekend },
     chart: { kind: "bars", unit: "% of merit", rows: out },

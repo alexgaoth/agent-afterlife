@@ -76,7 +76,11 @@ export function cnNumber(n) {
   if (n < 10) return CN[n];
   if (n < 20) return "十" + (n % 10 ? CN[n % 10] : "");
   if (n < 100) return CN[Math.floor(n / 10)] + "十" + (n % 10 ? CN[n % 10] : "");
-  return String(n);
+  if (n >= 10000 || n !== Math.floor(n)) return String(n);
+  const ds = String(n).split("").map(Number), U = ["", "十", "百", "千"];      // 一百七十, 一百零五, 二千六百二十
+  let out = "", zero = false;
+  ds.forEach((d, i) => { if (!d) { zero = true; return; } if (zero && out) out += "零"; zero = false; out += CN[d] + U[ds.length - 1 - i]; });
+  return out;
 }
 export const cnDate = (d) => [...d.slice(0, 4)].map((c) => CN[+c]).join("") + "年" + cnNumber(+d.slice(5, 7)) + "月" + cnNumber(+d.slice(8, 10)) + "日";
 export const generationCn = (a) => `第${cnNumber(a.generation || 1)}代`;
