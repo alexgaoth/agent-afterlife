@@ -555,6 +555,15 @@ if (params.get("record") === "1") {
     inspectAt(opts = {}) { looking = null; lookAround(); $("label").hidden = !labels; if (!looking || looking.startsWith("day:") || looking.startsWith("record:") || looking.startsWith("plaque:")) return null; inspect(looking, opts); return looking; },
     /** Inspect an agent (by id) or a stele ("insight:<key>"). opts: { side, dist } in metres. */
     inspect(id, opts = {}) { return inspect(id, opts); },
+    /** The pilgrims at render time t (their walk depends only on t): [{ id, name, merit, x, y, z, scale }]. */
+    pilgrimsAt(t) {
+      if (!pilgrims) return [];
+      pilgrims.update(t);
+      return pilgrims.walkers().map((w) => { const a = agentById.get(w.id);
+        return { id: w.id, name: a?.name ?? null, merit: a?.merit ?? 0, x: +w.position.x.toFixed(3), y: +w.position.y.toFixed(3), z: +w.position.z.toFixed(3), scale: w.scale || 1 }; });
+    },
+    /** The ancestral tablets, where they hang: [{ id, name, merit, panel, x, y, z }]. */
+    tablets: () => ancestral.tablets(),
     /** The seated, where they sit: [{ id, name, zone, x, y, z, role, gilded }] (y: the seat's floor). */
     statues: () => seats.filter((x) => x.agent).map((x) => { const at = world.seats[x.zone][x.no - 1];
       return { id: x.agent.id, name: x.agent.name, zone: x.zone, x: at.x, y: at.y, z: at.z, role: dress.byId.get(x.agent.id)?.role || null, gilded: !!honour.get(x.agent.id)?.gilded }; }),

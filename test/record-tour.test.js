@@ -15,7 +15,7 @@ test("terrace replay holds its view for eight seconds and advances the fleet ove
   assert.deepEqual(new Set(replay.map(({ x, z, yaw, pitch, hour }) => JSON.stringify([x, z, yaw, pitch, hour]))),
     new Set(["[0,-21.5,-180,-6,10.5]"]));
   assert.equal(replay[0].history, 0);
-  const replayStart = 77.3 * 118 / 150.8 + 3 + 6 + 4 + 2 * INSPECTION_SECONDS;
+  const replayStart = 77.3 * 118 / 150.8 + 3 + 6 + 4 + 3 * INSPECTION_SECONDS;   // stele, general, pilgrim come first
   near(tour.frame(replayStart + 1).history, 0);
   near(tour.frame(replayStart + 4).history, .5);
   near(tour.frame(replayStart + 7).history, 1);
@@ -42,7 +42,7 @@ test("dusk and the fade hold the closing view after the original walk", () => {
 
 test("four distinct inspections have time to rise, read, sidestep, and sink", () => {
   const tour = makeTour(duration, Array(53));
-  assert.deepEqual(tour.inspections.map((s) => s.kind), ["stele", "general", "main", "ancestor"]);
+  assert.deepEqual(tour.inspections.map((s) => s.kind), ["stele", "general", "pilgrim", "main"]);
   for (const shot of tour.inspections) {
     near(shot.end - shot.start, INSPECTION_SECONDS);
     assert.equal(tour.frame(shot.openFrame / 30).shot, shot.kind);
@@ -52,7 +52,7 @@ test("four distinct inspections have time to rise, read, sidestep, and sink", ()
     assert.ok(shot.end - shot.closeFrame / 30 >= .55);
     assert.equal(tour.samples.get(shot.sampleFrame), shot.sample);
   }
-  near(tour.bell, 82.1 * 118 / 150.8 + 3 + 6 + 16 + 2 * INSPECTION_SECONDS);
+  near(tour.bell, 82.1 * 118 / 150.8 + 3 + 6 + 16 + 3 * INSPECTION_SECONDS);
   near(tour.drum, tour.duskStart + 4);
   const frame = { x: 0, z: 0, yaw: 0, pitch: 0 }, target = { aim: [0, 1.6, -5] };
   const aimed = inspectionPose(frame, .75, target, 1.6);

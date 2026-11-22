@@ -3,8 +3,8 @@ export const INSPECTION_SECONDS = 6.2;
 export const INSPECTIONS = [
   { kind: "stele", after: 22.5, sample: "03a-inspect-stele", aim: [-4.98, 2.4, 18], id: "insight:lineage" },
   { kind: "general", after: 45, sample: "04a-inspect-general", zone: "wingsEast" },
+  { kind: "pilgrim", after: 58.5, sample: "04b-inspect-pilgrim" },
   { kind: "main", after: 84, sample: "06a-inspect-main", zone: "main" },
-  { kind: "ancestor", after: 133, sample: "07a-inspect-ancestor" },
 ];
 
 const OPEN = .75, CLOSE = 5.45;
@@ -30,8 +30,20 @@ function aimAngles(frame, [x, y, z], eye) {
 }
 
 /** Choose a real target on today's route. A missing target never becomes a substitute tablet. */
-export function pickTarget(shot, frame, statues, panelCount) {
+export function pickTarget(shot, frame, statues, panelCount, tablets = [], pilgrims = []) {
   if (shot.aim) return { aim: shot.aim, id: shot.id };
+  if (shot.kind === "pilgrim") {
+    // A living agent, still at work: the one that has earned the most among those within reach when the tablet rises.
+    const near = pilgrims.filter((p) => Math.hypot(p.x - frame.x, p.z - frame.z) < 8);
+    if (!near.length) throw new Error("No pilgrim within reach for the pilgrim inspection");
+    const p = near.reduce((best, p) => (p.merit > best.merit ? p : best));
+    return { aim: [p.x, p.y + 1.05 * p.scale, p.z], id: p.id };
+  }
+  if (shot.kind === "ancestor" && tablets.some((t) => t.panel < 5 && t.merit > 0)) {
+    // The tablet on the back wall whose agent earned the most: a tablet that shows real work.
+    const t = tablets.filter((x) => x.panel < 5).reduce((best, x) => (x.merit > best.merit ? x : best));
+    return { aim: [t.x, t.y, t.z], id: t.id };
+  }
   if (shot.kind === "ancestor") {
     if (!panelCount) throw new Error("The fleet has no ancestral panels");
     // First occupied cell on the back-wall panel nearest the centre aisle.

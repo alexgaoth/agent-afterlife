@@ -368,9 +368,11 @@ async function capture(root, data, tour, count, sampleDir, preview) {
       const panelCount = [...lineages.values()].filter((n) => n > 1).length;
       const shots = new Map();
       const statues = tour.inspections.length ? await cdp.evaluate("window.afterlife.statues()") : [];
+      const tablets = tour.inspections.length ? await cdp.evaluate("window.afterlife.tablets()") : [];
       for (const shot of tour.inspections) {
         const frame = tour.frame((shot.start + shot.end) / 2);
-        const target = pickTarget(shot, frame, statues, panelCount);
+        const walkers = shot.kind === "pilgrim" ? await cdp.evaluate(`window.afterlife.pilgrimsAt(${tour.frame(shot.openFrame / FPS).t})`) : [];
+        const target = pickTarget(shot, frame, statues, panelCount, tablets, walkers);
         const eye = await cdp.evaluate(`window.afterlife.floorAt(${frame.x}, ${frame.z}) + window.afterlife.eye`);
         shots.set(shot.kind, { ...shot, target, eye });
       }
