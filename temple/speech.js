@@ -35,6 +35,7 @@ export function buildSpeech(scene, statues, walkers, { all = false, world = null
   const ray = new THREE.Raycaster(), to = new THREE.Vector3();
   const shown = new Map();                          // pilgrim id -> { sprite, until }
   const speaking = new Map();                       // pilgrim id -> { until, anchor }
+  const recent = [];                                // the last few lines said, so two pilgrims do not repeat each other
   /** What pilgrim w says on its k-th spell of slowness: { id, text, name } (name: the enshrined agent's, or null). */
   function lineFor(w, k, canName = () => true) {
     const h = hash(`${w.id}:${k}`);
@@ -45,7 +46,9 @@ export function buildSpeech(scene, statues, walkers, { all = false, world = null
     else if (Math.abs(w.position.x) < 2 && h % 3 === 1) group = "lantern";
     else if (near && near.d < 16 && h % 5 !== 0 && canName(near.s.agent.name)) group = near.s.gilded ? "gilded" : near.s.role === "general" ? "general" : near.s.role === "strategist" ? "strategist" : "any";
     else group = "self";
-    const i = (h >>> 3) % SAY[group].length, text = SAY[group][i];
+    let i = (h >>> 3) % SAY[group].length;
+    for (let j = 0; j < SAY[group].length && recent.includes(`${group}-${i}`); j++) i = (i + 1) % SAY[group].length;
+    const text = SAY[group][i];
     const name = text.includes("{n}") ? near.s.agent.name : null;
     return { id: `${group}-${i}`, text: name ? text.replace("{n}", name) : text, name };
   }
@@ -68,6 +71,7 @@ export function buildSpeech(scene, statues, walkers, { all = false, world = null
     sprite.renderOrder = 10;
     return sprite;
   }
+  const heard = (id) => { recent.push(id); if (recent.length > 8) recent.shift(); };
   const head = (w) => new THREE.Vector3(w.position.x, w.position.y + 1.55 * (w.scale || 1), w.position.z);
   /** Say it aloud; false when the pack cannot (then the pilgrim stays quiet this time). */
   function speak(w, k, t, v) {
@@ -75,6 +79,7 @@ export function buildSpeech(scene, statues, walkers, { all = false, world = null
     const line = lineFor(w, k, (name) => v.hasName(name, voice));
     const clips = v.clips(line.id, line.name, voice);
     if (!clips) return false;
+    heard(line.id);
     const end = Math.max(...clips.map((c) => c.at + c.dur));
     if (record) {
       const at = head(w);
@@ -101,7 +106,6 @@ export function buildSpeech(scene, statues, walkers, { all = false, world = null
     }
     const v = bubbles ? null : voices();
     const aloud = !!v?.pack && (record || v.on());
-    if (record && !aloud && !bubbles) return;
     const range = record && aloud ? voiceRange : NEAR;
     // Who may speak: slowed almost to a stop, near the visitor, not spoken in the last few seconds.
     const want = list.filter((w) => (all || w.pace < 0.32)
@@ -114,7 +118,9 @@ export function buildSpeech(scene, statues, walkers, { all = false, world = null
       if (k === w.lastSaid) continue;
       w.lastSaid = k;
       if (aloud) { speak(w, k, t, v); continue; }
-      const sprite = bubble(lineFor(w, k).text);
+      const line = lineFor(w, k);
+      heard(line.id);
+      const sprite = bubble(line.text);
       overlay.add(sprite);
       shown.set(w.id, { sprite, until: t + 5.5 });
     }

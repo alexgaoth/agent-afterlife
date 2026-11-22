@@ -332,7 +332,7 @@ async function capture(root, data, tour, count, sampleDir, preview) {
         width: WIDTH, height: HEIGHT, deviceScaleFactor: 1, mobile: false,
       });
       // The weather URL option keeps showDay() from restoring historical weather.
-      const url = `http://127.0.0.1:${server.address().port}/temple/?record=1&still=1&quality=high&weather=clear&voiceRange=6&data=data.json`;
+      const url = `http://127.0.0.1:${server.address().port}/temple/?record=1&still=1&quality=high&weather=clear&voiceRange=12&data=data.json`;
       const nav = await cdp.call("Page.navigate", { url });
       if (nav.errorText) throw new Error(nav.errorText);
       const { layout, days } = await until(() => cdp.evaluate(`(() => {
