@@ -24,10 +24,11 @@ const MAX_SHOWN = 4, MAX_VOICES = 2, NEAR = 26;   // bubbles at once, voices at 
  * statues: [{ agent, at: {x,y,z}, gilded, role }] for the seated; walkers(): [{ id, position, pace }] from the
  * pilgrims. voices(): the voice pack (temple/voices.js) or null. record: no playback; each thing said aloud goes to
  * `log` instead ([{ t, id, voice, at: {x,y,z}, text, clips }]), for a recorder to mix into its sound track.
+ * voiceRange: metres from the visitor in record mode. The live temple still uses NEAR.
  * bubbles: always bubbles, never voices.
  * Returns { update(t, camera), overlay, say(w, k), log }.
  */
-export function buildSpeech(scene, statues, walkers, { all = false, world = null, skip = [], voices = () => null, record = false, bubbles = false, log = [] } = {}) {
+export function buildSpeech(scene, statues, walkers, { all = false, world = null, skip = [], voices = () => null, record = false, voiceRange = NEAR, bubbles = false, log = [] } = {}) {
   // Bubbles live in their own scene, drawn after the mural effect so their characters stay crisp (the main.js loop
   // renders `overlay` last). Walls still hide them: a ray from the visitor to the speaker, against the world.
   const overlay = new THREE.Scene();
@@ -100,8 +101,11 @@ export function buildSpeech(scene, statues, walkers, { all = false, world = null
     }
     const v = bubbles ? null : voices();
     const aloud = !!v?.pack && (record || v.on());
+    if (record && !aloud && !bubbles) return;
+    const range = record && aloud ? voiceRange : NEAR;
     // Who may speak: slowed almost to a stop, near the visitor, not spoken in the last few seconds.
-    const want = list.filter((w) => (all || w.pace < 0.32) && camera.position.distanceTo(w.position) < NEAR)
+    const want = list.filter((w) => (all || w.pace < 0.32)
+      && camera.position.distanceTo(record && aloud ? head(w) : w.position) < range)
       .sort((a, b) => camera.position.distanceTo(a.position) - camera.position.distanceTo(b.position));
     for (const w of want) {
       if (shown.has(w.id) || speaking.has(w.id)) continue;

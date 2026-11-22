@@ -124,7 +124,8 @@ function seatFleet(view) {
   pilgrims = buildPilgrims(scene, alive, { floorAt: world.floorAt });
   // ?speak=all: every pilgrim near you speaks (screenshots). ?bubbles=1: bubbles even with sound on.
   speech = pilgrims ? buildSpeech(scene, statueSpots, pilgrims.walkers, { all: params.get("speak") === "all", world: scene, skip: pilgrims.meshes,
-    voices: () => voices, record: params.get("record") === "1", bubbles: params.get("bubbles") === "1", log: voiceLog }) : null;
+    voices: () => voices, record: params.get("record") === "1",
+    voiceRange: Number(params.get("voiceRange")) || undefined, bubbles: params.get("bubbles") === "1", log: voiceLog }) : null;
   pickable = [...staticPickable, ...statuePickable, ...(pilgrims ? pilgrims.meshes : [])];
 }
 

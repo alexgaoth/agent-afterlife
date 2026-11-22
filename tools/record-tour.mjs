@@ -8,21 +8,24 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { parseArgs } from "node:util";
 import { serve } from "../cli/site.js";
 import { chronicle } from "../shared/insights.js";
+import { duckIntervals, mixVoices, planVoices } from "./record-voices.mjs";
 
-const DATA = "https://raw.githubusercontent.com/alexgaoth/agent-afterlife/data/afterlife.json";
+const DATA = "https://raw.githubusercontent.com/alexgaoth/agent-afterlife/data/afterlife-zh.json";
 const WIDTH = 1920, HEIGHT = 1080, FPS = 30;
 // The original walk uses 150.8 route units for 118 seconds. Insert holds
 // in those same units so the existing legs keep their pace.
 const SCORE_RATE = 150.8 / 118;
 const PILGRIM_HOLD = 3 * SCORE_RATE;
+const WING_HOLD = 6 * SCORE_RATE;
 const TURN = 4 * SCORE_RATE;
 const REPLAY = 8 * SCORE_RATE;
 const TERRACE = 2 * TURN + REPLAY;
 const DUSK = 11 * SCORE_RATE; // 10 seconds of dusk, then one second of fade
-const DURATION = 118 + 3 + 16 + 11;
+const DURATION = 118 + 3 + 6 + 16 + 11;
 const STEPS_PER_SPAN = 48;
 const SOUNDS = fileURLToPath(new URL("../temple/sounds/", import.meta.url));
 const SOUND_CREDITS = "https://github.com/alexgaoth/agent-afterlife/blob/main/temple/sounds/CREDITS.md";
+const VOICE_CREDITS = "https://github.com/alexgaoth/agent-afterlife/blob/main/temple/voices/CREDITS.md";
 const abort = new AbortController();
 const { signal } = abort;
 const clamp = (x, lo = 0, hi = 1) => Math.min(hi, Math.max(lo, x));
@@ -50,13 +53,13 @@ function eastCrossing(rows, z, from, to) {
 // Each leg specifies its end time, ground path in metres, and head turns as
 // [fraction of leg, yaw, pitch]. Use unwrapped yaw for turns across south.
 const baseRoute = (outbound, inbound) => [
-  { end: 13.2, path: [[0, 48], [0, 42], [0.1, 38], [0.4, 31.5]], gaze: [[0, 0, 22], [.34, 0, 2], [1, 3, 4]] },
-  { end: 15.6, path: [[0.4, 31.5]], gaze: [[0, 3, 4], [1, 16, 5]] },
-  { end: 26.1, path: [[0.4, 31.5], [0.4, 27], [0.5, 22], [0.4, 17.5]],
-    gaze: [[0, 16, 5], [.24, 60, 9], [.47, 4, 3], [.84, -67, 7], [1, -96, 3]] },
+  { end: 16.8, path: [[0, 48], [0, 42], [0.1, 38], [0.4, 32], [0.4, 23]], gaze: [[0, 0, 22], [.28, 0, 2], [.68, 3, 4], [1, -10, 3]] },
+  { end: 22.5, path: [[0.4, 23], [0.5, 20], [0.4, 17.5]],
+    gaze: [[0, -10, 3], [.35, 30, 6], [.77, 40, 6], [1, 53, 8]] },
+  { end: 26.1, path: [[0.4, 17.5]], gaze: [[0, 53, 8], [.3, 56, 8], [.68, -53, 7], [1, -96, 3]] },
   { end: 38.8, path: [[0.4, 17.5], [1.7, outbound], [4.2, outbound], [7, 12.1], [12, 10], [15.4, 8.3], [16.8, 8.1]],
     gaze: [[0, -96, 3], [.32, -65, 0], [.67, -69, 0], [1, -53, 4]] },
-  { end: 45, path: [[16.8, 8.1]], gaze: [[0, -53, 4], [.77, -135, 3], [1, -135, 3]] },
+  { end: 45, path: [[16.8, 8.1]], gaze: [[0, -53, 4], [.40, -105, 3], [.65, -84, 3], [.91, -94, 3], [1, -135, 3]] },
   { end: 58.5, path: [[16.8, 8.1], [12, 6.6], [7.3, 3.8], [4.2, inbound], [1.7, inbound], [1, 0]],
     gaze: [[0, -135, 3], [.48, -281, 1], [.76, -306, 5], [1, -360, 6]] },
   { end: 73.7, path: [[1, 0], [1.5, -3], [1.8, -9.8], [1.8, -13.7], [0.3, -16.8], [0, -19.5], [0, -21.5]],
@@ -80,7 +83,8 @@ function route(outbound, inbound) {
   const legs = [];
   let added = 0;
   for (const leg of baseRoute(outbound, inbound)) {
-    if (leg.end === 15.6) added += PILGRIM_HOLD;
+    if (leg.end === 26.1) added += PILGRIM_HOLD;
+    if (leg.end === 45) added += WING_HOLD;
     legs.push({ ...leg, end: leg.end + added });
     if (leg.end !== 77.3) continue;
     const path = [[0, -21.5]], north = [-360, 23], south = [-180, -6];
@@ -98,13 +102,13 @@ function route(outbound, inbound) {
 }
 
 const samples = [
-  ["01-gate", .2], ["02-pilgrims", 15.7], ["03-steles", 24 + PILGRIM_HOLD],
-  ["04-east-wing", 41.5 + PILGRIM_HOLD], ["05-terrace", 75.3 + PILGRIM_HOLD],
-  ["05a-timeline", 77.3 + PILGRIM_HOLD + TURN + .77 * REPLAY],
-  ["06-main-hall", 85.5 + PILGRIM_HOLD + TERRACE],
-  ["07-ancestral-hall", 134.5 + PILGRIM_HOLD + TERRACE],
-  ["08-side-court", 148.5 + PILGRIM_HOLD + TERRACE],
-  ["09-dusk", 150.8 + PILGRIM_HOLD + TERRACE + 9.8 * SCORE_RATE],
+  ["01-gate", .2], ["02-pilgrims", 14.7], ["03-steles", 25 + PILGRIM_HOLD],
+  ["04-east-wing", 41.5 + PILGRIM_HOLD + .75 * WING_HOLD], ["05-terrace", 75.3 + PILGRIM_HOLD + WING_HOLD],
+  ["05a-timeline", 77.3 + PILGRIM_HOLD + WING_HOLD + TURN + .77 * REPLAY],
+  ["06-main-hall", 85.5 + PILGRIM_HOLD + WING_HOLD + TERRACE],
+  ["07-ancestral-hall", 134.5 + PILGRIM_HOLD + WING_HOLD + TERRACE],
+  ["08-side-court", 148.5 + PILGRIM_HOLD + WING_HOLD + TERRACE],
+  ["09-dusk", 150.8 + PILGRIM_HOLD + WING_HOLD + TERRACE + 9.8 * SCORE_RATE],
 ];
 
 // Centripetal Catmull-Rom. The table maps distance to position so short spans
@@ -217,10 +221,10 @@ export function makeTour(seconds, rows) {
   }
   return {
     frame, runs,
-    bell: (82.1 + PILGRIM_HOLD + TERRACE) * scale,
-    drum: (150.8 + PILGRIM_HOLD + TERRACE + 4 * SCORE_RATE) * scale,
-    chimes: [9, 39.5 + PILGRIM_HOLD, 67 + PILGRIM_HOLD, 121 + PILGRIM_HOLD + TERRACE,
-      130 + PILGRIM_HOLD + TERRACE].map((t) => t * scale),
+    bell: (82.1 + PILGRIM_HOLD + WING_HOLD + TERRACE) * scale,
+    drum: (150.8 + PILGRIM_HOLD + WING_HOLD + TERRACE + 4 * SCORE_RATE) * scale,
+    chimes: [9, 39.5 + PILGRIM_HOLD, 67 + PILGRIM_HOLD + WING_HOLD, 121 + PILGRIM_HOLD + WING_HOLD + TERRACE,
+      130 + PILGRIM_HOLD + WING_HOLD + TERRACE].map((t) => t * scale),
     duskStart,
     samples: new Map(samples.map(([name, t]) => [Math.round(t * scale * FPS), name])),
   };
@@ -328,7 +332,7 @@ async function capture(root, data, tour, count, sampleDir, preview) {
         width: WIDTH, height: HEIGHT, deviceScaleFactor: 1, mobile: false,
       });
       // The weather URL option keeps showDay() from restoring historical weather.
-      const url = `http://127.0.0.1:${server.address().port}/temple/?record=1&still=1&quality=high&weather=clear&data=data.json`;
+      const url = `http://127.0.0.1:${server.address().port}/temple/?record=1&still=1&quality=high&weather=clear&voiceRange=6&data=data.json`;
       const nav = await cdp.call("Page.navigate", { url });
       if (nav.errorText) throw new Error(nav.errorText);
       const { layout, days } = await until(() => cdp.evaluate(`(() => {
@@ -350,22 +354,23 @@ async function capture(root, data, tour, count, sampleDir, preview) {
       console.log(`Capturing ${preview ? "tour previews" : `${count} frames at ${WIDTH}x${HEIGHT}`}`);
       console.log(`Terrace: ${days.length} days from ${days[0] ?? "none"} to ${days.at(-1) ?? "none"}`);
       const started = performance.now();
+      const eyeHeights = new Float32Array(count);
       let lastDay = days.at(-1), lastHour = 10.5;
       for (let i = 0; i < count; i++) {
         const sample = tour.samples.get(i);
         const { x, z, yaw, pitch, bob, ground, t, hour, history } = tour.frame(i / FPS);
         const day = history === null ? days.at(-1) : days[Math.floor(history * (days.length - 1))];
-        // Preview steps at 6 fps plus any day changes and full-resolution samples.
-        if (preview && i % 5 !== 0 && !sample && day === lastDay) continue;
+        // Step speech at the full frame rate in previews, too, so it starts on the same frames.
         const args = JSON.stringify([x, z, yaw, pitch, bob, ground, t, day === lastDay ? null : day,
           hour === lastHour ? null : hour, history === null]);
-        await cdp.evaluate(`(([x, z, yaw, pitch, bob, ground, t, day, hour, speech]) => {
+        eyeHeights[i] = await cdp.evaluate(`(([x, z, yaw, pitch, bob, ground, t, day, hour, speech]) => {
           const a = window.afterlife;
           if (day !== null) a.setDay(day);
           if (hour !== null) a.setTime(hour);
           const y = ground.reduce((sum, [gx, gz]) => sum + a.floorAt(gx, gz), 0) / ground.length;
           a.pose(x, z, yaw, pitch, y - a.floorAt(x, z) + bob);
           a.render(t, { speech });
+          return a.camera.position.y;
         })(${args})`);
         lastDay = day;
         lastHour = hour;
@@ -383,6 +388,13 @@ async function capture(root, data, tour, count, sampleDir, preview) {
         }
       }
       console.log(`Capture finished in ${((performance.now() - started) / 1000).toFixed(1)} s`);
+      const log = await cdp.evaluate("window.afterlife.voiceLog()");
+      return planVoices(log, (time) => {
+        const { x, z, yaw } = tour.frame(time);
+        const frame = clamp(time * FPS, 0, count - 1);
+        const y = lerp(eyeHeights[Math.floor(frame)], eyeHeights[Math.ceil(frame)], frame % 1);
+        return { x, y, z, yaw };
+      });
     } finally {
       signal.removeEventListener("abort", stopBrowser);
     }
@@ -395,7 +407,7 @@ async function capture(root, data, tour, count, sampleDir, preview) {
 }
 
 // Build an FFmpeg graph from the local recordings. Missing sounds do not add synthetic audio.
-async function audioPlan(seconds, tour) {
+async function audioPlan(seconds, tour, voiceTrack, duck) {
   const inputs = [], filters = [], tracks = [];
   async function add(name) {
     const path = join(SOUNDS, `${name}.mp3`);
@@ -447,14 +459,31 @@ async function audioPlan(seconds, tour) {
   await cue("eave-bells", .14, tour.chimes, 7);
   await cue("bell", .25, [tour.bell]);
   await cue("drum", .22, [tour.drum]);
-  if (!tracks.length) return ["-an"];
+  if (!tracks.length && !voiceTrack) return ["-an"];
+  const mix = [];
+  if (tracks.length) {
+    // Short ramps avoid jumps in the bed. Cap the reduction when ramps overlap.
+    const envelope = duck.map(([a, b]) => `clip(min((t-(${a}))/0.08+1,((${b})-t)/0.2+1),0,1)`).join("+");
+    const attenuation = duck.length ? `,volume='if(isnan(t),1,1-0.29205*min(1,${envelope}))':eval=frame` : "";
+    filters.push(`${tracks.join("")}amix=inputs=${tracks.length}:normalize=0,volume=3.4${attenuation}[bed]`);
+    mix.push("[bed]");
+  }
+  if (voiceTrack) {
+    inputs.push("-i", voiceTrack);
+    mix.push(`[${inputs.length / 2}:a]`);
+  }
   const fade = Math.min(seconds / 2, 1);
-  // Leave a small margin below -1 dBFS for peaks added by AAC encoding.
-  filters.push(`${tracks.join("")}amix=inputs=${tracks.length}:normalize=0,apad,atrim=duration=${seconds},`
-    + `afade=d=${fade},afade=t=out:st=${seconds - fade}:d=${fade},volume=3.4,alimiter=limit=0.85114:level=0:latency=1[audio]`);
+  const summed = mix.length > 1 ? `${mix.join("")}amix=inputs=${mix.length}:normalize=0,` : mix[0];
+  // Leave headroom for true peaks from AAC encoding.
+  filters.push(`${summed}apad,atrim=duration=${seconds},afade=d=${fade},afade=t=out:st=${seconds - fade}:d=${fade},`
+    + "alimiter=limit=0.76:level=0:latency=1[audio]");
+  const credits = [
+    tracks.length && `Temple field recordings, edited and mixed: ${SOUND_CREDITS}`,
+    voiceTrack && `Synthetic Mandarin voices: ${VOICE_CREDITS}`,
+  ].filter(Boolean);
   return [
     ...inputs, "-filter_complex", filters.join(";"), "-map", "0:v:0", "-map", "[audio]", "-c:a", "aac",
-    "-metadata", `comment=Temple field recordings, edited and mixed. Sound credits and licenses: ${SOUND_CREDITS}`,
+    "-metadata", `comment=${credits.join(" | ")}`,
   ];
 }
 
@@ -490,9 +519,16 @@ async function main() {
   const root = await mkdtemp(join(out ? dirname(out) : sampleDir, ".record-tour-"));
   const started = performance.now();
   try {
-    await capture(root, data, tour, count, sampleDir, values.preview);
-    if (!out) return;
-    const audio = await audioPlan(seconds, tour);
+    const voices = await capture(root, data, tour, count, sampleDir, values.preview);
+    const report = JSON.stringify(voices, null, 2) + "\n";
+    console.log(`Recorded ${voices.length} pilgrim lines (${voices.filter((line) => line.clips.length > 1).length} with names)`);
+    if (values.preview) {
+      await writeFile(join(sampleDir, "voices.json"), report);
+      return;
+    }
+    const voiceTrack = voices.length ? join(root, "pilgrims.wav") : null;
+    if (voiceTrack) await mixVoices(voices, seconds, voiceTrack, signal);
+    const audio = await audioPlan(seconds, tour, voiceTrack, duckIntervals(voices));
     const fade = Math.min(FPS, Math.floor(count / 2));
     console.log(`Encoding ${seconds.toFixed(2)} s${audio[0] === "-an" ? " without audio (no recordings found)" : " with temple audio"}`);
     async function encode(destination, crf, bitrate, size = "") {
@@ -516,6 +552,9 @@ async function main() {
     }
     await encode(out, "17", "192k");
     if (web) await encode(web, "23", "128k", "w=1280:h=720:flags=lanczos:");
+    const audit = join(root, "voices.json");
+    await writeFile(audit, report);
+    await rename(audit, join(dirname(out), "voices.json"));
   } finally {
     await rm(root, { recursive: true, force: true });
   }
