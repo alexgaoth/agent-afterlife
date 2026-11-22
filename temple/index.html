@@ -47,35 +47,13 @@
   #label kbd { font: inherit; font-size: 13px; border: 1px solid #8a7e68; padding: 0 6px; }
   #walk { position: fixed; right: 22px; bottom: 22px; width: 64px; height: 64px; border-radius: 50%; border: 0; background: rgba(42,36,32,.6); color: var(--paper); }
 
-  /* 立轴: the hanging scroll for one agent. */
   dialog { border: 0; padding: 0; background: transparent; width: min(500px, 92vw); overflow: visible; }
   dialog::backdrop { background: rgba(30,22,16,.6); }
-  dialog[open] .roll { animation: unroll .45s ease-out both; }
-  @keyframes unroll { from { clip-path: inset(-40px -40px 100% -40px); } to { clip-path: inset(-40px -40px -20px -40px); } }
-  .rod { height: 14px; margin: 0 -18px; border-radius: 7px; background: linear-gradient(#5a4130, #3a2a1c 60%, #2a1e14); position: relative; }
-  .rod::before, .rod::after { content: ""; position: absolute; top: -1px; width: 12px; height: 16px; border-radius: 4px; background: linear-gradient(#e2c27a, #9c7a3c); }
-  .rod::before { left: -10px; } .rod::after { right: -10px; }
-  .mount { background: #3b4744; padding: 24px 22px 28px; }
-  #scroll-body { position: relative; background: linear-gradient(#e6dfcd, #d6ceb8); padding: 24px 26px 20px; }
-  #scroll-body h2 { margin: 0; font-family: "LXGW WenKai", "Kaiti SC", "STKaiti", serif; font-weight: normal; font-size: 32px; }
-  #scroll-body .seat { margin: 4px 0 0; color: #5d564a; font-size: 15px; }
-  #scroll-body .epitaph { font-style: italic; font-size: 18px; margin: 14px 0 16px; }
-  #scroll-body dl { display: grid; grid-template-columns: repeat(4, auto); justify-content: space-between; margin: 0 0 10px; }
-  #scroll-body dl div { display: flex; flex-direction: column; }
-  #scroll-body dt { order: 2; font-size: 13px; color: #6d6556; }
-  #scroll-body dd { margin: 0; font-size: 22px; }
-  #scroll-body svg { width: 100%; }
-  #scroll-body svg text { font-size: 11px; fill: #6d6556; }
-  #scroll-body svg line { stroke: #8a7e68; stroke-opacity: .3; } #scroll-body svg line.mid { stroke-dasharray: 2 4; stroke-opacity: .7; }
-  #scroll-body svg polyline { fill: none; stroke: var(--ink); stroke-width: 2; }
-  #scroll-body svg circle { fill: var(--ink); stroke: #ddd6c3; stroke-width: 2; }
-  #scroll-body .foot { font-size: 13px; color: #6d6556; margin: 6px 0 0; }
-  .seal { position: absolute; right: 20px; top: 22px; writing-mode: vertical-rl; font-family: "LXGW WenKai", "Kaiti SC", "STKaiti", serif; font-size: 17px;
-          color: var(--cinnabar); border: 2px solid var(--cinnabar); padding: 5px 3px; transform: rotate(3deg); }
   .close { position: absolute; top: -64px; right: -8px; width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(201,164,92,.6);
            background: rgba(30,20,12,.82); font: 24px/1 Georgia, serif; color: #f3ead6; cursor: pointer; }
   .close:focus-visible { outline: 2px solid #c9a45c; outline-offset: 2px; }
-
+  /* The words of the tablet that rises when you inspect something, for screen readers only. */
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   /* 年鉴: the annals as a handscroll (手卷). It reads right to left, so it opens at its right end;
      the mouse wheel moves it sideways. Silk mount above and below, aged 宣纸 between, wooden rollers. */
   #annals { width: min(1180px, 96vw); }
@@ -116,7 +94,7 @@
   #error > div { max-width: 560px; background: var(--paper); padding: 26px 30px; border-left: 4px solid var(--cinnabar); }
   #error h1 { margin: 0 0 8px; font-weight: normal; }
   [hidden] { display: none !important; }
-  @media (prefers-reduced-motion: reduce) { dialog[open] .roll, dialog[open] .handscroll { animation: none; } }
+  @media (prefers-reduced-motion: reduce) { dialog[open] .handscroll { animation: none; } }
   @media (max-width: 560px) { .gatecard { grid-template-columns: 1fr; justify-items: start; } .plaque { font-size: 32px; } }
   .embed #back { display: none; }
   .swatch { display: inline-block; width: .8em; height: .8em; margin: 0 .25em 0 .6em; border: 1px solid rgba(42,36,32,.5); vertical-align: -.05em; }
@@ -149,10 +127,7 @@
   <button class="close" aria-label="Close" onclick="this.closest('dialog').close()">×</button>
   <div class="handscroll"><div class="rodv"></div><div class="silk"><div class="sheet" id="annals-body"></div></div><div class="rodv"></div></div>
 </dialog>
-<dialog id="scroll" aria-label="An agent's scroll">
-  <button class="close" aria-label="Close" onclick="this.closest('dialog').close()">×</button>
-  <div class="roll"><div class="rod"></div><div class="mount"><div id="scroll-body"></div></div><div class="rod"></div></div>
-</dialog>
+<p id="plate-text" class="sr-only" aria-live="polite"></p>
 <div id="error" hidden><div>
   <h1>This data cannot be shown</h1>
   <p>The document does not follow the <a href="../schema/afterlife.schema.json">Agent Afterlife schema</a>:</p>
