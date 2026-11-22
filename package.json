@@ -1,6 +1,6 @@
 {
   "name": "agent-afterlife",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Where AI coding agents rest when their sessions end: a walkable 3D temple and a graveyard, from your own agents' data.",
   "type": "module",
   "bin": {
