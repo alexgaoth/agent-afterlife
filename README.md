@@ -155,11 +155,11 @@ From a repository checkout, install Chrome and FFmpeg. Use Node 22 or later (or 
 node tools/record-tour.mjs --out /tmp/temple-tour.mp4 --web /tmp/temple-tour-web.mp4
 ```
 
-The tour starts in clear daylight, replays the fleet's history from the terrace, and ends at dusk. It records the published fleet at 1920×1080 and 30 fps, with no interface or added captions. The optional `--web` copy uses the same frames at 1280×720 and 30 fps.
+The tour starts in clear daylight, replays the fleet's history from the terrace, and ends at dusk. By default it records the published fleet with its Chinese names at 1920×1080 and 30 fps, with no interface or added captions. The optional `--web` copy uses the same frames at 1280×720 and 30 fps.
 
 Pass `--data <URL or JSON file>` to use another fleet, `--seconds N` to change the duration, or `--frames <dir>` to save ten PNGs. Use `--preview --frames <dir>` instead of `--out` to check the route without encoding. Set `CHROME_PATH` if Chrome is not in its default location.
 
-The recorder mixes temple sound files if they are present (this requires `ffprobe`, included with FFmpeg). With no sound files, it produces a silent video. Include the [sound credits](temple/sounds/CREDITS.md) when sharing a tour with sound.
+The recorder mixes nearby pilgrims' voices and any temple sound files that are present. It writes `voices.json` next to the master with the clip times, gains and stereo pan. The sound mix requires `ffprobe`, included with FFmpeg. Include the [sound credits](temple/sounds/CREDITS.md) and [voice credits](temple/voices/CREDITS.md) when sharing a tour with sound.
 
 ## The data format
 
