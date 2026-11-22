@@ -19,6 +19,7 @@ import { buildPilgrims } from "./pilgrims.js";
 import { buildSpeech } from "./speech.js";
 import { buildSound } from "./sound.js";
 import { buildVoices } from "./voices.js";
+import { buildPlates } from "./plate.js";
 import { buildSky, weatherFor } from "./sky.js";
 import { cjk, loadCjk } from "./fonts.js";
 import { seat, ZONES, GROUP_CN, cnNumber, cnDate, generationCn, nameOnTablet } from "./seating.js";
@@ -52,6 +53,7 @@ const renderer = new THREE.WebGLRenderer({ antialias: false, powerPreference: "h
 // (no GPU: SwiftShader, llvmpipe), where a full-size frame takes seconds. ?quality=high forces full size.
 const quality = params.get("quality") || (softwareGL(renderer) ? "low" : "high");
 renderer.setPixelRatio(quality === "low" ? 0.6 : Math.min(devicePixelRatio, 1.5));
+renderer.localClippingEnabled = true;               // the stone tablets are cut off at the paving as they rise
 // The scene is one image to assistive technology, with a label that says how to walk it by keyboard.
 Object.assign(renderer.domElement, { tabIndex: 0 });
 renderer.domElement.setAttribute("role", "img");
@@ -72,6 +74,8 @@ scene.background = new THREE.Color(0xd8ccae);           // the bare plaster of a
 scene.fog = new THREE.Fog(0xd8ccae, 45, 150);
 const camera = new THREE.PerspectiveCamera(62, 1, 0.1, 300);
 const world = buildWorld(scene);
+const plates = buildPlates({ floorAt: world.floorAt });   // 石牌: what you inspect rises as a carved tablet (temple/plate.js)
+let nowT = 0;                                      // the time of the frame last drawn: tablets rise and sink by it
 const mural = new Mural(renderer);
 if (params.get("plain") === "1") mural.enabled = false;
 
@@ -147,10 +151,11 @@ const avenue = buildAvenue(scene, insights(data).find((i) => i.key === "chronicl
 if (avenue.fires) staticPickable.push(avenue.fires);
 /** What looking at something and pressing E (or clicking) does. */
 function act(id) {
-  if (id.startsWith("insight:")) openAnnals(id.slice(8));
+  if (id === plates.id) { plates.close(nowT); looking = null; return; }   // the same thing again: lower its tablet (and show its label again)
+  if (id.startsWith("insight:")) inspect(id);
   else if (id.startsWith("record:") || id === "plaque:name") openAnnals("records");
   else if (id.startsWith("day:")) openAnnals("chronicle");
-  else openScroll(id);
+  else inspect(id);
 }
 
 // 天: the hour where the visitor is sets the sky; the fleet's work on the day shown sets the weather (temple/sky.js).
@@ -205,10 +210,11 @@ addEventListener("keydown", (e) => {
   if (e.target.closest?.("dialog, input, textarea")) return;
   keys.add(e.code);
   if ((e.code === "KeyE" || (e.code === "Enter" && keyboardMode)) && looking && exploring()) act(looking);
-  if (e.code === "KeyY" && !$("annals").open) openAnnals();
+  if (e.code === "KeyE" && !looking && plates.id) plates.close(nowT);
+  if (e.code === "KeyY" && !$("annals").open) openAnnals(plates.id?.startsWith("insight:") ? plates.id.slice(8) : undefined);
   if (e.code === "KeyM") { sound.toggle(); soundState(); }
   if ((e.code === "BracketRight" || e.code === "BracketLeft") && exploring()) { e.preventDefault(); stepToStatue(e.code === "BracketRight" ? 1 : -1); }
-  if (e.code === "Escape" && keyboardMode && !$("scroll").open && !$("annals").open) setKeyboardMode(false);
+  if (e.code === "Escape" && keyboardMode && !$("annals").open) { if (plates.id) plates.close(nowT); else setKeyboardMode(false); }
 });
 addEventListener("keyup", (e) => keys.delete(e.code));
 $("enter").addEventListener("click", () => {
@@ -217,7 +223,7 @@ $("enter").addEventListener("click", () => {
   controls.lock();
 });
 controls.addEventListener("lock", () => { keyboardMode = false; $("intro").hidden = true; $("hud").hidden = false; });
-controls.addEventListener("unlock", () => { if (!$("scroll").open) { $("intro").hidden = false; } });
+controls.addEventListener("unlock", () => { $("intro").hidden = false; });
 
 // [ and ]: stand before the previous or next enshrined statue, by merit rank. The label (role=status) says who it is.
 let statueAt = -1;
@@ -240,6 +246,7 @@ function stepToStatue(step) {
 }
 renderer.domElement.addEventListener("click", () => {
   if (controls.isLocked && looking) act(looking);
+  else if (controls.isLocked && plates.id) plates.close(nowT);
 });
 
 function blocked(x, z) {
@@ -339,29 +346,41 @@ function where(a) {
 }
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
-// ------------------------------------------------------------------ the scroll
-function openScroll(id) {
+// ------------------------------------------------------------------ the tablet (石牌)
+/** Inspect an agent or a stele: a carved tablet rises beside it (temple/plate.js). Returns the tablet's text. */
+function inspect(id, opts = {}) {
+  const content = id.startsWith("insight:") ? steleTablet(id.slice(8)) : agentTablet(agentById.get(id));
+  if (!content) return null;
   notify("select", { id });
-  const a = agentById.get(id);
-  if (!a) return;
-  controls.unlock();
-  const p = placement.get(a.id);
-  const seal = a.status === "alive" ? "在世" : p ? (p.zone === "outside" ? "庙外" : GROUP_CN[ZONES[p.zone].group]) : "过客";
-  const stats = [{ label: "Merit", value: a.merit }, ...shownStats(a, data.metrics)].slice(0, 4);
-  $("scroll-body").innerHTML = `
-    <span class="seal" aria-hidden="true">${seal}</span>
-    <h2>${esc(nameOnTablet(a))} ${generationCn(a)}</h2>
-    <p class="seat">${esc(a.id)}. ${esc(where(a))}</p>
-    ${(() => { const d = dress.byId.get(a.id); if (!d) return "";
-      const bits = [d.role ? `Shown as a ${d.role}${d.role === "general" ? " (armour and a polearm): it shipped more per hour than most" : " (cap and feather fan): its work was more planning and reviewing"}` : "", d.tool ? `robe: ${esc(d.tool)}` : ""].filter(Boolean);
-      return bits.length ? `<p class="dress">${bits.join("; ")}.</p>` : ""; })()}
-    <p class="epitaph">${esc(epitaph(a, data.metrics))}</p>
-    <dl>${stats.map((s) => `<div><dt>${esc(s.label)}</dt><dd>${esc(s.value)}</dd></div>`).join("")}</dl>
-    ${sparkline(a.series)}
-    <p class="foot">${a.born}${a.ended ? ` to ${a.ended}` : ", still working"}</p>`;
-  $("scroll").showModal();
+  const text = plates.open(content, camera, nowT, { ...opts, key: id });
+  $("plate-text").textContent = text;               // the same words for a screen reader
+  $("label").hidden = true;                         // the tablet says it all
+  return text;
 }
-$("scroll").addEventListener("close", () => { $("intro").hidden = false; });
+function agentTablet(a) {
+  if (!a) return null;
+  const p = placement.get(a.id), d = dress.byId.get(a.id), h = honour.get(a.id) || {};
+  const seal = a.status === "alive" ? "在世" : p ? GROUP_CN[p.zone === "outside" ? "outside" : ZONES[p.zone].group] : "过客";
+  const role = d?.role === "general" ? "A general: it shipped more per hour than most."
+    : d?.role === "strategist" ? "A strategist: more of its work was planning and reviewing." : "";
+  const days = new Set(a.series.map((x) => x.date)).size;
+  const stats = [{ label: "Merit", value: +(+a.merit).toFixed(1) }, ...shownStats(a, data.metrics)];
+  if (stats.length < 6) stats.push({ label: days === 1 ? "Day served" : "Days served", value: days });
+  const held = fleetRecords.filter((r) => (viewDay === lastDay ? r.holder : holderOn(r, viewDay))?.id === a.id).map((r) => `${r.cn} · ${r.title}`);
+  return {
+    seal, name: nameOnTablet(a), gen: generationCn(a), sub: where(a),
+    lines: [role && { text: role + (d?.tool ? ` Robe: ${d.tool}.` : ""), size: 34, max: 2 }, { text: epitaph(a, data.metrics), size: 40, italic: true, max: 2 }].filter(Boolean),
+    stats: stats.slice(0, 6), series: a.series,
+    honours: [h.gilded && "金身 · gilded: the top tenth by merit", ...held].filter(Boolean),
+    foot: `${a.born}${a.ended ? ` to ${a.ended}` : ", still working"}`,
+  };
+}
+function steleTablet(key) {
+  const ins = insights(data).find((i) => i.key === key);
+  if (!ins) return null;
+  return { seal: "碑", name: `${ins.cn}碑`, sub: ins.title, lines: [{ text: ins.finding, size: 36, max: 6 }],
+    draw: ins.chart ? (g, x, y, w, h) => drawInsight(g, ins, x, y, w, h, "stone") : null };
+}
 
 // ------------------------------------------------------------------ the annals (年鉴)
 const fleetInsights = insights(data);
@@ -406,19 +425,7 @@ $("annals-body").addEventListener("wheel", (e) => {
 }, { passive: false });
 $("annals").addEventListener("close", () => { $("intro").hidden = false; });
 $("open-annals").addEventListener("click", () => { $("intro").hidden = true; openAnnals(); });
-$("scroll").addEventListener("click", (e) => { if (e.target === $("scroll")) $("scroll").close(); });
 
-function sparkline(series) {
-  if (!series?.length) return "";
-  const w = 440, h = 96, n = series.length, l = 28;
-  const x = (i) => (n === 1 ? (w + l) / 2 : l + 8 + (i * (w - l - 16)) / (n - 1));
-  const y = (v) => h - 18 - (v / 100) * (h - 26);
-  return `<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="Score per work day">
-    ${[0, 50, 100].map((v) => `<text x="${l - 6}" y="${y(v) + 4}" text-anchor="end">${v}</text><line x1="${l}" x2="${w}" y1="${y(v)}" y2="${y(v)}" class="${v === 50 ? "mid" : ""}"/>`).join("")}
-    <polyline points="${series.map((s, i) => `${x(i)},${y(s.value)}`).join(" ")}"/>
-    ${series.map((s, i) => `<circle cx="${x(i)}" cy="${y(s.value)}" r="3.5"><title>${s.date}: ${s.value}</title></circle>`).join("")}
-  </svg>`;
-}
 
 // ------------------------------------------------------------------ the stele
 function carveStele({ slab }, edict, enshrined) {
@@ -500,13 +507,19 @@ mark("scene");
 progress("Lighting the lanterns");
 const still = params.get("still") === "1";   // ?still=1 draws a few frames and stops: for screenshots and tests
 
-/** Everything that moves with time, then the frame: pilgrims, their speech, the painted scene, the bubbles on top. */
+/** Everything that moves with time, then the frame: pilgrims, their speech, the painted scene, then on top of it the
+ *  tablet (crisp, with its own depth) and the bubbles. */
 function drawAt(t, gaze = false, showSpeech = true) {
+  nowT = t;
   pilgrims?.update(t);
   if (showSpeech) speech?.update(t, camera);
   sky.update(t, camera);
   if (gaze) lookAround();
+  plates.update(t, camera, { night: sky.isNight() });
   mural.render(scene, camera);
+  if (plates.id || plates.scene.children.length > 4) {
+    renderer.autoClear = false; renderer.clearDepth(); renderer.render(plates.scene, camera); renderer.autoClear = true;
+  }
   if (showSpeech && speech?.overlay.children.length) {   // the speech bubbles, crisp, on top of the painted scene
     renderer.autoClear = false; renderer.render(speech.overlay, camera); renderer.autoClear = true;
   }
@@ -538,6 +551,15 @@ if (params.get("record") === "1") {
     days: allDays,
     /** What the pilgrims said aloud so far: [{ t, id, voice, at: {x,y,z}, text, clips: [{ src, at, dur }] }]; src is under temple/voices/. */
     voiceLog: () => voiceLog,
+    /** Inspect what the camera looks at, as E does: its tablet rises. Returns what was inspected, or null. */
+    inspectAt(opts = {}) { looking = null; lookAround(); $("label").hidden = !labels; if (!looking || looking.startsWith("day:") || looking.startsWith("record:") || looking.startsWith("plaque:")) return null; inspect(looking, opts); return looking; },
+    /** Inspect an agent (by id) or a stele ("insight:<key>"). opts: { side, dist } in metres. */
+    inspect(id, opts = {}) { return inspect(id, opts); },
+    /** The seated, where they sit: [{ id, name, zone, x, y, z, role, gilded }] (y: the seat's floor). */
+    statues: () => seats.filter((x) => x.agent).map((x) => { const at = world.seats[x.zone][x.no - 1];
+      return { id: x.agent.id, name: x.agent.name, zone: x.zone, x: at.x, y: at.y, z: at.z, role: dress.byId.get(x.agent.id)?.role || null, gilded: !!honour.get(x.agent.id)?.gilded }; }),
+    /** Lower the tablet (it sinks over half a second of render time). */
+    closePlate() { plates.close(nowT); },
     ready: false,
   };
   voices.ready.then(() => { window.afterlife.ready = true; });   // the pack (or its absence) is known before the first frame
@@ -563,6 +585,6 @@ if (params.get("record") === "1") {
   if (frame === 31) notify("steady", { msPerFrame: Math.round((performance.now() - performance.getEntriesByName("afterlife:first-frame")[0].startTime) / 30), quality });
 });
 if (params.get("cam")) { $("intro").hidden = true; }   // a set camera (for links and screenshots) skips the intro
-onOpenRequest((id) => { $("intro").hidden = true; openScroll(id); });
-if (params.get("read")) { $("intro").hidden = true; openScroll(params.get("read")); }   // ?read=<agent id> opens its scroll
+onOpenRequest((id) => { $("intro").hidden = true; inspect(id); });
+if (params.get("read")) { $("intro").hidden = true; inspect(params.get("read")); }   // ?read=<agent id> raises its tablet
 if (params.get("annals") !== null) { $("intro").hidden = true; openAnnals(params.get("annals") || undefined); }   // ?annals[=key]
