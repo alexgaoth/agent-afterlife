@@ -40,6 +40,8 @@
 
   #hud { position: fixed; top: 14px; left: 16px; font-size: 14px; color: var(--ink); text-shadow: 0 1px 0 rgba(255,250,235,.6); pointer-events: none; }
   #crosshair { position: fixed; left: 50%; top: 50%; width: 6px; height: 6px; margin: -3px; border-radius: 50%; background: var(--ink); opacity: .55; pointer-events: none; }
+  #resume { position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); padding: 8px 18px; background: rgba(30,20,12,.72);
+            color: #f3ead6; border: 1px solid rgba(201,164,92,.5); font: 17px "IM Fell English", "LXGW WenKai", Georgia, serif; cursor: pointer; z-index: 6; }
   #label { position: fixed; left: 50%; bottom: 7vh; transform: translateX(-50%); display: flex; gap: 12px; align-items: baseline;
            padding: 8px 16px; background: rgba(227,217,194,.92); border-left: 4px solid var(--cinnabar); pointer-events: none; }
   #label b { font-family: "LXGW WenKai", "Kaiti SC", "STKaiti", serif; font-weight: normal; font-size: 24px; }
@@ -122,6 +124,7 @@
 <div id="hud" hidden><span id="count"></span> · <kbd>Y</kbd> annals · <kbd>M</kbd> <span id="sound-state">sound on</span></div>
 <div id="crosshair" aria-hidden="true"></div>
 <div id="label" hidden role="status"></div>
+<button id="resume" hidden>Click to walk on</button>
 <button id="walk" hidden aria-label="Hold to walk">walk</button>
 <dialog id="annals" aria-label="The annals: what the fleet's numbers say">
   <button class="close" aria-label="Close" onclick="this.closest('dialog').close()">×</button>

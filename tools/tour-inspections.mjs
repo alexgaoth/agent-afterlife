@@ -60,23 +60,24 @@ export function pickTarget(shot, frame, statues, panelCount, tablets = [], pilgr
   return { aim: [s.x, s.y + 1.4, s.z], id: s.id };
 }
 
-export const PLATE_OPTS = { side: .82, dist: 2.05 };
+export const PLATE_OPTS = {};
 
-/** Aim, glance down, sidestep, then return to the route after the tablet sinks. */
+/** Aim at the thing and hold still while it is held up before you; then turn back to the route. */
 export function inspectionPose(frame, elapsed, target, eye) {
   const { yaw, pitch } = aimAngles(frame, target.aim, eye);
   const acquire = smooth(elapsed / OPEN);
-  const lower = smooth((elapsed - OPEN) / 1.1);
-  const step = smooth((elapsed - 1.85) / 2.55);
   const release = smooth((elapsed - 5.6) / .6);
-  const offset = -.5 * step * (1 - release);
-  const towardPlate = 12 + 9 * step;
-  const down = Math.max(11, pitch + 9);
   return {
     ...frame,
-    x: frame.x + Math.cos(yaw * rad) * offset,
-    z: frame.z - Math.sin(yaw * rad) * offset,
-    yaw: mix(mix(frame.yaw, yaw - towardPlate * lower, acquire), frame.yaw, release),
-    pitch: mix(mix(frame.pitch, pitch - down * lower, acquire), frame.pitch, release),
+    yaw: mix(mix(frame.yaw, yaw, acquire), frame.yaw, release),
+    pitch: mix(mix(frame.pitch, pitch, acquire), frame.pitch, release),
   };
+}
+
+/** How the held thing is turned in the hands while it is read: [yaw, pitch] in degrees, or null before and after. */
+export function heldTilt(elapsed) {
+  const from = OPEN + .55, to = CLOSE;
+  if (elapsed < from || elapsed > to) return null;
+  const u = (elapsed - from) / (to - from);
+  return [16 * Math.sin(2 * Math.PI * u) * (1 - .35 * u), -5 * Math.sin(Math.PI * u)];
 }

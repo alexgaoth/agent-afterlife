@@ -1,7 +1,7 @@
 // The temple: load data, seat it, build the compound, walk it in first person.
 import * as THREE from "three";
 import { PointerLockControls } from "three/addons/controls/PointerLockControls.js";
-import { loadData, ranked, living, passersBy, epitaph, shownStats, notify, onOpenRequest } from "../shared/afterlife.js";
+import { loadData, ranked, living, passersBy, notify, onOpenRequest } from "../shared/afterlife.js";
 
 // Timing marks (performance.getEntriesByType("mark")): afterlife:data, afterlife:fonts, afterlife:scene, afterlife:first-frame.
 const mark = (name) => performance.mark(`afterlife:${name}`);
@@ -19,7 +19,7 @@ import { buildPilgrims } from "./pilgrims.js";
 import { buildSpeech } from "./speech.js";
 import { buildSound } from "./sound.js";
 import { buildVoices } from "./voices.js";
-import { buildPlates } from "./plate.js";
+import { buildHeld } from "./plate.js";
 import { buildSky, weatherFor } from "./sky.js";
 import { cjk, loadCjk } from "./fonts.js";
 import { seat, ZONES, GROUP_CN, cnNumber, cnDate, generationCn, nameOnTablet } from "./seating.js";
@@ -53,7 +53,6 @@ const renderer = new THREE.WebGLRenderer({ antialias: false, powerPreference: "h
 // (no GPU: SwiftShader, llvmpipe), where a full-size frame takes seconds. ?quality=high forces full size.
 const quality = params.get("quality") || (softwareGL(renderer) ? "low" : "high");
 renderer.setPixelRatio(quality === "low" ? 0.6 : Math.min(devicePixelRatio, 1.5));
-renderer.localClippingEnabled = true;               // the stone tablets are cut off at the paving as they rise
 // The scene is one image to assistive technology, with a label that says how to walk it by keyboard.
 Object.assign(renderer.domElement, { tabIndex: 0 });
 renderer.domElement.setAttribute("role", "img");
@@ -74,8 +73,9 @@ scene.background = new THREE.Color(0xd8ccae);           // the bare plaster of a
 scene.fog = new THREE.Fog(0xd8ccae, 45, 150);
 const camera = new THREE.PerspectiveCamera(62, 1, 0.1, 300);
 const world = buildWorld(scene);
-const plates = buildPlates({ floorAt: world.floorAt });   // 石牌: what you inspect rises as a carved tablet (temple/plate.js)
-let nowT = 0;                                      // the time of the frame last drawn: tablets rise and sink by it
+const held = buildHeld();                          // 手持: what you inspect comes up into your hands (temple/plate.js)
+let nowT = 0, lastT = 0;                           // the time of the frame last drawn: what you hold rises and sinks by it
+let lookingKind = "statue";                        // what the gaze is on: stele, statue, ancestor or pilgrim
 const mural = new Mural(renderer);
 if (params.get("plain") === "1") mural.enabled = false;
 
@@ -151,11 +151,11 @@ const avenue = buildAvenue(scene, insights(data).find((i) => i.key === "chronicl
 if (avenue.fires) staticPickable.push(avenue.fires);
 /** What looking at something and pressing E (or clicking) does. */
 function act(id) {
-  if (id === plates.id) { plates.close(nowT); looking = null; return; }   // the same thing again: lower its tablet (and show its label again)
+  if (held.holding) { held.close(nowT); looking = null; return; }     // holding something: put it down first
   if (id.startsWith("insight:")) inspect(id);
   else if (id.startsWith("record:") || id === "plaque:name") openAnnals("records");
   else if (id.startsWith("day:")) openAnnals("chronicle");
-  else inspect(id);
+  else inspect(id, { kind: lookingKind });
 }
 
 // 天: the hour where the visitor is sets the sky; the fleet's work on the day shown sets the weather (temple/sky.js).
@@ -210,11 +210,11 @@ addEventListener("keydown", (e) => {
   if (e.target.closest?.("dialog, input, textarea")) return;
   keys.add(e.code);
   if ((e.code === "KeyE" || (e.code === "Enter" && keyboardMode)) && looking && exploring()) act(looking);
-  if (e.code === "KeyE" && !looking && plates.id) plates.close(nowT);
-  if (e.code === "KeyY" && !$("annals").open) openAnnals(plates.id?.startsWith("insight:") ? plates.id.slice(8) : undefined);
+  if (e.code === "KeyE" && held.holding && !looking) held.close(nowT);
+  if (e.code === "KeyY" && !$("annals").open) { const k = held.id?.startsWith("insight:") ? held.id.slice(8) : undefined; held.close(nowT); openAnnals(k); }
   if (e.code === "KeyM") { sound.toggle(); soundState(); }
   if ((e.code === "BracketRight" || e.code === "BracketLeft") && exploring()) { e.preventDefault(); stepToStatue(e.code === "BracketRight" ? 1 : -1); }
-  if (e.code === "Escape" && keyboardMode && !$("annals").open) { if (plates.id) plates.close(nowT); else setKeyboardMode(false); }
+  if (e.code === "Escape" && keyboardMode && !$("annals").open) { if (held.holding) held.close(nowT); else setKeyboardMode(false); }
 });
 addEventListener("keyup", (e) => keys.delete(e.code));
 $("enter").addEventListener("click", () => {
@@ -222,8 +222,15 @@ $("enter").addEventListener("click", () => {
   if (params.get("keys") === "1" || !renderer.domElement.requestPointerLock) return setKeyboardMode(true);
   controls.lock();
 });
-controls.addEventListener("lock", () => { keyboardMode = false; $("intro").hidden = true; $("hud").hidden = false; });
-controls.addEventListener("unlock", () => { $("intro").hidden = false; });
+controls.addEventListener("lock", () => { keyboardMode = false; $("intro").hidden = true; $("resume").hidden = true; $("hud").hidden = false; });
+// Esc while holding something: the browser lets go of the mouse, and the thing is put down. A click walks on.
+controls.addEventListener("unlock", () => {
+  if (held.holding) { held.close(nowT); $("resume").hidden = false; return; }
+  if ($("resume").hidden) $("intro").hidden = false;
+});
+$("resume").addEventListener("click", () => { $("resume").hidden = true; controls.lock(); });
+// While you hold something the mouse turns it in your hands instead of turning your head.
+addEventListener("mousemove", (e) => { if (held.holding && (controls.isLocked || keyboardMode)) held.tilt(e.movementX || 0, e.movementY || 0); });
 
 // [ and ]: stand before the previous or next enshrined statue, by merit rank. The label (role=status) says who it is.
 let statueAt = -1;
@@ -241,12 +248,12 @@ function stepToStatue(step) {
   if (looking !== agent.id) {                                         // the gaze missed: say it anyway
     looking = agent.id;
     $("label").hidden = false;
-    $("label").innerHTML = `<b>${esc(nameOnTablet(agent))} ${generationCn(agent)}</b><span>${esc(where(agent))}</span><kbd>E</kbd>`;
+    $("label").innerHTML = `<b>${esc(nameOnTablet(agent))} ${generationCn(agent)}</b><span>${esc(whereCn(agent))}</span><kbd>E</kbd>`;
   }
 }
 renderer.domElement.addEventListener("click", () => {
-  if (controls.isLocked && looking) act(looking);
-  else if (controls.isLocked && plates.id) plates.close(nowT);
+  if (controls.isLocked && held.holding) held.close(nowT);          // a click puts down what you hold
+  else if (controls.isLocked && looking) act(looking);
 });
 
 function blocked(x, z) {
@@ -300,6 +307,8 @@ function lookAround() {
   const id = !hit ? null : hit.object === avenue.fires ? "day:" + hit.instanceId
     : hit.object.userData.lineage ? ancestral.agentAt(hit)
     : hit.object.userData.ids ? hit.object.userData.ids[hit.instanceId] : hit.object.userData.agentId || null;
+  lookingKind = !hit ? "statue" : hit.object.userData.lineage ? "ancestor" : id?.startsWith("insight:") ? "stele"
+    : agentById.get(id)?.status === "alive" ? "pilgrim" : "statue";
   if (id === looking) return;
   looking = id;
   if (id && id.startsWith("day:")) {
@@ -329,57 +338,72 @@ function lookAround() {
   if (id && id.startsWith("insight:")) {
     const ins = insights(data).find((i) => "insight:" + i.key === id);
     $("label").hidden = false;
-    $("label").innerHTML = `<b>${ins.cn}碑</b><span>${esc(ins.title)}</span><kbd>E</kbd>`;
+    $("label").innerHTML = `<b>${ins.cn}碑</b><span>${esc(ins.titleCn || ins.title)}</span><kbd>E</kbd>`;
     return;
   }
   const a = id && agentById.get(id);
   $("label").hidden = !a;
-  if (a) $("label").innerHTML = `<b>${esc(nameOnTablet(a))} ${generationCn(a)}</b><span>${esc(where(a))}</span><kbd>E</kbd>`;
+  if (a) $("label").innerHTML = `<b>${esc(nameOnTablet(a))} ${generationCn(a)}</b><span>${esc(whereCn(a))}</span><kbd>E</kbd>`;
 }
 
-function where(a) {
-  if (a.status === "alive") return "A pilgrim, still working. It takes a seat when its session ends.";
-  const p = placement.get(a.id);
-  if (!p) return "A passer-by.";
-  if (p.zone === "outside") return `Merit rank ${p.rank}. Waits outside the gate: every seat is taken.`;
-  return `${ZONES[p.zone].cn}, seat ${p.no}, in the seat of ${p.orig}. Merit rank ${p.rank}.`;
-}
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
-// ------------------------------------------------------------------ the tablet (石牌)
-/** Inspect an agent or a stele: a carved tablet rises beside it (temple/plate.js). Returns the tablet's text. */
-function inspect(id, opts = {}) {
-  const content = id.startsWith("insight:") ? steleTablet(id.slice(8)) : agentTablet(agentById.get(id));
+// ------------------------------------------------------------------ what you hold (手持)
+// Everything written on it is Chinese (PR stays PR): this is the temple. The graveyard keeps its English.
+const METRIC_CN = { merged: "合并 PR", prs: "合并 PR", "PRs merged": "合并 PR", issues: "已结议题", "Issues closed": "已结议题",
+  hours: "工时", "Hours worked": "工时", commits: "提交", Commits: "提交", sessions: "会话", tokens: "用量", cost: "花费" };
+const metricCn = (m) => METRIC_CN[m.key] || METRIC_CN[m.label] || m.label;
+const unitCn = (u) => (u === " h" ? " 时" : u || "");
+function whereCn(a) {
+  if (a.status === "alive") return "香客，尚在任事。会话终了，方入座。";
+  const p = placement.get(a.id);
+  if (!p) return "过客。";
+  if (p.zone === "outside") return `功德第${cnNumber(p.rank)}。座已满，候于门外。`;
+  return `${ZONES[p.zone].cn}，第${cnNumber(p.no)}座，${p.orig}旧位。功德第${cnNumber(p.rank)}。`;
+}
+function epitaphCn(a, days) {
+  if (a.epitaph) return a.epitaph;
+  const top = data.metrics.map((m) => [m, a.stats[m.key]]).find(([, v]) => typeof v === "number" && v >= 10);
+  if (top) return `${metricCn(top[0])} ${top[1]}${unitCn(top[0].unit)}，其功可记。`;
+  if (days >= 4) return `连任${cnNumber(days)}日，未尝稍歇。`;
+  if (a.merit < 0.1) return "来而观之，去而无迹。";
+  return "读多写少，问必中肯。";
+}
+/** Inspect an agent or a stele: a thing shaped after it comes up into your hands. Returns its words. */
+function inspect(id, { kind } = {}) {
+  const a = agentById.get(id);
+  const content = id.startsWith("insight:") ? steleTablet(id.slice(8)) : agentTablet(a);
   if (!content) return null;
   notify("select", { id });
-  const text = plates.open(content, camera, nowT, { ...opts, key: id });
+  const k = id.startsWith("insight:") ? "stele" : a.status === "alive" ? "pilgrim" : kind === "ancestor" ? "ancestor" : "statue";
+  const text = held.open(content, k, nowT, id);
   $("plate-text").textContent = text;               // the same words for a screen reader
-  $("label").hidden = true;                         // the tablet says it all
+  $("label").hidden = true;                         // what you hold says it all
   return text;
 }
 function agentTablet(a) {
   if (!a) return null;
   const p = placement.get(a.id), d = dress.byId.get(a.id), h = honour.get(a.id) || {};
   const seal = a.status === "alive" ? "在世" : p ? GROUP_CN[p.zone === "outside" ? "outside" : ZONES[p.zone].group] : "过客";
-  const role = d?.role === "general" ? "A general: it shipped more per hour than most."
-    : d?.role === "strategist" ? "A strategist: more of its work was planning and reviewing." : "";
+  const role = d?.role === "general" ? "武将：每个工时所成，多于常人。" : d?.role === "strategist" ? "谋士：所为多在筹划与审阅。" : "";
   const days = new Set(a.series.map((x) => x.date)).size;
-  const stats = [{ label: "Merit", value: +(+a.merit).toFixed(1) }, ...shownStats(a, data.metrics)];
-  if (stats.length < 6) stats.push({ label: days === 1 ? "Day served" : "Days served", value: days });
-  const held = fleetRecords.filter((r) => (viewDay === lastDay ? r.holder : holderOn(r, viewDay))?.id === a.id).map((r) => `${r.cn} · ${r.title}`);
+  const stats = [{ label: "功德", value: +(+a.merit).toFixed(1) },
+    ...data.metrics.filter((m) => a.stats[m.key] !== undefined).map((m) => ({ label: metricCn(m), value: `${a.stats[m.key]}${unitCn(m.unit)}` }))];
+  if (stats.length < 6) stats.push({ label: "任事日数", value: days });
+  const records = fleetRecords.filter((r) => (viewDay === lastDay ? r.holder : holderOn(r, viewDay))?.id === a.id).map((r) => `执「${r.cn}」匾`);
   return {
-    seal, name: nameOnTablet(a), gen: generationCn(a), sub: where(a),
-    lines: [role && { text: role + (d?.tool ? ` Robe: ${d.tool}.` : ""), size: 34, max: 2 }, { text: epitaph(a, data.metrics), size: 40, italic: true, max: 2 }].filter(Boolean),
-    stats: stats.slice(0, 6), series: a.series,
-    honours: [h.gilded && "金身 · gilded: the top tenth by merit", ...held].filter(Boolean),
-    foot: `${a.born}${a.ended ? ` to ${a.ended}` : ", still working"}`,
+    seal, name: nameOnTablet(a), gen: generationCn(a), sub: whereCn(a),
+    lines: [role && { text: role + (d?.tool ? `袍色：${d.tool}。` : ""), size: 35, max: 2 }, { text: epitaphCn(a, days), size: 40, max: 2 }].filter(Boolean),
+    stats: stats.slice(0, 6), series: a.series, seriesLabel: "每日评分",
+    honours: [h.gilded && "金身：功德居前十分之一", ...records].filter(Boolean),
+    foot: `${cnDate(a.born)}${a.ended ? `至${cnDate(a.ended)}` : "起，尚在任事"}`,
   };
 }
 function steleTablet(key) {
   const ins = insights(data).find((i) => i.key === key);
   if (!ins) return null;
-  return { seal: "碑", name: `${ins.cn}碑`, sub: ins.title, lines: [{ text: ins.finding, size: 36, max: 6 }],
-    draw: ins.chart ? (g, x, y, w, h) => drawInsight(g, ins, x, y, w, h, "stone") : null };
+  return { seal: "碑", name: `${ins.cn}碑`, sub: ins.titleCn || ins.title, lines: [{ text: ins.findingCn || ins.finding, size: 36, max: 6 }],
+    draw: ins.chart ? (g, x, y, w, h) => drawInsight(g, ins, x, y, w, h, "stone", "zh") : null };
 }
 
 // ------------------------------------------------------------------ the annals (年鉴)
@@ -515,10 +539,12 @@ function drawAt(t, gaze = false, showSpeech = true) {
   if (showSpeech) speech?.update(t, camera);
   sky.update(t, camera);
   if (gaze) lookAround();
-  plates.update(t, camera, { night: sky.isNight() });
+  held.update(t, camera, { night: sky.isNight(), dt: Math.min(0.1, Math.max(0, t - lastT)), drift: params.get("record") !== "1" });
+  lastT = t;
+  controls.enabled = !held.shown;                   // holding something: the mouse turns it, not your head
   mural.render(scene, camera);
-  if (plates.id || plates.scene.children.length > 4) {
-    renderer.autoClear = false; renderer.clearDepth(); renderer.render(plates.scene, camera); renderer.autoClear = true;
+  if (held.shown) {
+    renderer.autoClear = false; renderer.clearDepth(); renderer.render(held.scene, camera); renderer.autoClear = true;
   }
   if (showSpeech && speech?.overlay.children.length) {   // the speech bubbles, crisp, on top of the painted scene
     renderer.autoClear = false; renderer.render(speech.overlay, camera); renderer.autoClear = true;
@@ -552,9 +578,11 @@ if (params.get("record") === "1") {
     /** What the pilgrims said aloud so far: [{ t, id, voice, at: {x,y,z}, text, clips: [{ src, at, dur }] }]; src is under temple/voices/. */
     voiceLog: () => voiceLog,
     /** Inspect what the camera looks at, as E does: its tablet rises. Returns what was inspected, or null. */
-    inspectAt(opts = {}) { looking = null; lookAround(); $("label").hidden = !labels; if (!looking || looking.startsWith("day:") || looking.startsWith("record:") || looking.startsWith("plaque:")) return null; inspect(looking, opts); return looking; },
+    inspectAt() { looking = null; lookAround(); $("label").hidden = !labels; if (!looking || looking.startsWith("day:") || looking.startsWith("record:") || looking.startsWith("plaque:")) return null; inspect(looking, { kind: lookingKind }); return looking; },
     /** Inspect an agent (by id) or a stele ("insight:<key>"). opts: { side, dist } in metres. */
     inspect(id, opts = {}) { return inspect(id, opts); },
+    /** What is held now: { id, kind } or null. */
+    holding: () => (held.shown ? { id: held.id, kind: held.kind } : null),
     /** The pilgrims at render time t (their walk depends only on t): [{ id, name, merit, x, y, z, scale }]. */
     pilgrimsAt(t) {
       if (!pilgrims) return [];
@@ -568,7 +596,9 @@ if (params.get("record") === "1") {
     statues: () => seats.filter((x) => x.agent).map((x) => { const at = world.seats[x.zone][x.no - 1];
       return { id: x.agent.id, name: x.agent.name, zone: x.zone, x: at.x, y: at.y, z: at.z, role: dress.byId.get(x.agent.id)?.role || null, gilded: !!honour.get(x.agent.id)?.gilded }; }),
     /** Lower the tablet (it sinks over half a second of render time). */
-    closePlate() { plates.close(nowT); },
+    closePlate() { held.close(nowT); },
+    /** Turn what is held to an angle in degrees (yaw: positive turns its face to the left; pitch: positive tips its top away). */
+    tiltPlate(yaw, pitch) { held.setTilt(yaw, pitch); },
     ready: false,
   };
   voices.ready.then(() => { window.afterlife.ready = true; });   // the pack (or its absence) is known before the first frame
@@ -583,7 +613,7 @@ if (params.get("record") === "1") {
     return;
   }
   const dt = Math.min(0.05, clock.getDelta());
-  if (exploring()) walk(dt); else sound.walking(false);
+  if (exploring() && !held.shown) walk(dt); else sound.walking(false);
   drawAt(still ? (Number(params.get("t")) || 0) : clock.elapsedTime, frame++ % 6 === 0);   // ?still=1: the same moment on every load
   if (frame === 1) {
     mark("first-frame");

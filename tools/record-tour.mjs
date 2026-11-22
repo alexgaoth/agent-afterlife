@@ -9,7 +9,7 @@ import { parseArgs } from "node:util";
 import { serve } from "../cli/site.js";
 import { chronicle } from "../shared/insights.js";
 import { duckIntervals, mixVoices, planVoices } from "./record-voices.mjs";
-import { INSPECTIONS, INSPECTION_SECONDS, PLATE_OPTS, inspectionPose, inspectionSchedule, pickTarget } from "./tour-inspections.mjs";
+import { INSPECTIONS, INSPECTION_SECONDS, PLATE_OPTS, heldTilt, inspectionPose, inspectionSchedule, pickTarget } from "./tour-inspections.mjs";
 
 const DATA = "https://raw.githubusercontent.com/alexgaoth/agent-afterlife/data/afterlife-zh.json";
 const WIDTH = 1920, HEIGHT = 1080, FPS = 30;
@@ -393,11 +393,12 @@ async function capture(root, data, tour, count, sampleDir, preview) {
         const shot = shots.get(kind);
         const open = i === shot?.openFrame ? shot.target : null;
         const close = i === shot?.closeFrame;
+        const tilt = shot ? heldTilt((i / FPS - shot.start) * INSPECTION_SECONDS / (shot.end - shot.start)) : null;
         const day = history === null ? days.at(-1) : days[Math.floor(history * (days.length - 1))];
         // Step speech at the full frame rate in previews, too, so it starts on the same frames.
         const args = JSON.stringify([x, z, yaw, pitch, bob, ground, t, day === lastDay ? null : day,
-          hour === lastHour ? null : hour, history === null, open, close]);
-        const [eye, id] = await cdp.evaluate(`(([x, z, yaw, pitch, bob, ground, t, day, hour, speech, open, close]) => {
+          hour === lastHour ? null : hour, history === null, open, close, tilt]);
+        const [eye, id] = await cdp.evaluate(`(([x, z, yaw, pitch, bob, ground, t, day, hour, speech, open, close, tilt]) => {
           const a = window.afterlife;
           if (day !== null) a.setDay(day);
           if (hour !== null) a.setTime(hour);
@@ -412,6 +413,7 @@ async function capture(root, data, tour, count, sampleDir, preview) {
             }
           }
           if (close) a.closePlate();
+          if (tilt) a.tiltPlate(tilt[0], tilt[1]);           // turned in the hands as it is read
           a.render(t, { speech });
           return [a.camera.position.y, id];
         })(${args})`);
