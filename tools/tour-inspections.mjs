@@ -1,0 +1,70 @@
+// The gestures are timed in seconds at the default tour pace.
+export const INSPECTION_SECONDS = 6.2;
+export const INSPECTIONS = [
+  { kind: "stele", after: 22.5, sample: "03a-inspect-stele", aim: [-4.98, 2.4, 18], id: "insight:lineage" },
+  { kind: "general", after: 45, sample: "04a-inspect-general", zone: "wingsEast" },
+  { kind: "main", after: 84, sample: "06a-inspect-main", zone: "main" },
+  { kind: "ancestor", after: 133, sample: "07a-inspect-ancestor" },
+];
+
+const OPEN = .75, CLOSE = 5.45;
+const smooth = (u) => {
+  u = Math.max(0, Math.min(1, u));
+  return u * u * (3 - 2 * u);
+};
+const mix = (a, b, u) => a + (b - a) * u;
+const rad = Math.PI / 180;
+const unwrap = (yaw, reference) => yaw + 360 * Math.round((reference - yaw) / 360);
+
+export function inspectionSchedule(shot, start, end, fps) {
+  const frameAt = (t) => Math.ceil((start + (end - start) * t / INSPECTION_SECONDS) * fps);
+  return { ...shot, openFrame: frameAt(OPEN), sampleFrame: frameAt(2.85), closeFrame: frameAt(CLOSE) };
+}
+
+function aimAngles(frame, [x, y, z], eye) {
+  const dx = x - frame.x, dz = z - frame.z;
+  return {
+    yaw: unwrap(Math.atan2(-dx, -dz) / rad, frame.yaw),
+    pitch: Math.atan2(y - eye, Math.hypot(dx, dz)) / rad,
+  };
+}
+
+/** Choose a real target on today's route. A missing target never becomes a substitute tablet. */
+export function pickTarget(shot, frame, statues, panelCount) {
+  if (shot.aim) return { aim: shot.aim, id: shot.id };
+  if (shot.kind === "ancestor") {
+    if (!panelCount) throw new Error("The fleet has no ancestral panels");
+    // First occupied cell on the back-wall panel nearest the centre aisle.
+    // Match temple/world.js (panel placement) and temple/ancestral.js (grid).
+    const panel = Math.min(2, panelCount - 1);
+    const z = -20 + (panel - 2) * 2.25 + 1.95 * (0.5 - 0.5 / 6);
+    const y = 1.15 + 3 * (1 - .17 - .83 * .5 / 9);
+    return { aim: [-42.8, y, z] };
+  }
+  const candidates = statues.filter((s) => s.zone === shot.zone && (shot.kind !== "general" || s.role === "general"));
+  if (!candidates.length) throw new Error(`No statue for the ${shot.kind} inspection`);
+  // The closest general along the wing is in the pan's field of view.
+  const s = candidates.reduce((best, s) => Math.abs(s.z - frame.z) < Math.abs(best.z - frame.z) ? s : best);
+  return { aim: [s.x, s.y + 1.4, s.z], id: s.id };
+}
+
+export const PLATE_OPTS = { side: .82, dist: 2.05 };
+
+/** Aim, glance down, sidestep, then return to the route after the tablet sinks. */
+export function inspectionPose(frame, elapsed, target, eye) {
+  const { yaw, pitch } = aimAngles(frame, target.aim, eye);
+  const acquire = smooth(elapsed / OPEN);
+  const lower = smooth((elapsed - OPEN) / 1.1);
+  const step = smooth((elapsed - 1.85) / 2.55);
+  const release = smooth((elapsed - 5.6) / .6);
+  const offset = -.5 * step * (1 - release);
+  const towardPlate = 12 + 9 * step;
+  const down = Math.max(11, pitch + 9);
+  return {
+    ...frame,
+    x: frame.x + Math.cos(yaw * rad) * offset,
+    z: frame.z - Math.sin(yaw * rad) * offset,
+    yaw: mix(mix(frame.yaw, yaw - towardPlate * lower, acquire), frame.yaw, release),
+    pitch: mix(mix(frame.pitch, pitch - down * lower, acquire), frame.pitch, release),
+  };
+}
