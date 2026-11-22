@@ -82,6 +82,22 @@ export function buildAncestralHall(scene, data, hall) {
   return {
     meshes,
     count: lins.length,
+    /** Every tablet, where it hangs: [{ id, name, merit, panel, x, y, z }] (panel 0-4: the back wall). */
+    tablets() {
+      const out = [], p = new THREE.Vector3();
+      meshes.forEach((m, panel) => {
+        const lin = m.userData.lineage;
+        if (!lin) return;
+        const { width: w, height: h } = m.geometry.parameters;
+        lin.cells.forEach((a, i) => {
+          if (!a || a.gap) return;
+          const u = ((i % COLS) + 0.5) / COLS, v = HEAD + ((Math.floor(i / COLS) + 0.5) / ROWS) * (1 - HEAD);
+          m.updateMatrixWorld(); p.set((u - 0.5) * w, (0.5 - v) * h, 0).applyMatrix4(m.matrixWorld);
+          out.push({ id: a.id, name: a.name, merit: a.merit, panel, x: +p.x.toFixed(3), y: +p.y.toFixed(3), z: +p.z.toFixed(3) });
+        });
+      });
+      return out;
+    },
     /** The agent on the tablet a ray hit, or null (header, gap or empty shelf). */
     agentAt(hit) {
       const lin = hit.object.userData.lineage;

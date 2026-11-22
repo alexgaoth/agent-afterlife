@@ -9,6 +9,7 @@ import { parseArgs } from "node:util";
 import { serve } from "../cli/site.js";
 import { chronicle } from "../shared/insights.js";
 import { duckIntervals, mixVoices, planVoices } from "./record-voices.mjs";
+import { INSPECTIONS, INSPECTION_SECONDS, PLATE_OPTS, inspectionPose, inspectionSchedule, pickTarget } from "./tour-inspections.mjs";
 
 const DATA = "https://raw.githubusercontent.com/alexgaoth/agent-afterlife/data/afterlife-zh.json";
 const WIDTH = 1920, HEIGHT = 1080, FPS = 30;
@@ -21,7 +22,8 @@ const TURN = 4 * SCORE_RATE;
 const REPLAY = 8 * SCORE_RATE;
 const TERRACE = 2 * TURN + REPLAY;
 const DUSK = 11 * SCORE_RATE; // 10 seconds of dusk, then one second of fade
-const DURATION = 118 + 3 + 6 + 16 + 11;
+const DURATION = 118 + 3 + 6 + 16 + 11 + INSPECTIONS.length * INSPECTION_SECONDS;
+const INSPECTION_SPAN = INSPECTION_SECONDS * SCORE_RATE;
 const STEPS_PER_SPAN = 48;
 const SOUNDS = fileURLToPath(new URL("../temple/sounds/", import.meta.url));
 const SOUND_CREDITS = "https://github.com/alexgaoth/agent-afterlife/blob/main/temple/sounds/CREDITS.md";
@@ -79,13 +81,19 @@ const baseRoute = (outbound, inbound) => [
   { end: 150.8, path: [[-30, -20]], gaze: [[0, -810, 4], [1, -807, 5]] },
 ];
 
-function route(outbound, inbound) {
+function route(outbound, inbound, shots) {
   const legs = [];
   let added = 0;
   for (const leg of baseRoute(outbound, inbound)) {
     if (leg.end === 26.1) added += PILGRIM_HOLD;
     if (leg.end === 45) added += WING_HOLD;
     legs.push({ ...leg, end: leg.end + added });
+    const shot = shots.find(({ after }) => after === leg.end);
+    if (shot) {
+      const [, yaw, pitch] = leg.gaze.at(-1);
+      legs.push({ end: leg.end + (added += INSPECTION_SPAN), path: [leg.path.at(-1)],
+        gaze: [[0, yaw, pitch], [1, yaw, pitch]], shot });
+    }
     if (leg.end !== 77.3) continue;
     const path = [[0, -21.5]], north = [-360, 23], south = [-180, -6];
     legs.push({ end: leg.end + (added += TURN), path, gaze: [[0, ...north], [1, ...south]] });
@@ -102,13 +110,13 @@ function route(outbound, inbound) {
 }
 
 const samples = [
-  ["01-gate", .2], ["02-pilgrims", 14.7], ["03-steles", 25 + PILGRIM_HOLD],
-  ["04-east-wing", 41.5 + PILGRIM_HOLD + .75 * WING_HOLD], ["05-terrace", 75.3 + PILGRIM_HOLD + WING_HOLD],
-  ["05a-timeline", 77.3 + PILGRIM_HOLD + WING_HOLD + TURN + .77 * REPLAY],
-  ["06-main-hall", 85.5 + PILGRIM_HOLD + WING_HOLD + TERRACE],
-  ["07-ancestral-hall", 134.5 + PILGRIM_HOLD + WING_HOLD + TERRACE],
-  ["08-side-court", 148.5 + PILGRIM_HOLD + WING_HOLD + TERRACE],
-  ["09-dusk", 150.8 + PILGRIM_HOLD + WING_HOLD + TERRACE + 9.8 * SCORE_RATE],
+  ["01-gate", .2], ["02-pilgrims", 14.7], ["03-steles", 25, PILGRIM_HOLD],
+  ["04-east-wing", 41.5, PILGRIM_HOLD + .75 * WING_HOLD], ["05-terrace", 75.3, PILGRIM_HOLD + WING_HOLD],
+  ["05a-timeline", 77.3, PILGRIM_HOLD + WING_HOLD + TURN + .77 * REPLAY],
+  ["06-main-hall", 85.5, PILGRIM_HOLD + WING_HOLD + TERRACE],
+  ["07-ancestral-hall", 134.5, PILGRIM_HOLD + WING_HOLD + TERRACE],
+  ["08-side-court", 148.5, PILGRIM_HOLD + WING_HOLD + TERRACE],
+  ["09-dusk", 150.8, PILGRIM_HOLD + WING_HOLD + TERRACE + 9.8 * SCORE_RATE],
 ];
 
 // Centripetal Catmull-Rom. The table maps distance to position so short spans
@@ -135,14 +143,15 @@ function pathTable(points) {
   return table;
 }
 
-export function makeTour(seconds, rows) {
-  const legs = route(eastCrossing(rows, 14.8, 12.3, 15.1), eastCrossing(rows, 3.25, 1.5, 3.35));
+export function makeTour(seconds, rows, shots = INSPECTIONS) {
+  const legs = route(eastCrossing(rows, 14.8, 12.3, 15.1), eastCrossing(rows, 3.25, 1.5, 3.35), shots);
   const scale = seconds / legs.at(-1).end;
   const duskStart = seconds - DUSK * scale;
   // Fit one spline to each run of connected legs. No abrupt tangent change at a leg boundary.
   const runs = [];
+  const inspections = [];
   let start = 0, run, walked = 0;
-  const timeline = legs.map(({ end, path, gaze, replay }) => {
+  const timeline = legs.map(({ end, path, gaze, replay, shot }) => {
     const moving = path.length > 1;
     if (moving && !run) {
       run = { start: start * scale, points: [path[0]], marks: [{ t: start * scale, index: 0 }] };
@@ -154,7 +163,8 @@ export function makeTour(seconds, rows) {
       run.marks.push({ t: end * scale, index: run.points.length - 1 });
       run.end = end * scale;
     }
-    const leg = { start: start * scale, end: end * scale, gaze, run, replay, point: path[0] };
+    const leg = { start: start * scale, end: end * scale, gaze, run, replay, point: path[0], shot };
+    if (shot) inspections.push({ ...inspectionSchedule(shot, leg.start, leg.end, FPS), start: leg.start, end: leg.end });
     start = end;
     return leg;
   });
@@ -215,18 +225,20 @@ export function makeTour(seconds, rows) {
     // Hold on the oldest and newest views for one second each.
     const history = leg.replay ? clamp((u - .125) / .75) : null;
     return {
-      x, z, yaw: lerp(yaw0, yaw1, turn), pitch: lerp(pitch0, pitch1, turn), bob, ground, t,
+      x, z, yaw: lerp(yaw0, yaw1, turn), pitch: lerp(pitch0, pitch1, turn), bob, ground, t, shot: leg.shot?.kind,
       hour: t < duskStart ? 10.5 : lerp(16.5, 19.5, dusk), history,
     };
   }
+  const remap = (base, holds = 0) => (base + holds + shots.filter(({ after }) => after < base).length * INSPECTION_SPAN) * scale;
+  const frames = new Map(samples.map(([name, base, holds]) => [Math.round(remap(base, holds) * FPS), name]));
+  for (const shot of inspections) frames.set(shot.sampleFrame, shot.sample);
   return {
-    frame, runs,
-    bell: (82.1 + PILGRIM_HOLD + WING_HOLD + TERRACE) * scale,
-    drum: (150.8 + PILGRIM_HOLD + WING_HOLD + TERRACE + 4 * SCORE_RATE) * scale,
-    chimes: [9, 39.5 + PILGRIM_HOLD, 67 + PILGRIM_HOLD + WING_HOLD, 121 + PILGRIM_HOLD + WING_HOLD + TERRACE,
-      130 + PILGRIM_HOLD + WING_HOLD + TERRACE].map((t) => t * scale),
-    duskStart,
-    samples: new Map(samples.map(([name, t]) => [Math.round(t * scale * FPS), name])),
+    frame, runs, inspections,
+    bell: remap(82.1, PILGRIM_HOLD + WING_HOLD + TERRACE),
+    drum: remap(150.8, PILGRIM_HOLD + WING_HOLD + TERRACE + 4 * SCORE_RATE),
+    chimes: [remap(9), remap(39.5, PILGRIM_HOLD), remap(67, PILGRIM_HOLD + WING_HOLD),
+      remap(121, PILGRIM_HOLD + WING_HOLD + TERRACE), remap(130, PILGRIM_HOLD + WING_HOLD + TERRACE)],
+    duskStart, samples: frames,
   };
 }
 
@@ -351,6 +363,25 @@ async function capture(root, data, tour, count, sampleDir, preview) {
         throw new Error(`Expected a ${WIDTH}x${HEIGHT} canvas and viewport. Received: ${layout}`);
       }
 
+      const lineages = new Map();
+      for (const a of data.agents) if (a.name !== "Unnamed") lineages.set(a.name, (lineages.get(a.name) ?? 0) + 1);
+      const panelCount = [...lineages.values()].filter((n) => n > 1).length;
+      const shots = new Map();
+      const statues = tour.inspections.length ? await cdp.evaluate("window.afterlife.statues()") : [];
+      const tablets = tour.inspections.length ? await cdp.evaluate("window.afterlife.tablets()") : [];
+      for (const shot of tour.inspections) {
+        const frame = tour.frame((shot.start + shot.end) / 2);
+        const walkers = shot.kind === "pilgrim" ? await cdp.evaluate(`window.afterlife.pilgrimsAt(${tour.frame(shot.openFrame / FPS).t})`) : [];
+        const target = pickTarget(shot, frame, statues, panelCount, tablets, walkers);
+        const eye = await cdp.evaluate(`window.afterlife.floorAt(${frame.x}, ${frame.z}) + window.afterlife.eye`);
+        shots.set(shot.kind, { ...shot, target, eye });
+      }
+      const poseAt = (time) => {
+        const frame = tour.frame(time);
+        const shot = shots.get(frame.shot);
+        return shot ? inspectionPose(frame, (time - shot.start) * INSPECTION_SECONDS / (shot.end - shot.start), shot.target, shot.eye) : frame;
+      };
+      const inspected = new Set();
       console.log(`Capturing ${preview ? "tour previews" : `${count} frames at ${WIDTH}x${HEIGHT}`}`);
       console.log(`Terrace: ${days.length} days from ${days[0] ?? "none"} to ${days.at(-1) ?? "none"}`);
       const started = performance.now();
@@ -358,20 +389,40 @@ async function capture(root, data, tour, count, sampleDir, preview) {
       let lastDay = days.at(-1), lastHour = 10.5;
       for (let i = 0; i < count; i++) {
         const sample = tour.samples.get(i);
-        const { x, z, yaw, pitch, bob, ground, t, hour, history } = tour.frame(i / FPS);
+        const { x, z, yaw, pitch, bob, ground, t, hour, history, shot: kind } = poseAt(i / FPS);
+        const shot = shots.get(kind);
+        const open = i === shot?.openFrame ? shot.target : null;
+        const close = i === shot?.closeFrame;
         const day = history === null ? days.at(-1) : days[Math.floor(history * (days.length - 1))];
         // Step speech at the full frame rate in previews, too, so it starts on the same frames.
         const args = JSON.stringify([x, z, yaw, pitch, bob, ground, t, day === lastDay ? null : day,
-          hour === lastHour ? null : hour, history === null]);
-        eyeHeights[i] = await cdp.evaluate(`(([x, z, yaw, pitch, bob, ground, t, day, hour, speech]) => {
+          hour === lastHour ? null : hour, history === null, open, close]);
+        const [eye, id] = await cdp.evaluate(`(([x, z, yaw, pitch, bob, ground, t, day, hour, speech, open, close]) => {
           const a = window.afterlife;
           if (day !== null) a.setDay(day);
           if (hour !== null) a.setTime(hour);
           const y = ground.reduce((sum, [gx, gz]) => sum + a.floorAt(gx, gz), 0) / ground.length;
           a.pose(x, z, yaw, pitch, y - a.floorAt(x, z) + bob);
+          let id = null;
+          if (open) {
+            for (const dy of [0, .12, -.12, .28, -.28]) {
+              a.lookAt(open.aim[0], open.aim[1] + dy, open.aim[2]);
+              id = a.inspectAt(${JSON.stringify(PLATE_OPTS)});
+              if (id && (!open.id || id === open.id)) break;
+            }
+          }
+          if (close) a.closePlate();
           a.render(t, { speech });
-          return a.camera.position.y;
+          return [a.camera.position.y, id];
         })(${args})`);
+        eyeHeights[i] = eye;
+        if (open) {
+          if (!id || (open.id && id !== open.id) || inspected.has(id)) {
+            throw new Error(`${kind} inspection at ${t.toFixed(2)} s did not hit a distinct target (hit ${id ?? "nothing"})`);
+          }
+          inspected.add(id);
+          console.log(`Inspected ${kind} at ${t.toFixed(2)} s: ${id}`);
+        }
         lastDay = day;
         lastHour = hour;
         if (!preview) {
@@ -390,7 +441,7 @@ async function capture(root, data, tour, count, sampleDir, preview) {
       console.log(`Capture finished in ${((performance.now() - started) / 1000).toFixed(1)} s`);
       const log = await cdp.evaluate("window.afterlife.voiceLog()");
       return planVoices(log, (time) => {
-        const { x, z, yaw } = tour.frame(time);
+        const { x, z, yaw } = poseAt(time);
         const frame = clamp(time * FPS, 0, count - 1);
         const y = lerp(eyeHeights[Math.floor(frame)], eyeHeights[Math.ceil(frame)], frame % 1);
         return { x, y, z, yaw };
@@ -489,16 +540,17 @@ async function audioPlan(seconds, tour, voiceTrack, duck) {
 
 async function main() {
   const { values } = parseArgs({ options: {
-    out: { type: "string" }, web: { type: "string" }, data: { type: "string", default: DATA }, seconds: { type: "string", default: String(DURATION) },
-    frames: { type: "string" }, preview: { type: "boolean" }, help: { type: "boolean", short: "h" },
+    out: { type: "string" }, web: { type: "string" }, data: { type: "string", default: DATA }, seconds: { type: "string" },
+    frames: { type: "string" }, preview: { type: "boolean" }, "no-inspections": { type: "boolean" },
+    help: { type: "boolean", short: "h" },
   } });
   if (values.help) {
-    console.log("Usage: node tools/record-tour.mjs --out <file.mp4> [--web <file.mp4>] [--data <URL or JSON file>] [--seconds N] [--frames <dir>]");
+    console.log("Usage: node tools/record-tour.mjs --out <file.mp4> [--web <file.mp4>] [--data <URL or JSON file>] [--seconds N] [--frames <dir>] [--no-inspections]");
     console.log("To check the route without encoding: node tools/record-tour.mjs --preview --frames <dir>");
     return;
   }
   if (typeof WebSocket === "undefined") throw new Error("Use Node 22+, or Node 20 with --experimental-websocket");
-  const requested = Number(values.seconds);
+  const requested = Number(values.seconds ?? (values["no-inspections"] ? DURATION - INSPECTIONS.length * INSPECTION_SECONDS : DURATION));
   if (!Number.isFinite(requested) || requested < 1) throw new Error("--seconds must be at least 1");
   if (values.preview ? !values.frames || values.out || values.web
     : !values.out || !/\.mp4$/i.test(values.out) || (values.web && !/\.mp4$/i.test(values.web))) {
@@ -510,7 +562,10 @@ async function main() {
   const sampleDir = values.frames ? resolve(values.frames) : null;
   const count = Math.round(requested * FPS), seconds = count / FPS;
   const data = await loadData(values.data);
-  const tour = makeTour(seconds, chronicle(data).chart.rows);
+  const tour = makeTour(seconds, chronicle(data).chart.rows, values["no-inspections"] ? [] : INSPECTIONS);
+  if (tour.inspections.some((s) => (s.closeFrame - s.openFrame) / FPS < .9 || s.end - s.closeFrame / FPS < .55)) {
+    throw new Error("The tour is too short for the tablets to rise and sink. Increase --seconds or use --no-inspections.");
+  }
   if (out) {
     await run("ffmpeg", ["-version"], true);
     await mkdir(dirname(out), { recursive: true });
