@@ -350,10 +350,17 @@ const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&l
 
 // ------------------------------------------------------------------ what you hold (手持)
 // Everything written on it is Chinese (PR stays PR): this is the temple. The graveyard keeps its English.
-const METRIC_CN = { merged: "合并 PR", prs: "合并 PR", "PRs merged": "合并 PR", issues: "已结议题", "Issues closed": "已结议题",
-  hours: "工时", "Hours worked": "工时", commits: "提交", Commits: "提交", sessions: "会话", tokens: "用量", cost: "花费" };
-const metricCn = (m) => METRIC_CN[m.key] || METRIC_CN[m.label] || m.label;
-const unitCn = (u) => (u === " h" ? " 时" : u || "");
+// Every metric the built-in adapters name (cli/core.js LABELS and the adapters' own lists); a label of your own stays as it is.
+const METRIC_CN = { merged: "合并 PR", prs_merged: "合并 PR", prs_opened: "发起 PR", prs: "PR", commits: "提交", issues: "已结议题",
+  edits: "改动文件", commands: "执行命令", prompts: "受命", tool_calls: "调用工具", hours: "工时", lines_added: "增行", lines_removed: "删行",
+  cost_usd: "花费", tokens: "Token", output_tokens: "输出 Token", messages: "消息", tests: "测试", tool: "工具", model: "模型",
+  points: "点数", canceled: "已取消", team: "团队", reviews: "审阅", repo: "仓库", files_touched: "所动文件", sessions: "会话" };
+const LABEL_CN = { "PRs merged": "合并 PR", "PRs opened": "发起 PR", "Issues closed": "已结议题", "Hours worked": "工时", Commits: "提交",
+  "File edits": "改动文件", "Shell commands": "执行命令", Prompts: "受命", "Tool calls": "调用工具", "Lines added": "增行", "Lines removed": "删行",
+  Cost: "花费", Tokens: "Token", "Output tokens": "输出 Token", Messages: "消息", "Test runs": "测试", Tool: "工具", Model: "模型",
+  Points: "点数", Canceled: "已取消", Team: "团队", Reviews: "审阅", Repository: "仓库", "Files touched": "所动文件" };
+const metricCn = (m) => METRIC_CN[m.key] || LABEL_CN[m.label] || m.label;
+const unitCn = (u) => ({ " h": " 时", " USD": " 美元" })[u] ?? (u || "");
 function whereCn(a) {
   if (a.status === "alive") return "香客，尚在任事。会话终了，方入座。";
   const p = placement.get(a.id);

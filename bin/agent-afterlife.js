@@ -8,6 +8,7 @@ import { validate, demo, ranked, living, passersBy } from "../shared/afterlife.j
 import { serve, build, PAGES, ROOT } from "../cli/site.js";
 import { toDoc, anonymise } from "../cli/core.js";
 import { BUILT_IN, loadAdapter, runAdapter, expandHome } from "../cli/adapters/index.js";
+import { SPOKEN, HOW, nameReport, listText } from "../cli/names.js";
 
 const VERSION = JSON.parse(readFileSync(new URL("../package.json", import.meta.url))).version;
 const HELP = `agent-afterlife ${VERSION}: a walkable temple and a graveyard for your AI agents.
@@ -19,6 +20,9 @@ Usage:
   agent-afterlife build <source|file|url> --out <dir>   write a static site for any host
   agent-afterlife validate <file|url>             check a document against the schema
   agent-afterlife adapters                        list the built-in sources and which ones this machine has
+  agent-afterlife names [<source|file>]           the names the temple's pilgrims can say aloud; with a source,
+                                                  which of yours they can say and names for your next agents
+                                                  (--harness <source>: how to name an agent there)
   agent-afterlife init [dir] [--source <s>] [--ci github|gitlab|netlify]
                                                   add the file that builds and publishes your own site
                                                   (GitHub Pages by default; source: the repo's agent PRs, or
@@ -52,7 +56,7 @@ const { values: opt, positionals: [cmd, ...args] } = parseArgs({
     "no-open": { type: "boolean" }, snapshot: { type: "boolean" }, json: { type: "boolean" },
     merit: { type: "string" }, since: { type: "string" }, title: { type: "string" }, "min-merit": { type: "string" },
     "alive-within": { type: "string" }, anonymize: { type: "boolean" }, anonymise: { type: "boolean" }, source: { type: "string" }, ci: { type: "string", default: "github" },
-    opt: { type: "string", multiple: true }, agents: { type: "string" },
+    opt: { type: "string", multiple: true }, agents: { type: "string" }, harness: { type: "string" },
     help: { type: "boolean", short: "h" }, version: { type: "boolean", short: "v" },
   },
 });
@@ -151,6 +155,13 @@ function summary(doc) {
   return `${doc.agents.length} agents: ${ranked(d).length} ranked, ${passersBy(d).length} passers-by, ${living(d).length} alive`;
 }
 
+/** One line, when most of the names are ones the temple's pilgrims cannot say: where to find names they can. */
+function nameHint(doc) {
+  const r = nameReport(doc, { suggest: 0 });
+  if (!r.names.length || r.spoken.length * 2 >= r.names.length) return "";
+  return `\nThe temple's pilgrims say names aloud from a list of ${SPOKEN.length} historical Chinese generals; ${r.spoken.length} of your ${r.names.length} names are on it.\nYour agents keep their names. To have the next ones named aloud: agent-afterlife names`;
+}
+
 function fail(msg) { console.error(msg); process.exit(1); }
 function need(arg, what) { if (!arg) fail(`${what}\n\n${HELP}`); return arg; }
 
@@ -176,7 +187,7 @@ async function main() {
       const out = opt.out || "afterlife.json";
       if (out === "-") return console.log(JSON.stringify(doc, null, 1));
       writeFileSync(out, JSON.stringify(doc, null, 1));
-      return console.log(`Wrote ${out}: ${summary(doc)}. Merit = ${doc.source.merit}.\nSee it: agent-afterlife serve ${out}`);
+      return console.log(`Wrote ${out}: ${summary(doc)}. Merit = ${doc.source.merit}.\nSee it: agent-afterlife serve ${out}${nameHint(doc)}`);
     }
     case "adapters": {
       for (const a of BUILT_IN) {
@@ -185,6 +196,29 @@ async function main() {
         console.log(`  ${a.name.padEnd(12)} ${a.description}\n  ${"".padEnd(12)} ${state}`);
       }
       return console.log("\nYour own: agent-afterlife import ./my-adapter.js [path]   (see ADAPTERS.md)");
+    }
+    case "names": {
+      if (opt.harness) {
+        const how = HOW[opt.harness];
+        if (!how) fail(`No notes for "${opt.harness}". Sources: ${Object.keys(HOW).join(", ")}.`);
+        return console.log(`In ${opt.harness}, an agent's name is ${how}`);
+      }
+      if (!args[0]) {
+        return console.log(`The ${SPOKEN.length} names the temple's pilgrims can say aloud (历代名将, most famous first):\n\n${listText()}\n\n`
+          + "Your agents keep the names you gave them. If you name your next agents from this list, the pilgrims will say\n"
+          + "their names as they stop before their statues. How to name an agent: agent-afterlife names --harness <source>.\n"
+          + "Which of yours they can say already: agent-afterlife names <source>.");
+      }
+      const doc = await obtain(args[0], args[1]);
+      const r = nameReport(doc);
+      const some = (list) => list.slice(0, 12).join(", ") + (list.length > 12 ? ` and ${list.length - 12} more` : "");
+      const lines = [`Your agents carry ${r.names.length} names; the pilgrims can say ${r.spoken.length} of them aloud${r.spoken.length ? `: ${some(r.spoken)}` : ""}.`];
+      if (r.silent.length) lines.push(`For the others they say a line without a name: ${some(r.silent)}.`);
+      if (r.next.length) lines.push(`\nNames for your next agents, not yet used: ${r.next.map((n) => `${n.name} (${n.pinyin})`).join(", ")}.`);
+      const src = String(doc.source?.adapter || "").split(", ").find((a) => HOW[a]);
+      if (src) lines.push(`In ${src}, an agent's name is ${HOW[src]}`);
+      lines.push("Nothing was renamed. The whole list: agent-afterlife names");
+      return console.log(lines.join("\n"));
     }
     case "init": {
       const dir = resolve(args[0] || ".");
@@ -220,7 +254,7 @@ async function main() {
     case "serve": {
       const src = need(args[0], "serve needs a source, a file or a URL (or run: agent-afterlife demo).");
       const doc = await obtain(src, args[1]);
-      console.log(summary(doc));
+      console.log(summary(doc) + nameHint(doc));
       // A document file is re-read on every reload; an import or a URL is read once.
       const data = isDocument(src) && !isUrl(src)
         ? async () => { const d = await readDoc(src); const p = validate(d); if (p.length) throw new Error(p.join(" ")); return d; }
